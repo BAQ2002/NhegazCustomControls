@@ -11,70 +11,9 @@ using System.Drawing.Drawing2D;
 
 namespace NhegazCustomControls
 {
-    public class DropDownDay : CustomControlWithHeader
+    public partial class DropDownDay : CustomControlWithHeader
     {
-        class DayItemLabel : InnerLabel
-        {
-            private int day;
-            public int Day
-            {
-                get => day;
-                set{ day = value; Text = day.ToString(); }
-            }
-            public bool IsCurrentMonth { get; set; }
-            public int Year { get; set; }
-            public int Month { get; set; }
-            public DayItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
-            {}
-        }
-        protected CustomControl parentControl;
-        public int HeaderVerticalPadding {  get; set; }
-        public int HeaderhorizontalPadding { get; set; }
-
-        private int NumberOfRows;
-        private int NumberOfColumns;
-
-        private int CurrentMonth;
-        private int CurrentYear;
-
-        private InnerLabel MonthLabel = new();
-        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
-        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
-
-
-        private DayItemLabel[,] DayItemLabels; //Matriz composta pelos Labels de dias.
-        private InnerLabel[] WeekDayLabels; //Matriz composta pelos Labels do cabecalho de dias da semana.
-
-        private string[] MonthTexts =  {"null", "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
-                                         "Julho", "Agosto", "Setembro", "Outubro", "Novembro","Dezembro" };
-
-        public override Font Font
-        {
-            get => base.Font;
-            set 
-            { 
-                base.Font = value; 
-                MonthLabel.Font = new Font(value, FontStyle.Bold); ForwardIcon.Font = value; 
-                BackwardIcon.Font = value; 
-                AdjustControlSize(); 
-            }
-        }
-
-        public override Color ForeColor 
-        {
-            get => base.ForeColor;
-            set 
-            { 
-                base.ForeColor = value; 
-                MonthLabel.ForeColor = value; ForwardIcon.ForeColor = value; BackwardIcon.ForeColor = value; 
-                Invalidate(); 
-            }
-        }
-        public override Color HeaderBackgroundColor
-        {
-            get => base.HeaderBackgroundColor;
-            set { base.HeaderBackgroundColor = value; MonthLabel.BackgroundColor = Color.Transparent; ForwardIcon.BackgroundColor = value; BackwardIcon.BackgroundColor = value; Invalidate(); }
-        }
+        
 
         public DropDownDay(CustomDatePicker owner) : base(owner)
         {
@@ -310,87 +249,7 @@ namespace NhegazCustomControls
             };
         }
 
-        protected override void AdjustControlSize()
-        {           
-            if (DayItemLabels == null || DayItemLabels.Length == 0 || NumberOfColumns <= 0 || NumberOfRows <= 0)
-                return;
-
-            AdjustPadding();
-        
-            int xPadding = HorizontalPadding;
-            int yPadding = VerticalPadding;
-            
-            int itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
-
-            Width = xPadding + (NumberOfColumns * (itemUniformSize + xPadding));
-            Height = yPadding + ((NumberOfRows + 2) * (itemUniformSize + yPadding));
-
-            AdjustHeaderSize(Width - (2 * xPadding), itemUniformSize);
-            AdjustHeaderLocation(xPadding, yPadding);
-
-            AdjustInnerSizes(); AdjustInnerLocations(); 
-
-            int weekDayY = (2 * yPadding) + ForwardIcon.Height;
-            int baseGridY = weekDayY + itemUniformSize + yPadding;
-
-            for (int row = 0; row < NumberOfRows; row++)
-            {
-                int y = baseGridY + row * (itemUniformSize + yPadding);
-
-                for (int col = 0; col < NumberOfColumns; col++)
-                {
-                    int x = xPadding + col * (itemUniformSize + xPadding);
-
-                    if (row == 0)
-                    {
-                        AdjustInnerSizes(col, itemUniformSize, itemUniformSize);
-                        AdjustInnerLocations(col, x, weekDayY);
-                    }
-
-                    AdjustInnerSizes(row, col, itemUniformSize, itemUniformSize);
-                    AdjustInnerLocations(row, col, x, y);
-                }
-            }
-
-        }
-        protected override void AdjustInnerSizes()
-        {
-            BackwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
-            BackwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
-
-            ForwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
-            ForwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
-
-        }
-        protected override void AdjustInnerSizes(int index, int itemWidth, int ItemHeight)
-        {
-            var label = WeekDayLabels[index];
-            label.Width = itemWidth;
-            label.Height = ItemHeight;
-        }
-        protected override void AdjustInnerSizes(int row, int col, int itemWidth, int ItemHeight)
-        {
-            var label = DayItemLabels[row, col];
-            label.Width = itemWidth;
-            label.Height = ItemHeight;
-        }
-        
-        protected override void AdjustInnerLocations()
-        {
-            BackwardIcon.SetLocation(HorizontalPadding, VerticalPadding);
-            ForwardIcon.SetLocation(Width - (ForwardIcon.Width + HorizontalPadding), VerticalPadding);
-            MonthLabel.SetLocation((Width - MonthLabel.Width) / 2, VerticalPadding);
-        }
-        protected override void AdjustInnerLocations(int index, int x, int y)
-        {
-            var label = WeekDayLabels[index];
-            label.SetLocation(x, y);
-        }
-        protected override void AdjustInnerLocations(int row, int col, int x, int y)
-        {
-            var label = DayItemLabels[row, col];
-            label.SetLocation(x, y);
-        }      
+          
       
 
     }

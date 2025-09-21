@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="NhegazCustomControls\CustomControlBase\Interfaces\" />
+    <Folder Include="NhegazCustomControls\BasesCustomControl\Interfaces\" />
+    <Folder Include="NhegazCustomControls\BasesCustomControl\CustomControlWithDropDown\" />
     <Folder Include="NhegazCustomControls\InnerElements\InnerControlBase\" />
   </ItemGroup>
 

@@ -44,10 +44,10 @@
             customDatePicker1.DropDownsHeaderHeightMode = HeaderHeightMode.RelativeToFont;
             customDatePicker1.DropDownsHeaderHight = 1;
             customDatePicker1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            customDatePicker1.HorizontalPadding = 22;
+            customDatePicker1.HorizontalPadding = 5;
             customDatePicker1.HoverColor = SystemColors.Highlight;
             customDatePicker1.Location = new Point(393, 107);
-            customDatePicker1.MinimumSize = new Size(158, 44);
+            customDatePicker1.MinimumSize = new Size(153, 44);
             customDatePicker1.Name = "customDatePicker1";
             customDatePicker1.OnFocusBool = false;
             customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
@@ -74,6 +74,8 @@
             customDataGridView1.HeaderBackgroundColor = Color.Red;
             customDataGridView1.HeaderBorderRadius = 0;
             customDataGridView1.HeaderBounds = new Rectangle(0, 0, 0, 0);
+            customDataGridView1.HeaderHeightMode = HeaderHeightMode.Absolute;
+            customDataGridView1.HeaderHeightRelativePercent = 1F;
             customDataGridView1.HorizontalPadding = 1;
             customDataGridView1.HoverColor = SystemColors.Highlight;
             customDataGridView1.LinesBetweenColumns = true;

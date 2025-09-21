@@ -12,11 +12,22 @@ namespace NhegazCustomControls
 {
     public abstract class CustomControlWithHeader : CustomControl
     {
-        private Color headerBackgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho
+        private Color headerBackgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho     
+        private HeaderHeightMode headerHeightMode = HeaderHeightMode.Absolute;
+        private float headerHeightRelativePercent = 1;
         private int headerBorderRadius = 1;
+        /// <summary>
+        /// Define como será definida a altura do cabeçalho.
+        /// </summary>
+        [Category("Cabeçalho")]
+        public HeaderHeightMode HeaderHeightMode
+        {
+            get => headerHeightMode; 
+            set { headerHeightMode = value; }
+        }
 
         /// <summary>
-        /// 
+        /// Raio do arredondamento das quinas da borda do cabeçalho.
         /// </summary>
         [Category("Cabeçalho")]
         public int HeaderBorderRadius
@@ -35,6 +46,20 @@ namespace NhegazCustomControls
             set { headerBackgroundColor = value; Invalidate(); }
         }
 
+        [Category("Cabeçalho")]
+        public float HeaderHeightRelativePercent
+        {
+            get => headerHeightRelativePercent;
+            set
+            {
+                // Garante que esteja entre 0 e 2
+                headerHeightRelativePercent = Math.Max(0f, Math.Min(2f, value));
+                if (HeaderHeightMode == HeaderHeightMode.RelativeToFont)
+                {
+                    Invalidate();
+                }
+            }
+        }
 
         /// <summary>
         /// Área delimitadora do cabeçalho.
@@ -61,9 +86,15 @@ namespace NhegazCustomControls
         /// </summary>
         protected virtual void AdjustHeaderSize(int width, int height)
         {
+            if (HeaderHeightMode == HeaderHeightMode.RelativeToFont)
+            {
+                Size unit = NhegazSizeMethods.FontUnitSize(Font); //Tamanho "unit" unitario da fonte
+                height = (int)Math.Round(unit.Width * HeaderHeightRelativePercent);
+            }
+
             HeaderBounds = new Rectangle(HeaderBounds.Location.X, HeaderBounds.Location.Y, width, height);
         }
-
+ 
         /// <summary>
         /// Define a posicao da area de cabecalho.
         /// </summary>

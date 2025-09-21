@@ -20,30 +20,9 @@ namespace NhegazCustomControls
         void AdjustInnerSize(int index, int itemWidth, int itemHeight);
         void AdjustInnerLocation(int index, int x, int y);
     }
-    public abstract class CustomControl : UserControl
+    public abstract partial class CustomControl : UserControl
     {              
-        private int borderRadius = 5;
-        private int borderWidth = 1;
-        private int onFocusBorderExtraWidth = 1;
-        private int horizontalPadding = 1;
-        private int verticalPadding = 1;
-
-        private float paddingRelativePercent = 0.6f; // 60% por padrão
-
-        private bool onFocusBool = false;
-        private bool layoutPending = false;
-        private Color secondaryForeColor = SystemColors.GrayText; //Cor de textos secundarios
-        
-        private Color backgroundColor = SystemColors.Window; //Cor do fundo
-        private Color secondaryBackgroundColor = SystemColors.ControlLightLight; //Cor do fundo secundaria
-
-        private Color borderColor = SystemColors.WindowFrame;
-        private Color dropdownBorderColor = Color.Green;
-
-        private Color onFocusBorderColor = SystemColors.Highlight; //Cor da borda
-        private Color hoverColor = SystemColors.Highlight;
-
-        private PaddingMode paddingMode = PaddingMode.Absolute;      
+         
 
         private void RequestLayout()
         {
@@ -61,114 +40,7 @@ namespace NhegazCustomControls
             }));
         }
 
-        [Browsable(false)]
-        public InnerControls InnerControls { get; }
-
-        [Browsable(false)]
-        public bool OnFocusBool
-        {
-            get => onFocusBool;
-            set { onFocusBool = value; Invalidate(); }
-        }
-       
-        [Category("Padding")]
-        public PaddingMode PaddingMode
-        {
-            get => paddingMode;
-            set { paddingMode = value; Invalidate(); }
-        }
         
-        [Category("Padding")]
-        public int HorizontalPadding
-        {
-            get => horizontalPadding; 
-            set { horizontalPadding = value; Invalidate(); }
-        }
-
-        [Category("Padding")]
-        public int VerticalPadding
-        {
-            get => verticalPadding;
-            set { verticalPadding = value; Invalidate(); }
-        }
-     
-        [Category("Borda")]
-        public int BorderRadius
-        {
-            get => borderRadius;
-            set { borderRadius = value; Invalidate(); }
-        }
-
-        [Category("Borda")]
-        public int BorderWidth
-        {
-            get => borderWidth; 
-            set { borderWidth = value; Invalidate(); }
-        }
-
-        [Category("Borda")]
-        public int OnFocusBorderExtraWidth
-        {
-            get => onFocusBorderExtraWidth;
-            set { onFocusBorderExtraWidth = value; Invalidate(); }
-        }
-
-        [Category("Cores")]
-        public Color SecondaryBackgroundColor
-        {
-            get => secondaryBackgroundColor; 
-            set { secondaryBackgroundColor = value; Invalidate(); }
-        }
-
-        [Category("Cores")]
-        public Color SecondaryForeColor
-        {
-            get => secondaryForeColor; 
-            set { secondaryForeColor = value; Invalidate(); }
-        }
-
-        [Category("Cores")]
-        public Color BorderColor
-        {
-            get => borderColor; 
-            set { borderColor = value; Invalidate(); }
-        }
-
-        [Category("Cores")]
-        public Color OnFocusBorderColor
-        {
-            get => onFocusBorderColor; 
-            set { onFocusBorderColor = value; Invalidate(); }
-        }
-
-        [Category("Cores")]
-        public Color HoverColor
-        {
-            get => hoverColor;
-            set { hoverColor = value; Invalidate(); }
-        }
-
-        [Category("Cores")]
-        public virtual Color BackgroundColor
-        {
-            get => backgroundColor; 
-            set { backgroundColor = value; Invalidate(); }
-        }
-
-        public float PaddingRelativePercent
-        {
-            get => paddingRelativePercent;
-            set
-            {
-                // Garante que esteja entre 0 e 1
-                paddingRelativePercent = Math.Max(0f, Math.Min(1f, value));
-                if (PaddingMode == PaddingMode.RelativeToFont)
-                {
-                    Invalidate();
-                }
-            }
-        }
-
         public CustomControl()
         {
             DoubleBuffered = true;
@@ -216,65 +88,7 @@ namespace NhegazCustomControls
 
         //protected abstract void SetHooverColors();
 
-        /// <summary>
-        /// Metodo responsavel pelo ajuste dos valores de Padding.
-        /// </summary>
-        protected virtual void AdjustPadding()
-        {
-            if (PaddingMode == PaddingMode.RelativeToFont)
-            {
-                Size unit = NhegazSizeMethods.FontUnitSize(Font); //Tamanho "unit" unitario da fonte
-                HorizontalPadding = (int)Math.Round(unit.Width * paddingRelativePercent);
-                VerticalPadding = (int)Math.Round(unit.Height * paddingRelativePercent);
-            }
-            // Se for Absolute, não altera — valores já foram definidos diretamente
-        }
-
-        protected virtual void AdjustHoverColors()
-        {
-
-        }
-
-        /// <summary>
-        /// Método responsavel pelo ajuste do tamanho dos InnerControls.
-        /// </summary>
-        protected virtual void AdjustInnerSizes()
-        { }    
-        protected virtual void AdjustInnerSizes(int index, int itemWidth, int ItemHeight)
-        { }
-        protected virtual void AdjustInnerSizes(int row, int col, int itemWidth, int ItemHeight)
-        { }
-
-        /// <summary>
-        /// Metodo responsavel pelo ajuste das posicoes dos InnerControls.
-        /// </summary>
-        /// 
-        protected virtual void AdjustInnerLocations()
-        { }
-        protected virtual void AdjustInnerLocations(int index, int x, int y)
-        { }
-        protected virtual void AdjustInnerLocations(int row, int col, int x, int y)
-        { }     
-
-        /// <summary>
-        /// Metodo responsavel por definir o MinimumSize a partir dos InnerControls.
-        /// </summary>
-        protected virtual void SetMinimumSize()
-        {
-
-        }
-
-        /// <summary>
-        /// Metodo que invoca todos ajustes de posicoes e tamanhos.
-        /// </summary>
-        protected virtual void AdjustControlSize()
-        {
-            AdjustPadding();
-            AdjustInnerLocations();
-            AdjustInnerSizes();
-            SetMinimumSize();
-            Invalidate();
-        }
+        
 
         /// <summary>
         /// Override do evento de clique. Encaminha o evento para os InnerControls.

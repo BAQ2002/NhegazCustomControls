@@ -1,10 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="NhegazCustomControls\CustomControlBase\CustomControlWithHeader.cs">
+    <Compile Update="NhegazCustomControls\BasesCustomControl\CustomControl.Layout.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\CustomDataGridView\CustomDataGridView.Core.cs">
+    <Compile Update="NhegazCustomControls\BasesCustomControl\CustomControl.Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\CustomComboBox\CustomComboBox.Layout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\CustomComboBox\CustomComboBox.Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\BasesCustomControl\CustomControlWithHeader\CustomControlWithHeader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\CustomDataGridView\CustomDataGridView.Layout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\CustomDataGridView\CustomDataGridView.Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\CustomDatePicker\CustomDatePicker.Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownDay\DropDownDay.Layout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownDay\DropDownDay.Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownMonth\DropDownMonth.Core.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownMonth\DropDownMonth.Layout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownMonth\DropDownMonth.Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownYear\DropDownYear.Layout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownYear\DropDownYear.Properties.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="TestForm.cs">
@@ -16,13 +55,10 @@
     <Compile Update="NhegazCustomControls\CustomComboBox\CustomComboBox.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\CustomComboBox\CustomComboBox.Layout.cs">
+    <Compile Update="NhegazCustomControls\BasesCustomControl\CustomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\CustomControlBase\CustomControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="NhegazCustomControls\CustomDataGridView\CustomDataGridView.cs">
+    <Compile Update="NhegazCustomControls\CustomDataGridView\CustomDataGridView.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\CustomDatePicker\CustomDatePicker.Core.cs">
@@ -37,13 +73,10 @@
     <Compile Update="NhegazCustomControls\DropDowns\DropDownBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\DropDowns\DropDownDay\DropDownDay.cs">
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownDay\DropDownDay.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\DropDowns\DropDownMonth\DropDownMonth.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="NhegazCustomControls\DropDowns\DropDownYear\DropDownYear.cs">
+    <Compile Update="NhegazCustomControls\DropDowns\DropDownYear\DropDownYear.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\RoundedTextBox.cs">

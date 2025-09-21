@@ -1,4 +1,4 @@
-﻿namespace NhegazCustomControls.PL.CustomControls
+﻿namespace NhegazCustomControls
 {
     public partial class CustomComboBox
     {

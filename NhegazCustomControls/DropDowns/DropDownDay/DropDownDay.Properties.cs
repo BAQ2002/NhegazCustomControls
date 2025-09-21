@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NhegazCustomControls
+{
+    public partial class DropDownDay
+    {
+        class DayItemLabel : InnerLabel
+        {
+            private int day;
+            public int Day
+            {
+                get => day;
+                set { day = value; Text = day.ToString(); }
+            }
+            public bool IsCurrentMonth { get; set; }
+            public int Year { get; set; }
+            public int Month { get; set; }
+            public DayItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
+            { }
+        }
+        protected CustomControl parentControl;
+        public int HeaderVerticalPadding { get; set; }
+        public int HeaderhorizontalPadding { get; set; }
+
+        private int NumberOfRows;
+        private int NumberOfColumns;
+
+        private int CurrentMonth;
+        private int CurrentYear;
+
+        private InnerLabel MonthLabel = new();
+        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
+        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
+
+
+        private DayItemLabel[,] DayItemLabels; //Matriz composta pelos Labels de dias.
+        private InnerLabel[] WeekDayLabels; //Matriz composta pelos Labels do cabecalho de dias da semana.
+
+        private string[] MonthTexts =  {"null", "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
+                                         "Julho", "Agosto", "Setembro", "Outubro", "Novembro","Dezembro" };
+
+        public override Font Font
+        {
+            get => base.Font;
+            set
+            {
+                base.Font = value;
+                MonthLabel.Font = new Font(value, FontStyle.Bold); ForwardIcon.Font = value;
+                BackwardIcon.Font = value;
+                AdjustControlSize();
+            }
+        }
+
+        public override Color ForeColor
+        {
+            get => base.ForeColor;
+            set
+            {
+                base.ForeColor = value;
+                MonthLabel.ForeColor = value; ForwardIcon.ForeColor = value; BackwardIcon.ForeColor = value;
+                Invalidate();
+            }
+        }
+        public override Color HeaderBackgroundColor
+        {
+            get => base.HeaderBackgroundColor;
+            set 
+            { 
+                base.HeaderBackgroundColor = value; 
+                MonthLabel.BackgroundColor = Color.Transparent; 
+                ForwardIcon.BackgroundColor = value; BackwardIcon.BackgroundColor = value; 
+                Invalidate(); 
+            }
+        }
+
+    }
+}
