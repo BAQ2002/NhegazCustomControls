@@ -23,3 +23,4 @@ C:\Users\anton\source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\Nhegaz
 C:\Users\anton\source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.CustomDataGridView.resources
 C:\Users\anton\source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.DropDownDay.resources
 C:\Users\anton\source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.CustomControlWithHeader.resources
+C:\Users\anton\source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.sourcelink.json

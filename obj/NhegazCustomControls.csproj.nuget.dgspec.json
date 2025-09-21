@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\anton\\source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj": {}
+    "C:\\Users\\anton\\Source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj": {}
   },
   "projects": {
-    "C:\\Users\\anton\\source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj": {
+    "C:\\Users\\anton\\Source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anton\\source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj",
+        "projectUniqueName": "C:\\Users\\anton\\Source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj",
         "projectName": "NhegazCustomControls",
-        "projectPath": "C:\\Users\\anton\\source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj",
+        "projectPath": "C:\\Users\\anton\\Source\\repos\\NhegazCustomControls\\NhegazCustomControls.csproj",
         "packagesPath": "C:\\Users\\anton\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anton\\source\\repos\\NhegazCustomControls\\obj\\",
+        "outputPath": "C:\\Users\\anton\\Source\\repos\\NhegazCustomControls\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -69,7 +68,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
