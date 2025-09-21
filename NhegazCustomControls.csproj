@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="NhegazCustomControls\CustomControlBase\Interfaces\" />
-    <Folder Include="NhegazCustomControls\CustomControlBase\NovaPasta\" />
     <Folder Include="NhegazCustomControls\InnerElements\InnerControlBase\" />
   </ItemGroup>
 
