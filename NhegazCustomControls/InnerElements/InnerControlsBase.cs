@@ -14,6 +14,10 @@ namespace NhegazCustomControls
         private List<InnerControl> elements = new();
         private CustomControl? Parent;
 
+        public List<InnerControl> GetAll
+        {
+            get => elements;
+        }
         public void Add(InnerControl innerControl)
         {
             elements.Add(innerControl);
@@ -108,7 +112,6 @@ namespace NhegazCustomControls
             }
             return false;
         }
-        public IEnumerable<InnerControl> GetAll() => elements;
     }
 
 

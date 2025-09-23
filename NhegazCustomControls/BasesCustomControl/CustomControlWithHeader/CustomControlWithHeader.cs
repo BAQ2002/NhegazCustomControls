@@ -16,6 +16,7 @@ namespace NhegazCustomControls
         private HeaderHeightMode headerHeightMode = HeaderHeightMode.Absolute;
         private float headerHeightRelativePercent = 1;
         private int headerBorderRadius = 1;
+
         /// <summary>
         /// Define como será definida a altura do cabeçalho.
         /// </summary>

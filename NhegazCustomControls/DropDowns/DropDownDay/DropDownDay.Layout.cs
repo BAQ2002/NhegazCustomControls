@@ -23,8 +23,8 @@ namespace NhegazCustomControls
             Width = xPadding + (NumberOfColumns * (itemUniformSize + xPadding));
             Height = yPadding + ((NumberOfRows + 2) * (itemUniformSize + yPadding));
 
-            AdjustHeaderSize(Width - (2 * xPadding), itemUniformSize);
-            AdjustHeaderLocation(xPadding, yPadding);
+            Header.AdjustHeaderSize(Width - (2 * xPadding), itemUniformSize);
+            Header.AdjustHeaderLocation(xPadding, yPadding);
             
             AdjustInnerSizes(); AdjustInnerLocations();
 
@@ -75,7 +75,7 @@ namespace NhegazCustomControls
 
         protected override void AdjustInnerLocations()
         {
-            int pos = HeaderBounds.Y + (HeaderBounds.Height - NhegazSizeMethods.FontUnitSize(Font).Height)/2;
+            int pos = Header.HeaderBounds.Y + (Header.HeaderBounds.Height - NhegazSizeMethods.FontUnitSize(Font).Height)/2;
             BackwardIcon.SetLocation(HorizontalPadding, VerticalPadding);
             ForwardIcon.SetLocation(Width - (ForwardIcon.Width + HorizontalPadding), VerticalPadding);
             MonthLabel.SetLocation((Width - MonthLabel.Width) / 2, pos);

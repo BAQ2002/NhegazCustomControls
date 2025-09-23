@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DropDownFeature dropDownFeature1 = new DropDownFeature();
             customDatePicker1 = new CustomDatePicker();
             customDataGridView1 = new CustomDataGridView();
             SuspendLayout();
@@ -39,15 +40,18 @@
             customDatePicker1.BorderColor = SystemColors.WindowFrame;
             customDatePicker1.BorderRadius = 3;
             customDatePicker1.BorderWidth = 1;
+            dropDownFeature1.HeaderBackgroundColor = SystemColors.GrayText;
+            dropDownFeature1.HeaderForeColor = SystemColors.ControlText;
+            customDatePicker1.DropDownFeatures = dropDownFeature1;
             customDatePicker1.DropDownsHeaderBorderRadius = 6;
-            customDatePicker1.DropDownsHeaderColor = SystemColors.GrayText;
+            customDatePicker1.DropDownsHeaderColor = SystemColors.Info;
             customDatePicker1.DropDownsHeaderHeightMode = HeaderHeightMode.RelativeToFont;
             customDatePicker1.DropDownsHeaderHight = 1;
             customDatePicker1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customDatePicker1.HorizontalPadding = 5;
             customDatePicker1.HoverColor = SystemColors.Highlight;
             customDatePicker1.Location = new Point(393, 107);
-            customDatePicker1.MinimumSize = new Size(153, 44);
+            customDatePicker1.MinimumSize = new Size(142, 22);
             customDatePicker1.Name = "customDatePicker1";
             customDatePicker1.OnFocusBool = false;
             customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;

@@ -1,24 +1,26 @@
 ﻿using NhegazCustomControls.PL.CustomControls;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 using System.Xml;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
-using System.ComponentModel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 
 namespace NhegazCustomControls
 {
-    public partial class CustomDatePicker : CustomControl
-    {                                                                    
-       
+    public partial class CustomDatePicker : CustomControl, IHasDropDown
+    {
+        public DropDownFeature DropDownFeatures { get; set; }
         public CustomDatePicker() : base() 
-        {                          
+        {                   
+            DropDownFeatures = new DropDownFeature();
             Controls.Add(selectedDay);
             selectedDay.Name = Name + "selectedDay";
             selectedDay.Text = DateTime.Now.Day.ToString("D2");
@@ -35,22 +37,20 @@ namespace NhegazCustomControls
 
             dayDropDownIcon.DoubleClick += (s, e) => {
                 Focus();
-                var dropDownDay = new DropDownDay(this)
-                {
-                    HeaderBorderRadius = DropDownsHeaderBorderRadius
-                };
+                var dropDownDay = new DropDownDay(this);
+                //dropDownDay.Header.BorderRadius = 20;//DropDownsHeaderBorderRadius;
+                
                 OnClick(e, dropDownDay);            
             };
 
             dayDropDownIcon.Click += (s, e) => {
                 Focus();
-                var dropDownDay = new DropDownDay(this)
-                {
-                    HeaderBorderRadius = DropDownsHeaderBorderRadius
-                };
+                var dropDownDay = new DropDownDay(this);
+                    //dropDownDay.Header.BorderRadius = DropDownsHeaderBorderRadius;
+                    //dropDownDay.Header.BackgroundColor = DropDownsHeaderColor;
                 OnClick(e, dropDownDay);
             };
-
+          
 
             Controls.Add(selectedMonth);
             selectedMonth.Text = DateTime.Now.Month.ToString("D2");

@@ -9,6 +9,7 @@ namespace NhegazCustomControls
 {
     public partial class CustomControl
     {
+
         private int borderRadius = 5;
         private int borderWidth = 1;
         private int onFocusBorderExtraWidth = 1;

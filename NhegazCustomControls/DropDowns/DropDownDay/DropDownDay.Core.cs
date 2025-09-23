@@ -1,26 +1,25 @@
 ﻿using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Specialized;
 using System.Windows.Forms;
-using System.Buffers.Text;
-using System.Drawing.Drawing2D;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace NhegazCustomControls
 {
-    public partial class DropDownDay : CustomControlWithHeader
+    public partial class DropDownDay : CustomControl, IHasHeader
     {
-        
 
         public DropDownDay(CustomDatePicker owner) : base(owner)
         {
             parentControl = owner;
-            HeaderBackgroundColor = owner.DropDownsHeaderColor;
-    
-
+            Header = new HeaderFeature(this);
+            //Header.BackgroundColor = owner.DropDownsHeaderColor;
             if (parentControl is CustomDatePicker dp)
             {
                 NumberOfRows = 6;
@@ -28,16 +27,16 @@ namespace NhegazCustomControls
 
                 CurrentMonth = int.Parse(dp.selectedMonth.Text);
                 CurrentYear = int.Parse(dp.selectedYear.Text);
-                
-                HeaderControls.Add(BackwardIcon);
+
+                Header.Controls.Add(BackwardIcon);
                 BackwardIcon.Click += (s, e) => { ChangeMonth(-1); Invalidate(); };
                 BackwardIcon.DoubleClick += (s, e) => { ChangeMonth(-1); Invalidate(); };
 
-                HeaderControls.Add(ForwardIcon);
+                Header.Controls.Add(ForwardIcon);
                 ForwardIcon.Click += (s, e) => { ChangeMonth(1); Invalidate(); };
                 ForwardIcon.DoubleClick += (s, e) => { ChangeMonth(1); Invalidate(); };
 
-                HeaderControls.Add(MonthLabel);
+                Header.Controls.Add(MonthLabel);
                 MonthLabel.Text = MonthTexts[CurrentMonth];
 
                 SecondaryForeColor = Color.FromArgb((ForeColor.R + 255) / 2, (ForeColor.G + 255) / 2, (ForeColor.B + 255) / 2);
@@ -220,37 +219,32 @@ namespace NhegazCustomControls
 
             Parent?.Controls.Remove(this);
         }
-       
         protected override void AdjustHoverColors()
         {
             BackwardIcon.MouseEnter += (s, e) =>
             {
-                BackwardIcon.ForeColor = HeaderBackgroundColor;
+                BackwardIcon.ForeColor = Header.BackgroundColor; // era HeaderBackgroundColor
                 BackwardIcon.BackgroundColor = OnFocusBorderColor;
-
             };
             BackwardIcon.MouseLeave += (s, e) =>
             {
-                BackwardIcon.ForeColor = ForeColor;
-                BackwardIcon.BackgroundColor = HeaderBackgroundColor;
-
+                BackwardIcon.ForeColor = this.ForeColor;
+                BackwardIcon.BackgroundColor = Header.BackgroundColor; // era HeaderBackgroundColor
             };
+
             ForwardIcon.MouseEnter += (s, e) =>
             {
-                ForwardIcon.ForeColor = HeaderBackgroundColor;
+                ForwardIcon.ForeColor = Header.BackgroundColor;
                 ForwardIcon.BackgroundColor = OnFocusBorderColor;
-
             };
             ForwardIcon.MouseLeave += (s, e) =>
             {
-                ForwardIcon.ForeColor = ForeColor;
-                ForwardIcon.BackgroundColor = HeaderBackgroundColor;
-
+                ForwardIcon.ForeColor = this.ForeColor;
+                ForwardIcon.BackgroundColor = Header.BackgroundColor;
             };
+
         }
 
-          
-      
 
     }
 }

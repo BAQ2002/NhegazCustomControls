@@ -8,11 +8,14 @@ namespace NhegazCustomControls
         void AdjustInnerSize(int row, int col, int itemWidth, int itemHeight);
         void AdjustInnerLocation(int row, int col, int x, int y);
     }
-    public interface IHeaderContainer
+
+    public interface IHasHeader
     {
-        Rectangle HeaderBounds { get; set; }  // onde o cabeçalho está no controle
-        void AdjustHeaderContainerSize();
-        void AdjustHeaderLayout();            // organiza os elementos internos
+        HeaderFeature Header { get; set; }
+    }
+    public interface IHasDropDown
+    {
+        DropDownFeature DropDownFeatures { get; set; }
     }
 
     public interface ILinearAdjustable
@@ -23,24 +26,6 @@ namespace NhegazCustomControls
     public abstract partial class CustomControl : UserControl
     {              
          
-
-        private void RequestLayout()
-        {
-            if (layoutPending) return;          // já há uma requisição na fila
-            layoutPending = true;
-
-            // Delega a execução para o loop de mensagens do WinForms.
-            // BeginInvoke garante que o código rode na UI thread,
-            // depois que todos os setters atuais terminarem.
-            BeginInvoke((Action)(() =>
-            {
-                layoutPending = false;
-                AdjustControlSize();            // calcula padding, posições, tamanhos
-                Invalidate();                   // UM repaint
-            }));
-        }
-
-        
         public CustomControl()
         {
             DoubleBuffered = true;
@@ -67,6 +52,10 @@ namespace NhegazCustomControls
         /// </summary>
         protected virtual void CopyVisualFrom(CustomControl parentControl)
         {
+            if (parentControl is null)
+                throw new ArgumentNullException(nameof(parentControl));
+
+            // --- Visuals "core" compartilhados ---
             BorderRadius = parentControl.BorderRadius;
             BorderWidth = parentControl.BorderWidth;
             BorderColor = parentControl.BorderColor;
@@ -77,19 +66,40 @@ namespace NhegazCustomControls
             VerticalPadding = parentControl.VerticalPadding;
             Width = parentControl.Width;
 
-            // Copia parte do cabeçalho só se AMBOS tiverem cabeçalho
-            if (this is CustomControlWithHeader dstHeader &&
-                parentControl is CustomControlWithHeader srcHeader)
+            // --- Cabeçalho (COMPOSIÇÃO via IHasHeader) ---
+            // Se AMBOS implementam IHasHeader, copie apenas os VALORES visuais do header.
+            // (Não copiamos HeaderControls em si — eles são específicos de cada controle.)
+            if (this is IHasHeader destination && parentControl is IHasHeader source)
             {
-                dstHeader.HeaderBackgroundColor = srcHeader.HeaderBackgroundColor;
-                // …outras props do header…
+                var destinationHeader = destination.Header;
+                var sourceHeader = source.Header;
+
+                // Propriedades visuais do cabeçalho
+                destinationHeader.BackgroundColor = sourceHeader.BackgroundColor;
+                destinationHeader.ForeColor = sourceHeader.ForeColor;
+                destinationHeader.HeightMode = sourceHeader.HeightMode;
+                destinationHeader.HeightRelativePercent = sourceHeader.HeightRelativePercent;
+                destinationHeader.BorderRadius = sourceHeader.BorderRadius;
+            }
+
+            if (this is IHasHeader destination2 && parentControl is IHasDropDown source2)
+            {
+                if (source2.DropDownFeatures.AnyIsHasHeader)
+                {
+                    var destinationHeader = destination2.Header;
+      
+
+                    // Propriedades visuais do cabeçalho
+                    destinationHeader.BackgroundColor = source2.DropDownFeatures.HeaderBackgroundColor;
+                    destinationHeader.ForeColor = source2.DropDownFeatures.HeaderForeColor;
+                    //destinationHeader.HeightMode = sourceHeader.HeightMode;
+                    //destinationHeader.HeightRelativePercent = sourceHeader.HeightRelativePercent;
+                    //destinationHeader.BorderRadius = sourceHeader.BorderRadius;
+                }
+                    
             }
         }
-
-        //protected abstract void SetHooverColors();
-
-        
-
+  
         /// <summary>
         /// Override do evento de clique. Encaminha o evento para os InnerControls.
         /// </summary>
@@ -98,6 +108,8 @@ namespace NhegazCustomControls
         {
             base.OnMouseClick(e);
             InnerControls.HandleClick(this, e.Location); // detecta clique virtual
+            var headerFeature = (this as IHasHeader)?.Header;
+            headerFeature?.HandleMouseClick(e.Location);
         }
 
         /// <summary>
@@ -107,7 +119,9 @@ namespace NhegazCustomControls
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
-            InnerControls.HandleDoubleClick(this, e.Location);
+            InnerControls.HandleDoubleClick(this, e.Location); 
+            var headerFeature = (this as IHasHeader)?.Header;
+            headerFeature?.HandleMouseDoubleClick(e.Location);
         }
 
         /// <summary>
@@ -117,7 +131,9 @@ namespace NhegazCustomControls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            InnerControls.HandleMouseMove(this, e.Location);
+            InnerControls.HandleMouseMove(this, e.Location); 
+            var headerFeature = (this as IHasHeader)?.Header;
+            headerFeature?.HandleMouseMove(e.Location);
         }
 
         /// <summary>
@@ -127,8 +143,13 @@ namespace NhegazCustomControls
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            if (Focused)
+            if (Focused) 
+            {
                 InnerControls.HandleGotFocus(this, PointToClient(Cursor.Position));
+                var headerFeature = (this as IHasHeader)?.Header;
+                headerFeature?.HandleGotFocus(PointToClient(Cursor.Position));
+
+            }               
         }
 
         /// <summary>
@@ -139,6 +160,8 @@ namespace NhegazCustomControls
         {
             base.OnLostFocus(e);
             InnerControls.HandleLostFocus(this, PointToClient(Cursor.Position));
+            var headerFeature = (this as IHasHeader)?.Header;
+            headerFeature?.HandleLostFocus(PointToClient(Cursor.Position));
         }
         
         /// <summary>
@@ -213,6 +236,8 @@ namespace NhegazCustomControls
             base.OnPaint(e);
             e.Graphics.SmoothingMode = SmoothingMode.None;
             DrawControlBackground(e);
+            var headerFeature = (this as IHasHeader)?.Header;
+            headerFeature?.PaintHeader(e);
             DrawInnerControls(e);
             DrawBorder(e);
         }

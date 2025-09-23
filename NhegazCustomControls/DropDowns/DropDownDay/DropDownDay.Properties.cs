@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,11 @@ namespace NhegazCustomControls
             public DayItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
             { }
         }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Category("Cabeçalho")]
+        public HeaderFeature Header { get; set; }
+
         protected CustomControl parentControl;
         public int HeaderVerticalPadding { get; set; }
         public int HeaderhorizontalPadding { get; set; }
@@ -65,17 +71,5 @@ namespace NhegazCustomControls
                 Invalidate();
             }
         }
-        public override Color HeaderBackgroundColor
-        {
-            get => base.HeaderBackgroundColor;
-            set 
-            { 
-                base.HeaderBackgroundColor = value; 
-                MonthLabel.BackgroundColor = Color.Transparent; 
-                ForwardIcon.BackgroundColor = value; BackwardIcon.BackgroundColor = value; 
-                Invalidate(); 
-            }
-        }
-
     }
 }
