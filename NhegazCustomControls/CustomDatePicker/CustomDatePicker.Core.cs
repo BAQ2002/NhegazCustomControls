@@ -17,10 +17,18 @@ namespace NhegazCustomControls
 {
     public partial class CustomDatePicker : CustomControl, IHasDropDown
     {
-        public DropDownFeature DropDownFeatures { get; set; }
+        [Category("DropDowns")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public DropDownFeature DropDownFeatures { get; } = new();
+
         public CustomDatePicker() : base() 
-        {                   
-            DropDownFeatures = new DropDownFeature();
+        {
+            
+
+            DropDownFeatures.Add<DropDownDay>();
+            DropDownFeatures.Add<DropDownMonth>();
+            DropDownFeatures.Add<DropDownYear>(); // enquanto não migrar, funciona do mesmo jeito
+
             Controls.Add(selectedDay);
             selectedDay.Name = Name + "selectedDay";
             selectedDay.Text = DateTime.Now.Day.ToString("D2");

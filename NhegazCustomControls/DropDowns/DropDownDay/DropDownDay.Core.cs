@@ -15,11 +15,12 @@ namespace NhegazCustomControls
     public partial class DropDownDay : CustomControl, IHasHeader
     {
 
-        public DropDownDay(CustomDatePicker owner) : base(owner)
+        public DropDownDay(CustomDatePicker parent) : base(parent)
         {
-            parentControl = owner;
-            Header = new HeaderFeature(this);
+            parentControl = parent;
+            Header ??= new HeaderFeature(this);
             //Header.BackgroundColor = owner.DropDownsHeaderColor;
+
             if (parentControl is CustomDatePicker dp)
             {
                 NumberOfRows = 6;
@@ -31,7 +32,7 @@ namespace NhegazCustomControls
                 Header.Controls.Add(BackwardIcon);
                 BackwardIcon.Click += (s, e) => { ChangeMonth(-1); Invalidate(); };
                 BackwardIcon.DoubleClick += (s, e) => { ChangeMonth(-1); Invalidate(); };
-
+                BackwardIcon.BackgroundColor = Header.BackgroundColor;
                 Header.Controls.Add(ForwardIcon);
                 ForwardIcon.Click += (s, e) => { ChangeMonth(1); Invalidate(); };
                 ForwardIcon.DoubleClick += (s, e) => { ChangeMonth(1); Invalidate(); };

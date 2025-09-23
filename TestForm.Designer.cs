@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DropDownFeature dropDownFeature1 = new DropDownFeature();
             customDatePicker1 = new CustomDatePicker();
             customDataGridView1 = new CustomDataGridView();
             SuspendLayout();
@@ -40,9 +39,8 @@
             customDatePicker1.BorderColor = SystemColors.WindowFrame;
             customDatePicker1.BorderRadius = 3;
             customDatePicker1.BorderWidth = 1;
-            dropDownFeature1.HeaderBackgroundColor = SystemColors.GrayText;
-            dropDownFeature1.HeaderForeColor = SystemColors.ControlText;
-            customDatePicker1.DropDownFeatures = dropDownFeature1;
+            customDatePicker1.DropDownFeatures.HeaderBackgroundColor = SystemColors.GradientActiveCaption;
+            customDatePicker1.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
             customDatePicker1.DropDownsHeaderBorderRadius = 6;
             customDatePicker1.DropDownsHeaderColor = SystemColors.Info;
             customDatePicker1.DropDownsHeaderHeightMode = HeaderHeightMode.RelativeToFont;

@@ -15,7 +15,7 @@ namespace NhegazCustomControls
     }
     public interface IHasDropDown
     {
-        DropDownFeature DropDownFeatures { get; set; }
+        DropDownFeature DropDownFeatures { get; }
     }
 
     public interface ILinearAdjustable
@@ -66,15 +66,18 @@ namespace NhegazCustomControls
             VerticalPadding = parentControl.VerticalPadding;
             Width = parentControl.Width;
 
-            // --- Cabeçalho (COMPOSIÇÃO via IHasHeader) ---
-            // Se AMBOS implementam IHasHeader, copie apenas os VALORES visuais do header.
-            // (Não copiamos HeaderControls em si — eles são específicos de cada controle.)
-            if (this is IHasHeader destination && parentControl is IHasHeader source)
-            {
-                var destinationHeader = destination.Header;
-                var sourceHeader = source.Header;
 
-                // Propriedades visuais do cabeçalho
+            // Se o destino não implementa cabeçalho, não há o que fazer
+            if (this is not IHasHeader destinationControl)
+                return;
+
+            // Cria/pega o mesmo header UMA vez e reutiliza
+            var destinationHeader = destinationControl.Header ??= new HeaderFeature(this);
+
+            // Copia de IHasHeader -> IHasHeader
+            if (parentControl is IHasHeader sourceControl)
+            {
+                var sourceHeader = sourceControl.Header;
                 destinationHeader.BackgroundColor = sourceHeader.BackgroundColor;
                 destinationHeader.ForeColor = sourceHeader.ForeColor;
                 destinationHeader.HeightMode = sourceHeader.HeightMode;
@@ -82,22 +85,13 @@ namespace NhegazCustomControls
                 destinationHeader.BorderRadius = sourceHeader.BorderRadius;
             }
 
-            if (this is IHasHeader destination2 && parentControl is IHasDropDown source2)
+            // Copia de IHasDropDown -> IHasHeader (cores “padrão” do header dos dropdowns)
+            if (parentControl is IHasDropDown srcDrop &&
+                srcDrop.DropDownFeatures.AnyIsHasHeader)
             {
-                if (source2.DropDownFeatures.AnyIsHasHeader)
-                {
-                    var destinationHeader = destination2.Header;
-      
-
-                    // Propriedades visuais do cabeçalho
-                    destinationHeader.BackgroundColor = source2.DropDownFeatures.HeaderBackgroundColor;
-                    destinationHeader.ForeColor = source2.DropDownFeatures.HeaderForeColor;
-                    //destinationHeader.HeightMode = sourceHeader.HeightMode;
-                    //destinationHeader.HeightRelativePercent = sourceHeader.HeightRelativePercent;
-                    //destinationHeader.BorderRadius = sourceHeader.BorderRadius;
-                }
-                    
-            }
+                destinationHeader.BackgroundColor = srcDrop.DropDownFeatures.HeaderBackgroundColor;
+                destinationHeader.ForeColor = srcDrop.DropDownFeatures.HeaderForeColor;
+            }                                       
         }
   
         /// <summary>

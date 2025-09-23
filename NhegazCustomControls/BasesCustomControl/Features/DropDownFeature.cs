@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace NhegazCustomControls
 {
-    [TypeConverter(typeof(ExpandableObjectConverter))] // expandir no PropertyGrid
+    [TypeConverter(typeof(DropDownFeatureTypeConverter))] // expandir no PropertyGrid
     public class DropDownFeature
     {
         //private readonly CustomControl ownerControl;
@@ -78,22 +78,22 @@ namespace NhegazCustomControls
         /// <summary>
         /// Cor de fundo para cabeçalho.
         /// </summary>
-        [Category("DropDown-Cabeçalho")]
+        [Category("DropDowns")]
+        [Browsable(true)]
         public virtual Color HeaderBackgroundColor
         {
             get => headerBackgroundColor;
             set { headerBackgroundColor = value; }
 
         }
+        [Category("DropDowns")]
+        [Browsable(true)]
         public virtual Color HeaderForeColor
         {
             get => headerForeColor;
             set { headerForeColor = value; }
 
         }
-        [Category("DropDown")]
-        [Description("Fecha quando clica fora do popup.")]
-        [Browsable(false)] // normalmente setado em código
 
         public DropDownFeature( )
         {            
