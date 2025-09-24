@@ -23,11 +23,7 @@ namespace NhegazCustomControls
             public YearItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
             { }
         }
-        public override Color HeaderBackgroundColor
-        {
-            get => base.HeaderBackgroundColor;
-            set { base.HeaderBackgroundColor = value; DecadeLabel.BackgroundColor = Color.Transparent; ForwardIcon.BackgroundColor = value; BackwardIcon.BackgroundColor = value; Invalidate(); }
-        }
+        public HeaderFeature Header { get; set; }
 
         protected CustomControl parentControl;
 
@@ -35,6 +31,7 @@ namespace NhegazCustomControls
         private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.SymmetricCircle);
         private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.SymmetricCircle);
         private YearItemLabel[,] YearItemsLabels;
+        
 
         private int CurrentDecade;
         private int DecadeLastYear;

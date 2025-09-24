@@ -20,7 +20,7 @@ namespace NhegazCustomControls
 
         private bool onFocusBool = false;
         private bool layoutPending = false;
-        private Color secondaryForeColor = SystemColors.GrayText; //Cor de textos secundarios
+        private Color secondaryForeColor = SystemColors.ControlText; //Cor de textos secundarios
 
         private Color backgroundColor = SystemColors.Window; //Cor do fundo
         private Color secondaryBackgroundColor = SystemColors.ControlLightLight; //Cor do fundo secundaria

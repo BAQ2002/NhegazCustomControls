@@ -91,6 +91,9 @@ namespace NhegazCustomControls
             {
                 destinationHeader.BackgroundColor = srcDrop.DropDownFeatures.HeaderBackgroundColor;
                 destinationHeader.ForeColor = srcDrop.DropDownFeatures.HeaderForeColor;
+
+                destinationHeader.HoverBackgroundColor = srcDrop.DropDownFeatures.HeaderHoverBackgroundColor;
+                destinationHeader.HoverForeColor = srcDrop.DropDownFeatures.HeaderHoverForeColor;
             }                                       
         }
   

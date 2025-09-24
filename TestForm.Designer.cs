@@ -41,6 +41,8 @@
             customDatePicker1.BorderWidth = 1;
             customDatePicker1.DropDownFeatures.HeaderBackgroundColor = SystemColors.GradientActiveCaption;
             customDatePicker1.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
+            customDatePicker1.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
+            customDatePicker1.DropDownFeatures.HeaderHoverForeColor = SystemColors.Window;
             customDatePicker1.DropDownsHeaderBorderRadius = 6;
             customDatePicker1.DropDownsHeaderColor = SystemColors.Info;
             customDatePicker1.DropDownsHeaderHeightMode = HeaderHeightMode.RelativeToFont;
@@ -49,7 +51,7 @@
             customDatePicker1.HorizontalPadding = 5;
             customDatePicker1.HoverColor = SystemColors.Highlight;
             customDatePicker1.Location = new Point(393, 107);
-            customDatePicker1.MinimumSize = new Size(142, 22);
+            customDatePicker1.MinimumSize = new Size(153, 44);
             customDatePicker1.Name = "customDatePicker1";
             customDatePicker1.OnFocusBool = false;
             customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
@@ -58,7 +60,7 @@
             customDatePicker1.PaddingRelativePercent = 0.6F;
             customDatePicker1.SecondaryBackgroundColor = SystemColors.ActiveCaption;
             customDatePicker1.SecondaryForeColor = SystemColors.GrayText;
-            customDatePicker1.Size = new Size(197, 55);
+            customDatePicker1.Size = new Size(153, 44);
             customDatePicker1.TabIndex = 0;
             customDatePicker1.VerticalPadding = 12;
             // 

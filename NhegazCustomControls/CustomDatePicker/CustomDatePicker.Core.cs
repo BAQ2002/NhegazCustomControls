@@ -42,24 +42,16 @@ namespace NhegazCustomControls
             daySlashMonth.Text = "/";
 
             InnerControls.Add(dayDropDownIcon);    
-
-            dayDropDownIcon.DoubleClick += (s, e) => {
-                Focus();
-                var dropDownDay = new DropDownDay(this);
-                //dropDownDay.Header.BorderRadius = 20;//DropDownsHeaderBorderRadius;
-                
-                OnClick(e, dropDownDay);            
+            dayDropDownIcon.DoubleClick += (s, e) => 
+            {
+                Focus(); var dropDownDay = new DropDownDay(this); OnClick(e, dropDownDay);            
             };
 
-            dayDropDownIcon.Click += (s, e) => {
-                Focus();
-                var dropDownDay = new DropDownDay(this);
-                    //dropDownDay.Header.BorderRadius = DropDownsHeaderBorderRadius;
-                    //dropDownDay.Header.BackgroundColor = DropDownsHeaderColor;
-                OnClick(e, dropDownDay);
+            dayDropDownIcon.Click += (s, e) => 
+            { 
+                Focus(); var dropDownDay = new DropDownDay(this); OnClick(e, dropDownDay);
             };
           
-
             Controls.Add(selectedMonth);
             selectedMonth.Text = DateTime.Now.Month.ToString("D2");
             selectedMonth.BorderStyle = BorderStyle.None;
@@ -72,10 +64,7 @@ namespace NhegazCustomControls
             monthDropDownIcon.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e, new DropDownMonth(this)); };
             monthDropDownIcon.Click += (s, e) => { 
                 Focus();
-                var dropDownMonth = new DropDownMonth(this)
-                {
-                    HeaderBorderRadius = DropDownsHeaderBorderRadius
-                };
+                var dropDownMonth = new DropDownMonth(this);
                 OnClick(e, new DropDownMonth(this)); };
             //monthDropDownIcon.GotFocus += (s, e) => { this.OnGotFocus(e); };
             //monthDropDownIcon.LostFocus += (s, e) => { this.OnLostFocus(e); };
@@ -92,21 +81,13 @@ namespace NhegazCustomControls
             selectedYear.LostFocus += (s, e) => { this.OnLostFocus(e); };
           
             InnerControls.Add(yearDropDownIcon);
-            yearDropDownIcon.DoubleClick += (s, e) => { 
-                Focus();
-                var dropDownYear = new DropDownYear(this)
-                {
-                    HeaderBorderRadius = DropDownsHeaderBorderRadius
-                };
-                OnClick(e, dropDownYear); 
+            yearDropDownIcon.DoubleClick += (s, e) => 
+            { 
+                Focus(); var dropDownYear = new DropDownYear(this); OnClick(e, dropDownYear); 
             };
-            yearDropDownIcon.Click += (s, e) => {
-                Focus();
-                var dropDownYear = new DropDownYear(this)
-                {
-                    HeaderBorderRadius = DropDownsHeaderBorderRadius
-                };
-                OnClick(e, dropDownYear);
+            yearDropDownIcon.Click += (s, e) => 
+            {
+                Focus(); var dropDownYear = new DropDownYear(this); OnClick(e, dropDownYear);
             };
 
             AdjustControlSize();
@@ -153,7 +134,7 @@ namespace NhegazCustomControls
             base.OnClick(e);
             if (dropDownInstance != null) // Se o dropdown já estiver aberto, fecha ele
             {
-                Form parentForm = this.FindForm();
+                Form parentForm = FindForm();
                 parentForm.Controls.Remove(dropDownInstance); 
                 dropDownInstance = null; //Define o dropDownInstance como Null
                 OnFocusBool = false; //Define que o elemento nao esta em foco
@@ -162,16 +143,16 @@ namespace NhegazCustomControls
             {
                 AdjustControlSize();
                 dropDownInstance = dropDown;
-                Form parentForm = this.FindForm();
+                Form parentForm = FindForm();
                 if (parentForm == null)
                 {
                     return;
                 }
 
-                Point screenLocation = this.Parent.PointToScreen(this.Location);
+                Point screenLocation = Parent.PointToScreen(Location);
                 Point formLocation = parentForm.PointToClient(screenLocation);
 
-                dropDownInstance.Location = new Point(formLocation.X, formLocation.Y + this.Height+1);
+                dropDownInstance.Location = new Point(formLocation.X, formLocation.Y + Height+1);
                 dropDownInstance.BringToFront();
                 parentForm.Controls.Add(dropDownInstance);
                 parentForm.Controls.SetChildIndex(dropDownInstance, 0);
@@ -190,7 +171,7 @@ namespace NhegazCustomControls
             base.OnLostFocus(e);
             if (dropDownInstance != null)
             {
-                Form parentForm = this.FindForm();
+                Form parentForm = FindForm();
                 parentForm.Controls.Remove(dropDownInstance);
                 dropDownInstance = null;
                 OnFocusBool = false;

@@ -40,8 +40,8 @@ namespace NhegazCustomControls
             Height = startY + (NumberOfRows * (yearItemSize + yPadding));
             AdjustInnerSizes();
             AdjustInnerLocations();
-            AdjustHeaderSize(Width - (2 * xPadding), headerHeight);
-            AdjustHeaderLocation(xPadding, yPadding);
+            Header.AdjustHeaderSize(Width - (2 * xPadding), headerHeight);
+            Header.AdjustHeaderLocation(xPadding, yPadding);
 
         }
         protected override void AdjustInnerSizes()

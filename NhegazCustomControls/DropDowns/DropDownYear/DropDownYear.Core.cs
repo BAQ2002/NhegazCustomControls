@@ -1,13 +1,12 @@
 ﻿
-
 namespace NhegazCustomControls
 {
-    public partial class DropDownYear : CustomControlWithHeader
+    public partial class DropDownYear : CustomControl, IHasHeader
     {      
         public DropDownYear(CustomDatePicker owner) : base(owner)
         {
             parentControl = owner;
-            HeaderBackgroundColor = owner.DropDownsHeaderColor;
+            Header ??= new HeaderFeature(this);
 
             if (parentControl is CustomDatePicker dp)
             {
@@ -23,9 +22,9 @@ namespace NhegazCustomControls
                 BackwardIcon.DoubleClick += (s, e) => { ChangeDecade(-20); Invalidate(); };
                 ForwardIcon.DoubleClick += (s, e) => { ChangeDecade(20); Invalidate(); };
 
-                HeaderControls.Add(BackwardIcon);
-                HeaderControls.Add(ForwardIcon);
-                HeaderControls.Add(DecadeLabel);
+                Header.Controls.Add(BackwardIcon);
+                Header.Controls.Add(ForwardIcon);
+                Header.Controls.Add(DecadeLabel);
 
                 CreateYearLabels();
                 AdjustControlSize();

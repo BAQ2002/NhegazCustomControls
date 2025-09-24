@@ -19,7 +19,6 @@ namespace NhegazCustomControls
         {
             parentControl = parent;
             Header ??= new HeaderFeature(this);
-            //Header.BackgroundColor = owner.DropDownsHeaderColor;
 
             if (parentControl is CustomDatePicker dp)
             {
@@ -32,7 +31,7 @@ namespace NhegazCustomControls
                 Header.Controls.Add(BackwardIcon);
                 BackwardIcon.Click += (s, e) => { ChangeMonth(-1); Invalidate(); };
                 BackwardIcon.DoubleClick += (s, e) => { ChangeMonth(-1); Invalidate(); };
-                BackwardIcon.BackgroundColor = Header.BackgroundColor;
+     
                 Header.Controls.Add(ForwardIcon);
                 ForwardIcon.Click += (s, e) => { ChangeMonth(1); Invalidate(); };
                 ForwardIcon.DoubleClick += (s, e) => { ChangeMonth(1); Invalidate(); };
@@ -47,6 +46,7 @@ namespace NhegazCustomControls
                 
                 AdjustControlSize();
                 AdjustHoverColors();
+                Header.AdjustHeaderColors();
             }
         }
 
@@ -224,23 +224,23 @@ namespace NhegazCustomControls
         {
             BackwardIcon.MouseEnter += (s, e) =>
             {
-                BackwardIcon.ForeColor = Header.BackgroundColor; // era HeaderBackgroundColor
-                BackwardIcon.BackgroundColor = OnFocusBorderColor;
+                BackwardIcon.ForeColor = Header.HoverForeColor; // era HeaderBackgroundColor
+                BackwardIcon.BackgroundColor = Header.HoverBackgroundColor;
             };
             BackwardIcon.MouseLeave += (s, e) =>
             {
-                BackwardIcon.ForeColor = this.ForeColor;
+                BackwardIcon.ForeColor = Header.ForeColor;
                 BackwardIcon.BackgroundColor = Header.BackgroundColor; // era HeaderBackgroundColor
             };
 
             ForwardIcon.MouseEnter += (s, e) =>
             {
-                ForwardIcon.ForeColor = Header.BackgroundColor;
-                ForwardIcon.BackgroundColor = OnFocusBorderColor;
+                ForwardIcon.ForeColor = Header.HoverForeColor;
+                ForwardIcon.BackgroundColor = Header.HoverBackgroundColor;
             };
             ForwardIcon.MouseLeave += (s, e) =>
             {
-                ForwardIcon.ForeColor = this.ForeColor;
+                ForwardIcon.ForeColor = Header.ForeColor;
                 ForwardIcon.BackgroundColor = Header.BackgroundColor;
             };
 

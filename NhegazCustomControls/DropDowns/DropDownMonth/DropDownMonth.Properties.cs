@@ -15,6 +15,8 @@ namespace NhegazCustomControls
 
         protected CustomControl parentControl;
 
+        public HeaderFeature Header { get; set; }
+
         private InnerLabel YearLabel = new();
         private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
         private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);

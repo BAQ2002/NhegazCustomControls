@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NhegazCustomControls
 {
-    public partial class DropDownMonth : CustomControlWithHeader
+    public partial class DropDownMonth : CustomControl, IHasHeader
     {
         
         public DropDownMonth(CustomDatePicker owner) : base(owner)
         {
             parentControl = owner;
-            HeaderBackgroundColor = owner.DropDownsHeaderColor;
+            Header ??= new HeaderFeature(this);
 
             CreateMonthLabels();
             AdjustControlSize();

@@ -8,11 +8,11 @@ namespace NhegazCustomControls
     [TypeConverter(typeof(DropDownFeatureTypeConverter))] // expandir no PropertyGrid
     public class DropDownFeature
     {
-        //private readonly CustomControl ownerControl;
-        //private readonly CustomControl[] DropDownControls;
-
         private Color headerBackgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho 
         private Color headerForeColor = SystemColors.ControlText;
+
+        private Color headerHoverBackgroundColor = SystemColors.Highlight;
+        private Color headerHoverForeColor = SystemColors.Window;
 
         private readonly HashSet<Type> ControlsTypes = new();
 
@@ -20,19 +20,7 @@ namespace NhegazCustomControls
         /// Exposição somente leitura dos tipos registrados.
         /// Mantém o encapsulamento: ninguém consegue modificar por fora.
         /// </summary>
-        public IReadOnlyCollection<Type> DropDownsControlsTypes => ControlsTypes;
-
-        /// <summary>
-        /// Propriedade BOOLEANA calculada:
-        /// retorna true se houver ao menos um tipo não-abstrato que implemente IHasHeader.
-        /// 
-        /// Observação importante:
-        ///  - typeof(IHasHeader).IsAssignableFrom(t) considera herança.
-        ///    Se uma classe base já implementa IHasHeader, as derivadas também “herdam” a implementação,
-        ///    e o teste retorna true (comportamento normalmente desejado).
-        ///  - Se você quiser considerar APENAS interfaces declaradas diretamente na classe,
-        ///    poderia usar: t.GetInterfaces().Contains(typeof(IHasHeader)) (geralmente não é necessário).
-        /// </summary>
+        [Browsable(false)]     
         public bool AnyIsHasHeader =>
             ControlsTypes.Any(t => !t.IsAbstract && typeof(IHasHeader).IsAssignableFrom(t));
 
@@ -86,6 +74,7 @@ namespace NhegazCustomControls
             set { headerBackgroundColor = value; }
 
         }
+
         [Category("DropDowns")]
         [Browsable(true)]
         public virtual Color HeaderForeColor
@@ -95,6 +84,23 @@ namespace NhegazCustomControls
 
         }
 
+        [Category("DropDowns")]
+        [Browsable(true)]
+        public virtual Color HeaderHoverBackgroundColor
+        {
+            get => headerHoverBackgroundColor;
+            set { headerHoverBackgroundColor = value; }
+
+        }
+
+        [Category("DropDowns")]
+        [Browsable(true)]
+        public virtual Color HeaderHoverForeColor
+        {
+            get => headerHoverForeColor;
+            set { headerHoverForeColor = value; }
+
+        }
         public DropDownFeature( )
         {            
             //ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));

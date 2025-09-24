@@ -13,11 +13,16 @@ namespace NhegazCustomControls
     public class HeaderFeature
     {
         private readonly CustomControl ownerControl;
-        private Color foreColor = SystemColors.ControlText;
-        private Color backgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho     
+         
         private HeaderHeightMode heightMode = HeaderHeightMode.Absolute;
         private float heightRelativePercent = 1;
         private int borderRadius = 1;
+
+        private Color foreColor = SystemColors.ControlText;
+        private Color backgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho    
+
+        private Color hoverBackgroundColor = SystemColors.ControlText;
+        private Color hoverForeColor = SystemColors.ControlText;
 
         /// <summary>
         /// Define como será definida a altura do cabeçalho.
@@ -76,6 +81,23 @@ namespace NhegazCustomControls
             }
         }
 
+        [Category("DropDowns")]
+        [Browsable(true)]
+        public virtual Color HoverBackgroundColor
+        {
+            get => hoverBackgroundColor;
+            set { hoverBackgroundColor = value; }
+
+        }
+
+        [Category("DropDowns")]
+        [Browsable(true)]
+        public virtual Color HoverForeColor
+        {
+            get => hoverForeColor;
+            set { hoverForeColor = value; }
+
+        }
         [Category("Cabeçalho")]
         public float HeightRelativePercent
         {
@@ -129,6 +151,15 @@ namespace NhegazCustomControls
         public void AdjustHeaderLocation(int x, int y)
         {
             HeaderBounds = new Rectangle(x, y, HeaderBounds.Width, HeaderBounds.Height);
+        }
+        public void AdjustHeaderColors()
+        {
+            foreach (InnerControl innerControl in Controls.GetAll)
+            {
+                innerControl.BackgroundColor = BackgroundColor;
+                innerControl.ForeColor = ForeColor;
+            }
+            ownerControl.Invalidate();
         }
         public bool HandleMouseClick(Point p) => Controls.HandleClick(ownerControl, p);
         public bool HandleMouseDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
