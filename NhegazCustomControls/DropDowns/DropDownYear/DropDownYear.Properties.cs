@@ -28,16 +28,16 @@ namespace NhegazCustomControls
         protected CustomControl parentControl;
 
         private InnerLabel DecadeLabel = new();
-        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.SymmetricCircle);
-        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.SymmetricCircle);
+        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle);
+        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
         private YearItemLabel[,] YearItemsLabels;
         
 
         private int CurrentDecade;
         private int DecadeLastYear;
 
-        private int NumberOfRows = 2;
-        private int NumberOfColumns = 5;
+        private int NumberOfRows = 4;
+        private int NumberOfColumns = 4;
 
         public override Font Font
         {

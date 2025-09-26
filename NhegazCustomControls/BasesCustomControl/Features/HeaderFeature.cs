@@ -13,7 +13,7 @@ namespace NhegazCustomControls
     public class HeaderFeature
     {
         private readonly CustomControl ownerControl;
-         
+
         private HeaderHeightMode heightMode = HeaderHeightMode.Absolute;
         private float heightRelativePercent = 1;
         private int borderRadius = 1;
@@ -23,6 +23,8 @@ namespace NhegazCustomControls
 
         private Color hoverBackgroundColor = SystemColors.ControlText;
         private Color hoverForeColor = SystemColors.ControlText;
+
+        private Rectangle bounds = new Rectangle(0, 0, 0, 0);
 
         /// <summary>
         /// Define como será definida a altura do cabeçalho.
@@ -54,10 +56,8 @@ namespace NhegazCustomControls
             set 
             { 
                 backgroundColor = value; 
-                foreach (InnerControl innerControl in Controls.GetAll)
-                {
+                foreach (InnerControl innerControl in Controls.GetAll)               
                     innerControl.BackgroundColor = value;
-                }
                 ownerControl.Invalidate();
             }
 
@@ -73,10 +73,8 @@ namespace NhegazCustomControls
             set
             {
                 foreColor = value;
-                foreach (InnerControl innerControl in Controls.GetAll)
-                {
+                foreach (InnerControl innerControl in Controls.GetAll) 
                     innerControl.ForeColor = value;
-                }
                 ownerControl.Invalidate();
             }
         }
@@ -117,7 +115,26 @@ namespace NhegazCustomControls
         /// Área delimitadora do cabeçalho.
         /// </summary>
         [Browsable(false)]
-        public Rectangle HeaderBounds { get; set; }
+        public Rectangle Bounds => bounds;
+
+        [Browsable(false)]
+        public Size Size
+        { 
+            get => bounds.Size; 
+            set { bounds.Size = value; ownerControl.Invalidate(); }
+        }
+
+        [Browsable(false)]
+        public Point Location 
+        {
+            get => bounds.Location;
+            set { bounds.Location = value; ownerControl.Invalidate(); }
+        }
+        
+        [Browsable(false)] public int X => bounds.X;         [Browsable(false)] public int Y => bounds.Y;
+        [Browsable(false)] public int Top => bounds.Top;     [Browsable(false)] public int Right => bounds.Right;
+        [Browsable(false)] public int Left => bounds.Left;   [Browsable(false)] public int Bottom => bounds.Bottom;
+        [Browsable(false)] public int Width => bounds.Width; [Browsable(false)] public int Height => bounds.Height;
 
         /// <summary>
         /// Coleção de elementos do cabeçalho.
@@ -127,31 +144,33 @@ namespace NhegazCustomControls
 
         public HeaderFeature(CustomControl owner)
         {
-            this.ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));
+            ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));
             Controls = new InnerControls(owner);
         }
 
         /// <summary>
-        /// Define o tamanho da area do cabecalho.
+        /// Define o tamanho da area do cabecalho;
+        /// Se "HeaderHeightMode.RelativeToFont" a altura "height" passada como parametro será ignorada.
         /// </summary>
-        public void AdjustHeaderSize(int width, int height)
+        public void SetSize(int width, int height)
         {
             if (HeightMode == HeaderHeightMode.RelativeToFont)
             {
                 Size unit = NhegazSizeMethods.FontUnitSize(ownerControl.Font); //Tamanho "unit" unitario da fonte
-                height = (int)Math.Round(unit.Height * HeightRelativePercent);
+                height = (int)Math.Round(unit.Height * HeightRelativePercent); 
             }
-
-            HeaderBounds = new Rectangle(HeaderBounds.Location.X, HeaderBounds.Location.Y, width, height);
+ 
+            Size = new Size( width, height);
         }
 
         /// <summary>
         /// Define a posicao da area de cabecalho.
         /// </summary>
-        public void AdjustHeaderLocation(int x, int y)
+        public void SetLocation(int x, int y)
         {
-            HeaderBounds = new Rectangle(x, y, HeaderBounds.Width, HeaderBounds.Height);
+            Location = new Point(x, y);
         }
+      
         public void AdjustHeaderColors()
         {
             foreach (InnerControl innerControl in Controls.GetAll)
@@ -173,7 +192,7 @@ namespace NhegazCustomControls
         /// </summary>
         public void PaintHeader(PaintEventArgs e)
         {
-            using var path = NhegazDrawingMethods.RectBackgroundPath(HeaderBounds, borderRadius);
+            using var path = NhegazDrawingMethods.RectBackgroundPath(Bounds, borderRadius);
             using var brush = new SolidBrush(backgroundColor);
 
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;

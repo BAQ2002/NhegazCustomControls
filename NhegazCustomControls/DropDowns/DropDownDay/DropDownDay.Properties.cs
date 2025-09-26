@@ -27,10 +27,9 @@ namespace NhegazCustomControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Category("Cabeçalho")]
         public HeaderFeature Header { get; set; }
+        public MatrixFeature Matrix { get; set; }
 
         protected CustomControl parentControl;
-        public int HeaderVerticalPadding { get; set; }
-        public int HeaderhorizontalPadding { get; set; }
 
         private int NumberOfRows;
         private int NumberOfColumns;
@@ -42,9 +41,10 @@ namespace NhegazCustomControls
         private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
         private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
 
+        private DayItemLabel[,] DayItemsLabels;//Matriz composta pelos Labels de dias.
+        public DayOfWeek StartOfWeek { get; set; } = DayOfWeek.Sunday; //Início da semana configurável; padrão Brasil: Domingo
 
-        private DayItemLabel[,] DayItemLabels; //Matriz composta pelos Labels de dias.
-        private InnerLabel[] WeekDayLabels; //Matriz composta pelos Labels do cabecalho de dias da semana.
+        private InnerLabel[] WeekDayLabels; //Vetor que Armazena os Labels de dias da semana.
 
         private string[] MonthTexts =  {"null", "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
                                          "Julho", "Agosto", "Setembro", "Outubro", "Novembro","Dezembro" };
@@ -55,7 +55,8 @@ namespace NhegazCustomControls
             set
             {
                 base.Font = value;
-                MonthLabel.Font = new Font(value, FontStyle.Bold); ForwardIcon.Font = value;
+                MonthLabel.Font = new Font(value, FontStyle.Bold); 
+                ForwardIcon.Font = value;
                 BackwardIcon.Font = value;
                 AdjustControlSize();
             }
@@ -67,9 +68,12 @@ namespace NhegazCustomControls
             set
             {
                 base.ForeColor = value;
-                MonthLabel.ForeColor = value; ForwardIcon.ForeColor = value; BackwardIcon.ForeColor = value;
+                MonthLabel.ForeColor = value; 
+                ForwardIcon.ForeColor = value;
+                BackwardIcon.ForeColor = value;
                 Invalidate();
             }
         }
+                        
     }
 }

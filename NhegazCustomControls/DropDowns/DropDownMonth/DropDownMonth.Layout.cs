@@ -20,8 +20,8 @@ namespace NhegazCustomControls
 
             int itemUniformSize = NhegazSizeMethods.TextProportionalSize("0000", Font, 1.3f).Width;
 
-            Header.AdjustHeaderSize(Width - (2 * xPadding), itemUniformSize);
-            Header.AdjustHeaderLocation(xPadding, yPadding);
+            Header.SetSize(Width - (2 * xPadding), itemUniformSize);
+            Header.SetLocation(xPadding, yPadding);
 
             Width = xPadding + (NumberOfColumns * (itemUniformSize + xPadding));
             Height = yPadding + (NumberOfRows * (itemUniformSize + yPadding));

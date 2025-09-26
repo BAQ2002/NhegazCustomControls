@@ -7,34 +7,37 @@ namespace NhegazCustomControls
         {
             parentControl = owner;
             Header ??= new HeaderFeature(this);
+            YearItemsLabels = new YearItemLabel[NumberOfRows, NumberOfColumns];
 
             if (parentControl is CustomDatePicker dp)
             {
                 CurrentDecade = (DateTime.Now.Year / 10) * 10;
                 DecadeLastYear = CurrentDecade + 9;
 
-                //ForwardIcon.Text = "▶";
+                Header.Controls.Add(DecadeLabel);
                 DecadeLabel.Text = $"{CurrentDecade} - {DecadeLastYear}";
                 DecadeLabel.SizeBasedOnText = false;
 
+                Header.Controls.Add(BackwardIcon);
                 BackwardIcon.Click += (s, e) => { ChangeDecade(-10); Invalidate(); };
-                ForwardIcon.Click += (s, e) => { ChangeDecade(10); Invalidate(); };
                 BackwardIcon.DoubleClick += (s, e) => { ChangeDecade(-20); Invalidate(); };
+
+                Header.Controls.Add(ForwardIcon);
+                ForwardIcon.Click += (s, e) => { ChangeDecade(10); Invalidate(); };          
                 ForwardIcon.DoubleClick += (s, e) => { ChangeDecade(20); Invalidate(); };
 
-                Header.Controls.Add(BackwardIcon);
-                Header.Controls.Add(ForwardIcon);
-                Header.Controls.Add(DecadeLabel);
+                
+                
+                
 
                 CreateYearLabels();
                 AdjustControlSize();
+                //Header.AdjustHeaderColors();
             }           
         }
 
         private void CreateYearLabels()
         {
-            YearItemsLabels = new YearItemLabel[NumberOfRows, NumberOfColumns];
-
             for (int row = 0; row < NumberOfRows; row++)
             {
                 for (int col = 0; col < NumberOfColumns; col++)

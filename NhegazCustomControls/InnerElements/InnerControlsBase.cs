@@ -1,6 +1,7 @@
 ﻿using NhegazCustomControls.NhegazCustomControls.InnerElements;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
@@ -116,20 +117,30 @@ namespace NhegazCustomControls
 
 
     public abstract class InnerControl
-    {       
+    {
+        private Rectangle bounds = new(0, 0, 0, 0);
+        private BackGroundShape backGroundShape = BackGroundShape.FitRectangle;
         public bool Visible { get; set; } = true;
         public virtual Font Font { get; set; } = SystemFonts.DefaultFont;
         public Color ForeColor { get; set; } = SystemColors.ControlText;
         //public Color HoverForeColor { get; set; } = SystemColors.ControlText;
         public Color BackgroundColor { get; set; } = SystemColors.Control;
-        //public Color hoverBackgroundColor { get; set; } = SystemColors.Control;       
-        public Size Size { get; set; } = new(0, 0);
-        public Point Location { get; set; } = new(0, 0);
-        public Rectangle Bounds => new(Location, Size);
+        //public Color hoverBackgroundColor { get; set; } = SystemColors.Control;
         public InnerControlPadding Padding { get; }
         public bool HitBox(Point p) => Bounds.Contains(p);
+        public Rectangle Bounds => bounds;
+        public Size Size
+        {
+            get => bounds.Size;
+            set { bounds.Size = value;}
+        }
 
-        private BackGroundShape backGroundShape = BackGroundShape.FitRectangle;
+        public Point Location
+        {
+            get => bounds.Location;
+            set { bounds.Location = value; }
+        }
+                    
         public BackGroundShape BackGroundShape 
         {
             get => backGroundShape;
@@ -138,15 +149,17 @@ namespace NhegazCustomControls
         public virtual int Width
         {
             get => Size.Width;
-            set { Size = new Size(value, Size.Height); AdjustControlSize();}
-        }
+            set { Size = new Size(value, Size.Height); AdjustControlSize(); }
+        }       
         public virtual int Height
         {
             get => Size.Height;
             set { Size = new Size(Size.Width, value); AdjustControlSize(); }
         }
-        public int Top => Location.Y; public int Left => Location.X;
-        public int Right => Location.X + Size.Width; public int Bottom => Location.Y + Size.Height;
+        public int X => Location.X;    public int Y => Location.Y;
+        public int Top => Location.Y;  public int Right => Location.X + Size.Width;
+        public int Left => Location.X; public int Bottom => Location.Y + Size.Height;
+
         public InnerControl()
         {
             Padding = new(this);
@@ -201,6 +214,12 @@ namespace NhegazCustomControls
                 SymmetricalCircleAdjust();
             }
         }
+
+        //public virtual void SetColor(Color backgroundColor, Color foreColor) 
+        //{
+         //   BackgroundColor = backgroundColor;  
+        //    ForeColor = foreColor;
+        //}
 
         /// <summary>
         /// Metodo responsavel por realizar ajustes para BackgroundShape.SymmetricalCircle

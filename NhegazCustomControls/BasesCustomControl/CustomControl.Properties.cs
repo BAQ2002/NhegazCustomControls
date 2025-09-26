@@ -18,29 +18,29 @@ namespace NhegazCustomControls
 
         private float paddingRelativePercent = 0.6f; // 60% por padrão
 
-        private bool onFocusBool = false;
+        private bool onFocus = false;
         private bool layoutPending = false;
         private Color secondaryForeColor = SystemColors.ControlText; //Cor de textos secundarios
 
         private Color backgroundColor = SystemColors.Window; //Cor do fundo
         private Color secondaryBackgroundColor = SystemColors.ControlLightLight; //Cor do fundo secundaria
 
+        private Color hoverBackgroundColor = SystemColors.Highlight;
+        private Color hoverForeColor = SystemColors.Window;
+
         private Color borderColor = SystemColors.WindowFrame;
-        //private Color dropdownBorderColor = Color.Green;
-
         private Color onFocusBorderColor = SystemColors.Highlight; //Cor da borda
-        private Color hoverColor = SystemColors.Highlight;
-
+       
         private PaddingMode paddingMode = PaddingMode.Absolute;
 
         [Browsable(false)]
         public InnerControls InnerControls { get; }
 
         [Browsable(false)]
-        public bool OnFocusBool
+        public bool OnFocus
         {
-            get => onFocusBool;
-            set { onFocusBool = value; Invalidate(); }
+            get => onFocus;
+            set { onFocus = value; Invalidate(); }
         }
 
         [Category("Padding")]
@@ -84,7 +84,19 @@ namespace NhegazCustomControls
             get => onFocusBorderExtraWidth;
             set { onFocusBorderExtraWidth = value; Invalidate(); }
         }
+        [Category("Cores")]
+        public Color HoverBackgroundColor
+        {
+            get => hoverBackgroundColor;
+            set { hoverBackgroundColor = value; Invalidate(); }
+        }
 
+        [Category("Cores")]
+        public Color HoverForeColor
+        {
+            get => hoverForeColor;
+            set { hoverForeColor = value; Invalidate(); }
+        }
         [Category("Cores")]
         public Color SecondaryBackgroundColor
         {
@@ -116,8 +128,8 @@ namespace NhegazCustomControls
         [Category("Cores")]
         public Color HoverColor
         {
-            get => hoverColor;
-            set { hoverColor = value; Invalidate(); }
+            get => hoverBackgroundColor;
+            set { hoverBackgroundColor = value; Invalidate(); }
         }
 
         [Category("Cores")]

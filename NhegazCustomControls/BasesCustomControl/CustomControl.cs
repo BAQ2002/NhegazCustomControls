@@ -17,7 +17,10 @@ namespace NhegazCustomControls
     {
         DropDownFeature DropDownFeatures { get; }
     }
-
+    public interface IHasMatrix
+    {
+        MatrixFeature Matrix { get; }
+    }
     public interface ILinearAdjustable
     {
         void AdjustInnerSize(int index, int itemWidth, int itemHeight);
@@ -213,8 +216,8 @@ namespace NhegazCustomControls
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Color paintBorderColor = OnFocusBool ? OnFocusBorderColor : BorderColor;
-            int borderWidth = OnFocusBool ? BorderWidth + OnFocusBorderExtraWidth : BorderWidth;
+            Color paintBorderColor = OnFocus ? OnFocusBorderColor : BorderColor;
+            int borderWidth = OnFocus ? BorderWidth + OnFocusBorderExtraWidth : BorderWidth;
 
             using (GraphicsPath borderPath = NhegazDrawingMethods.ControlBorderPath(new Rectangle(Location, Size), BorderRadius, borderWidth))
             {              

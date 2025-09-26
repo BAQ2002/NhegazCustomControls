@@ -18,36 +18,40 @@ namespace NhegazCustomControls
             int xPadding = HorizontalPadding;
             int yPadding = VerticalPadding;
 
-            int yearItemSize = NhegazSizeMethods.TextProportionalSize("0000", Font, 1.3f).Width;
-            int headerHeight = NhegazSizeMethods.TextExactSize("0000", Font).Height;
+            
+            int itemUniformSize = NhegazSizeMethods.TextProportionalSize("0000", Font, 1.3f).Width;
+            int headerHeight = NhegazSizeMethods.TextProportionalSize("0000", Font, 1.3f).Height;
 
             int startY = yPadding + headerHeight + yPadding;
+          
+            Width = xPadding + (NumberOfColumns * (itemUniformSize + xPadding));
+            Height = startY + (NumberOfRows * (itemUniformSize + yPadding));
 
+            Header.SetSize(Width - (2 * xPadding), headerHeight);
+            Header.SetLocation(xPadding, yPadding);
 
             for (int row = 0; row < NumberOfRows; row++)
             {
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
-                    int x = xPadding + col * (yearItemSize + xPadding);
-                    int y = startY + row * (yearItemSize + yPadding);
+                    int x = xPadding + col * (itemUniformSize + xPadding);
+                    int y = startY + row * (itemUniformSize + yPadding);
 
-                    AdjustMatrixItemsSizes(row, col, yearItemSize, yearItemSize);
+                    AdjustMatrixItemsSizes(row, col, itemUniformSize, itemUniformSize);
                     AdjustMatrixItemsLocations(row, col, x, y);
                 }
             }
-
-            Width = xPadding + (NumberOfColumns * (yearItemSize + xPadding));
-            Height = startY + (NumberOfRows * (yearItemSize + yPadding));
             AdjustInnerSizes();
             AdjustInnerLocations();
-            Header.AdjustHeaderSize(Width - (2 * xPadding), headerHeight);
-            Header.AdjustHeaderLocation(xPadding, yPadding);
-
         }
+
         protected override void AdjustInnerSizes()
         {
-            ForwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
             BackwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
+            BackwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
+
+            ForwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
+            ForwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
         }
         protected override void AdjustMatrixItemsSizes(int row, int col, int itemWidth, int itemHeight)
         {
@@ -57,10 +61,13 @@ namespace NhegazCustomControls
         }
         protected override void AdjustInnerLocations()
         {
-            BackwardIcon.Location = new Point(HorizontalPadding, VerticalPadding);
-            ForwardIcon.Location = new Point(Width - (ForwardIcon.Width + HorizontalPadding), VerticalPadding);
-            DecadeLabel.Location = new Point((Width - DecadeLabel.Width) / 2, VerticalPadding);
+            int pos = Header.Y + (Header.Height - DecadeLabel.Height) / 2;
+            BackwardIcon.SetLocation(HorizontalPadding, VerticalPadding);
+            ForwardIcon.SetLocation(Width - (ForwardIcon.Width + HorizontalPadding), VerticalPadding);
+            DecadeLabel.SetLocation((Width - DecadeLabel.Width) / 2, pos);
+
         }
+
         protected override void AdjustMatrixItemsLocations(int row, int col, int x, int y)
         {
             var label = YearItemsLabels[row, col];

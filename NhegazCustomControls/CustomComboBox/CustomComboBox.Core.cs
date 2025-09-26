@@ -33,7 +33,7 @@ namespace NhegazCustomControls
             {
                 Form parentForm = FindForm();
                 parentForm.Controls.Remove(dropDownInstance);
-                dropDownInstance = null; OnFocusBool = false;
+                dropDownInstance = null; OnFocus = false;
             }
             else
             {
@@ -51,7 +51,7 @@ namespace NhegazCustomControls
                 dropDownInstance.BringToFront();
                 parentForm.Controls.Add(dropDownInstance);
                 parentForm.Controls.SetChildIndex(dropDownInstance, 0);
-                OnFocusBool = true;
+                OnFocus = true;
                 Invalidate();
             }
         }
@@ -89,7 +89,7 @@ namespace NhegazCustomControls
 
                 form?.Controls.Remove(dropDownInstance);
                 dropDownInstance = null;
-                OnFocusBool = false;
+                OnFocus = false;
             }
         }
 
@@ -191,7 +191,7 @@ namespace NhegazCustomControls
             if (ParentComboBox != null)
             {
                 ParentComboBox.SelectIndexText = labelText; // Atualiza a opção selecionada
-                ParentComboBox.OnFocusBool = false;
+                ParentComboBox.OnFocus = false;
             }
             Parent?.Controls.Remove(this); // Fecha o dropdown após a seleção
         }

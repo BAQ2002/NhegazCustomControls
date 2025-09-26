@@ -51,12 +51,12 @@
             customDatePicker1.HorizontalPadding = 5;
             customDatePicker1.HoverColor = SystemColors.Highlight;
             customDatePicker1.Location = new Point(393, 107);
-            customDatePicker1.MinimumSize = new Size(153, 44);
+            customDatePicker1.MinimumSize = new Size(142, 22);
             customDatePicker1.Name = "customDatePicker1";
-            customDatePicker1.OnFocusBool = false;
+            customDatePicker1.OnFocus = false;
             customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
             customDatePicker1.OnFocusBorderExtraWidth = 1;
-            customDatePicker1.PaddingMode = PaddingMode.Absolute;
+            customDatePicker1.PaddingMode = PaddingMode.RelativeToFont;
             customDatePicker1.PaddingRelativePercent = 0.6F;
             customDatePicker1.SecondaryBackgroundColor = SystemColors.ActiveCaption;
             customDatePicker1.SecondaryForeColor = SystemColors.GrayText;
@@ -87,7 +87,7 @@
             customDataGridView1.LinesWidth = 1;
             customDataGridView1.Location = new Point(33, 170);
             customDataGridView1.Name = "customDataGridView1";
-            customDataGridView1.OnFocusBool = false;
+            customDataGridView1.OnFocus = false;
             customDataGridView1.OnFocusBorderColor = SystemColors.Highlight;
             customDataGridView1.OnFocusBorderExtraWidth = 1;
             customDataGridView1.PaddingMode = PaddingMode.RelativeToFont;
