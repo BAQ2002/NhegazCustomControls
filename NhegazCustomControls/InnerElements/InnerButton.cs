@@ -85,13 +85,15 @@ namespace NhegazCustomControls
         {
             base.OnPaint(parent, e);
 
+            Color iconColor = IsHovering ? HoverForeColor : ForeColor;
+
             using var iconPath = GetIconPath();
             if (iconPath == null) return;
 
-            using (SolidBrush brush = new SolidBrush(ForeColor))
+            using (SolidBrush brush = new SolidBrush(iconColor))
                 e.Graphics.FillPath(brush, iconPath);
 
-            using (Pen pen = new Pen(ForeColor, 1f))
+            using (Pen pen = new Pen(iconColor, 1f))
                 e.Graphics.DrawPath(pen, iconPath);
         }
     }

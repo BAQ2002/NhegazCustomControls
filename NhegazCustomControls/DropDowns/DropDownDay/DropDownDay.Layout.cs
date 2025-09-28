@@ -10,7 +10,7 @@ namespace NhegazCustomControls
     {
         protected override void AdjustControlSize()
         {
-            if (DayItemsLabels == null || DayItemsLabels.Length == 0 || NumberOfColumns <= 0 || NumberOfRows <= 0)
+            if (DayItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
             AdjustPadding();
@@ -45,12 +45,13 @@ namespace NhegazCustomControls
                         AdjustVectorItemsLocations(col, x, weekDayY);
                     }
 
-                    Matrix.AdjustItemSize(row, col, itemUniformSize, itemUniformSize);
-                    Matrix.AdjustItemLocation(row, col, x, y);
+                    DayItems.SetItemSize(row, col, itemUniformSize, itemUniformSize);
+                    DayItems.SetItemLocation(row, col, x, y);
                 }
             }
 
         }
+      
         protected override void AdjustInnerSizes()
         {
             BackwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;

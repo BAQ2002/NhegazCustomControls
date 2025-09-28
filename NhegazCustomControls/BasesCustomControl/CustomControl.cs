@@ -17,6 +17,10 @@ namespace NhegazCustomControls
     {
         DropDownFeature DropDownFeatures { get; }
     }
+
+    /// <summary>
+    /// Define que esse CustomControl deve implementar uma MatrixFeature
+    /// </summary>
     public interface IHasMatrix
     {
         MatrixFeature Matrix { get; }

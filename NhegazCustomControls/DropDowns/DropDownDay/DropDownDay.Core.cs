@@ -22,10 +22,9 @@ namespace NhegazCustomControls
             NumberOfColumns = 7;
 
             WeekDayLabels = new InnerLabel[NumberOfColumns];
-            DayItemsLabels = new DayItemLabel[NumberOfRows, NumberOfColumns];
 
             Header ??= new HeaderFeature(this);
-            Matrix ??= new MatrixFeature(this, DayItemsLabels);
+            DayItems ??= new MatrixFeature(this, NumberOfRows, NumberOfColumns);
 
             if (parentControl is CustomDatePicker dp)
             {              
@@ -33,12 +32,12 @@ namespace NhegazCustomControls
                 CurrentYear = int.Parse(dp.selectedYear.Text);
 
                 Header.Controls.Add(BackwardIcon);
-                BackwardIcon.Click += (s, e) => { ChangeMonth(-1); Invalidate(); };
-                BackwardIcon.DoubleClick += (s, e) => { ChangeMonth(-1); Invalidate(); };
+                BackwardIcon.Click += (s, e) => { UpdateMonth(-1); Invalidate(); };
+                BackwardIcon.DoubleClick += (s, e) => { UpdateMonth(-1); Invalidate(); };
      
                 Header.Controls.Add(ForwardIcon);
-                ForwardIcon.Click += (s, e) => { ChangeMonth(1); Invalidate(); };
-                ForwardIcon.DoubleClick += (s, e) => { ChangeMonth(1); Invalidate(); };
+                ForwardIcon.Click += (s, e) => { UpdateMonth(1); Invalidate(); };
+                ForwardIcon.DoubleClick += (s, e) => { UpdateMonth(1); Invalidate(); };
 
                 Header.Controls.Add(MonthLabel);
                 MonthLabel.Text = MonthTexts[CurrentMonth];
@@ -46,14 +45,14 @@ namespace NhegazCustomControls
                 SecondaryForeColor = Color.FromArgb((ForeColor.R + 255) / 2, (ForeColor.G + 255) / 2, (ForeColor.B + 255) / 2);
 
                 CreateWeekDayLabels();
-                CreateDayItemLabels();  
+                CreateDayItems();  
                 
                 AdjustControlSize();
                 AdjustHoverColors();
                 Header.AdjustHeaderColors();
             }
         }
-
+        
         /// <summary>
         /// Cria/atualiza os WeekDayLabels conforme o NumberOfColumns e StartOfWeek.
         /// </summary>
@@ -79,6 +78,7 @@ namespace NhegazCustomControls
                     Text = weekDayLetters[dow],
                     Font = new Font(Font, FontStyle.Bold),
                     BackgroundColor = BackgroundColor,
+                    IsHoverable = false,
                     ForeColor = ForeColor,
                     SizeBasedOnText = false,
                     TextHorizontalAlignment = TextHorizontalAlignment.Center,
@@ -91,14 +91,17 @@ namespace NhegazCustomControls
 
 
         /// <summary>
-        /// Método responsavel por criar os items de DayItemsLabels. 
+        /// Método responsavel por criar os items de DayItems. 
         /// </summary>
-        protected void CreateDayItemLabels()
+        protected void CreateDayItems()
         {
             for (int row = 0; row < NumberOfRows; row++)
             {
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
+                    int currentRow = row;
+                    int currentCol = col;
+
                     var dayItemLabel = new DayItemLabel()
                     {
                         Font = Font,
@@ -107,25 +110,10 @@ namespace NhegazCustomControls
                         SizeBasedOnText = false,
                     };
 
-                    // Lógica direta para eventos
-                    dayItemLabel.MouseEnter += (s, e) =>
-                    {
-                        dayItemLabel.ForeColor = BackgroundColor;
-                        dayItemLabel.BackgroundColor = HoverColor;
-                        Invalidate();
-                    };
+                    
+                    dayItemLabel.Click += (s, e) => OnDayItemLabelClick(currentRow, currentCol);
 
-                    dayItemLabel.MouseLeave += (s, e) =>
-                    {
-                        dayItemLabel.ForeColor = dayItemLabel.IsCurrentMonth ? ForeColor : SecondaryForeColor;
-                        dayItemLabel.BackgroundColor = BackgroundColor;
-                        Invalidate();
-                    };
-
-                    dayItemLabel.Click += (s, e) => OnDayItemLabelClick(row, col);
-
-                    InnerControls.Add(dayItemLabel);
-                    DayItemsLabels[row, col] = dayItemLabel;
+                    DayItems.AddItem(dayItemLabel, row, col);
                 }
             }
 
@@ -137,7 +125,7 @@ namespace NhegazCustomControls
         /// Invoke => UpdateDayLabels; AdjustControlSize.
         /// </summary>
         /// <param name="offset"></param>
-        private void ChangeMonth(int offset)
+        private void UpdateMonth(int offset)
         {
             if (CurrentMonth + offset > 12)
             {
@@ -159,7 +147,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Metodo responsavel por atualizar as propriedades dos DayItemsLabels
+        /// Método responsável por atualizar as propriedades dos DayItems
         /// </summary>
         private void UpdateDayItemLabels(int currentYear, int currentMonth)
         {
@@ -181,7 +169,7 @@ namespace NhegazCustomControls
             {
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
-                    DayItemLabel dayItemLabel = DayItemsLabels[row, col];
+                    DayItemLabel dayItemLabel = (DayItemLabel)DayItems.GetItem(row, col);
 
                     if (gridIndex < firstDayOfWeek)
                     {
@@ -223,7 +211,7 @@ namespace NhegazCustomControls
         /// </summary>
         protected void OnDayItemLabelClick(int rowIndex, int colIndex)
         {
-            var item = DayItemsLabels[rowIndex, colIndex];
+            var item = (DayItemLabel)DayItems.GetItem(rowIndex, colIndex);
 
             if (parentControl is CustomDatePicker dp)
             {
@@ -234,29 +222,6 @@ namespace NhegazCustomControls
 
             Parent?.Controls.Remove(this);
         }
-        protected override void AdjustHoverColors()
-        {
-            BackwardIcon.MouseEnter += (s, e) =>
-            {
-                BackwardIcon.ForeColor = Header.HoverForeColor;
-                BackwardIcon.BackgroundColor = Header.HoverBackgroundColor;
-            };
-            BackwardIcon.MouseLeave += (s, e) =>
-            {
-                BackwardIcon.ForeColor = Header.ForeColor;
-                BackwardIcon.BackgroundColor = Header.BackgroundColor; 
-            };
 
-            ForwardIcon.MouseEnter += (s, e) =>
-            {
-                ForwardIcon.ForeColor = Header.HoverForeColor;
-                ForwardIcon.BackgroundColor = Header.HoverBackgroundColor;
-            };
-            ForwardIcon.MouseLeave += (s, e) =>
-            {
-                ForwardIcon.ForeColor = Header.ForeColor;
-                ForwardIcon.BackgroundColor = Header.BackgroundColor;
-            };
-        }
     }
 }

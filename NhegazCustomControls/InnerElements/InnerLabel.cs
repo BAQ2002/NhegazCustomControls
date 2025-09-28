@@ -178,12 +178,14 @@ namespace NhegazCustomControls
         {
             base.OnPaint(parent, e);
 
+            Color foreColor = IsHovering? HoverForeColor : ForeColor;
+            
             TextRenderer.DrawText(
                 e.Graphics,
                 Text,
                 Font,
                 new Rectangle(Location.X + textLocation.X, Location.Y + textLocation.Y, Width - textLocation.X, Height - textLocation.Y),
-                ForeColor,
+                foreColor,
                 TextFormatFlags.NoPadding | TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis
             );
         }    

@@ -23,11 +23,13 @@ namespace NhegazCustomControls
             public DayItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
             { }
         }
+        MatrixFeature IHasMatrix.Matrix => DayItems;
+        public MatrixFeature DayItems { get; private set; }
+        
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Category("Cabeçalho")]
         public HeaderFeature Header { get; set; }
-        public MatrixFeature Matrix { get; set; }
 
         protected CustomControl parentControl;
 
@@ -41,7 +43,7 @@ namespace NhegazCustomControls
         private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
         private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
 
-        private DayItemLabel[,] DayItemsLabels;//Matriz composta pelos Labels de dias.
+        //private DayItemLabel[,] DayItems;//Matriz composta pelos Labels de dias.
         public DayOfWeek StartOfWeek { get; set; } = DayOfWeek.Sunday; //Início da semana configurável; padrão Brasil: Domingo
 
         private InnerLabel[] WeekDayLabels; //Vetor que Armazena os Labels de dias da semana.
