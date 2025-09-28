@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,9 +12,7 @@ namespace NhegazCustomControls
     {
         private List<object> DataSource = new(); //Lista de objetos que formada pelos 
         private List<PropertyInfo> Properties = new();
-        private List<InnerLabel> HeaderLabels = new();
-
-        private InnerLabel[,]? DataLabels = null;
+       
         private ColumnWidthMode columnWidthMode = ColumnWidthMode.HeaderWidth;
 
         private int fixedCharCount = 10;
@@ -22,6 +21,17 @@ namespace NhegazCustomControls
         private bool linesBetweenColumns;
         private bool linesBetweenRows;
         private bool differentColorsBetweenRows;
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Category("Cabeçalho")]
+        public HeaderFeature Header {  get; set; }
+
+        MatrixFeature IHasMatrix.Matrix => DataLabels;
+        public MatrixFeature DataLabels { get; private set; }
+
+        VectorFeature IHasVector.Vector => HeaderLabels;
+        public VectorFeature HeaderLabels { get; private set; }
+
         public int LinesWidth
         {
             get => linesWidth;

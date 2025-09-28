@@ -11,10 +11,17 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace NhegazCustomControls
 {
-    public partial class CustomDataGridView : CustomControlWithHeader
-    {          
+    public partial class CustomDataGridView : CustomControl, IHasHeader, IHasMatrix, IHasVector
+    {
         public CustomDataGridView()
         {
+            // Header pronto para desenhar e propagar cores
+            Header = new HeaderFeature(this);
+            Header.AdjustHeaderColors();
+
+            // Placeholders (evitam nulos antes de SetDataSource)
+            HeaderLabels = new VectorFeature(this, 1, Header.Controls);
+            DataLabels = new MatrixFeature(this, 1, 1);
         }
         public void SetDataSource<T>(List<T> _source)
         {
@@ -37,10 +44,14 @@ namespace NhegazCustomControls
         }
         public void CreateHeadersLabels()
         {
-            foreach (var header in HeaderLabels)
-                InnerControls.Remove(header);
-
+            // zera o cabeçalho anterior a partir da coleção do Header
             HeaderLabels.Clear();
+
+            int cols = Properties.Count;
+            if (cols <= 0) return;
+
+            // redimensiona o vetor
+            HeaderLabels.Resize(cols);
 
             for (int i = 0; i < Properties.Count; i++)
             {
@@ -48,41 +59,45 @@ namespace NhegazCustomControls
                 {
                     Text = Properties[i].Name,
                     Font = Font,
-                    BackgroundColor = HeaderBackgroundColor        
+                    BackgroundColor = Header.BackgroundColor        
                 };
 
-                HeaderControls.Add(columnHeader);
-                HeaderLabels.Add(columnHeader);
+                HeaderLabels.AddItem(columnHeader, i);
             }
         }
-        public void CreateDataLabels()
+        private void CreateDataLabels()
         {
             if (DataSource == null || Properties == null) return;
 
             int rows = DataSource.Count;
             int cols = Properties.Count;
+            if (rows <= 0 || cols <= 0) return;
 
-            DataLabels = new InnerLabel[rows, cols];
+            // redimensiona a matriz (preserva o que couber)
+            DataLabels.Resize(rows, cols);
 
-            for (int rowIndex = 0; rowIndex < rows; rowIndex++)
+            for (int r = 0; r < rows; r++)
             {
-                for (int colIndex = 0; colIndex < cols; colIndex++)
+                for (int c = 0; c < cols; c++)
                 {
-                    object val = Properties[colIndex].GetValue(DataSource[rowIndex]) ?? "";
+                    object val = Properties[c].GetValue(DataSource[r]) ?? "";
                     string text = val.ToString();
 
-                    InnerLabel InnerLabel = new InnerLabel()
+                    var cell = new InnerLabel
                     {
                         SizeBasedOnText = false,
                         Text = text,
                         Font = Font,
                         ForeColor = ForeColor,
-                        BackgroundColor = DifferentColorsBetweenRows && rowIndex % 2 == 1 ? SecondaryBackgroundColor : BackgroundColor,
+                        BackgroundColor = (DifferentColorsBetweenRows && (r % 2 == 1))
+                                          ? SecondaryBackgroundColor
+                                          : BackgroundColor
                     };
-                    InnerLabel.Click += (s, e) => MessageBox.Show(InnerLabel.Text);
-                    InnerControls.Add(InnerLabel);
 
-                    DataLabels[rowIndex, colIndex] = InnerLabel;
+                    cell.Click += (s, e) => MessageBox.Show(cell.Text);
+
+                    // coloca no (r,c) e adiciona em InnerControls via MatrixFeature
+                    DataLabels.AddItem(cell, r, c);
                 }
             }
         }
@@ -105,64 +120,52 @@ namespace NhegazCustomControls
         {
             base.AdjustControlSize();
 
-            // Evita execucao se os dados ainda nao foram inicializados
-            if (DataLabels == null || HeaderLabels == null) return;
+            int rows = DataLabels.GetRowsLenght;
+            int cols = DataLabels.GetColsLenght;
+            if (rows <= 0 || cols <= 0) return;
 
-            // === Propriedades base extraidas do proprio controle ===
             int xPadding = HorizontalPadding;
             int yPadding = VerticalPadding;
             int borderWidth = BorderWidth;
 
-            int NumberOfRows = DataLabels.GetLength(0); // Linhas (dados)
-            int NumberOfColumns = DataLabels.GetLength(1); // Colunas (propriedades)       
-
             int lineBetweenCol = LinesBetweenColumns ? LinesWidth : 0;
             int lineBetweenRow = LinesBetweenRows ? LinesWidth : 0;
-            
-            //Armazena a largura de cada coluna (usado tanto para o cabecalho quanto para as celulas)
-            int[] columnWidth = new int[NumberOfColumns];
 
-            //Altura uniforme das celulas, baseada na altura da fonte + padding vertical
+            int[] columnWidth = new int[cols];
             int itemHeight = yPadding + NhegazSizeMethods.FontUnitSize(Font).Height;
 
-            // === 1. Ajuste do cabecalho ===
-            
-
+            // ---- Header (Vector) ----
             int totalHeaderWidth = 0;
             int headerX = borderWidth;
-            for (int col = 0 ; col < NumberOfColumns; col++)
-            {        
-                //Calcula a largura ideal da coluna com base no conteudo e padding horizontal
-                int width = ColumnWidth(ColumnWidthMode, HeaderLabels[col].Width, xPadding);
-                columnWidth[col] = width; totalHeaderWidth += width;
+            for (int c = 0; c < cols; c++)
+            {
+                var h = HeaderLabels.GetItem(c);
+                int width = ColumnWidth(ColumnWidthMode, h.Width, xPadding);
 
-                //Define posicao fixa na linha de cabecalho
-                int y = borderWidth;
+                columnWidth[c] = width;
+                totalHeaderWidth += width;
 
-                // Aplica tamanho e posicao ao elemento de cabecalho
-                AdjustVectorItemsSizes(col, width, itemHeight); //Ajusta o tamaho 
-                AdjustVectorItemsLocations(col, headerX, y); //Ajusta a posicao
-                
-                // Atualiza posicao horizontal acumulada para a proxima coluna
+                HeaderLabels.SetItemSize(c, width, itemHeight);
+                HeaderLabels.SetItemLocation(c, headerX, borderWidth);
+
                 headerX += width + lineBetweenCol;
             }
 
-            AdjustHeaderSize( totalHeaderWidth, itemHeight);
-            AdjustHeaderLocation(borderWidth, borderWidth);
+            Header.SetSize(totalHeaderWidth, itemHeight);
+            Header.SetLocation(borderWidth, borderWidth);
 
-            // === 2. Ajuste das celulas de dados ===
-            // Cada linha representa um registro da tabela
-            for (int row = 0; row < NumberOfRows; row++)
+            // ---- Células (Matrix) ----
+            for (int r = 0; r < rows; r++)
             {
                 int x = borderWidth;
-                int y = borderWidth + (row + 1) * (itemHeight + lineBetweenRow);
-                
-                for (int col = 0; col < NumberOfColumns; col++)
+                int y = borderWidth + (r + 1) * (itemHeight + lineBetweenRow);
+
+                for (int c = 0; c < cols; c++)
                 {
-                    int width = columnWidth[col];
-                    
-                    AdjustMatrixItemsSizes(row, col, width, itemHeight); //Ajusta o tamaho 
-                    AdjustMatrixItemsLocations(row, col, x, y); //Ajusta a posicao
+                    int width = columnWidth[c];
+
+                    DataLabels.SetItemSize(r, c, width, itemHeight);
+                    DataLabels.SetItemLocation(r, c, x, y);
 
                     x += width + lineBetweenCol;
                 }
@@ -171,32 +174,10 @@ namespace NhegazCustomControls
 
         protected override void AdjustInnerSizes()
         { }
-        protected override void AdjustVectorItemsSizes(int index, int itemWidth, int ItemHeight)
-        {
-            var label = HeaderLabels[index];
-            label.Width = itemWidth;
-            label.Height = ItemHeight;
-
-        }
-        protected override void AdjustMatrixItemsSizes(int row, int col, int itemWidth, int ItemHeight)
-        {
-            var label = DataLabels[row, col];
-            label.Width = itemWidth;
-            label.Height = ItemHeight;
-        }
 
         protected override void AdjustInnerLocations()
         { }
-        protected override void AdjustVectorItemsLocations(int index, int x, int y)
-        {
-            var label = HeaderLabels[index];
-            label.SetLocation(x, y);
-        }
-        protected override void AdjustMatrixItemsLocations(int row, int col, int x, int y)
-        {
-            var label = DataLabels[row, col];
-            label.SetLocation(x, y);
-        }
+
         public int ColumnWidth(ColumnWidthMode columnWidthMode, int headerWidth, int xPadding)
         {
             int columnWidth = 0;
@@ -213,35 +194,34 @@ namespace NhegazCustomControls
             return columnWidth;
         }
         protected override void OnPaint(PaintEventArgs e)
-        {            
-            base.OnPaint(e);           
-            
-            if (DataLabels == null || HeaderLabels == null)
-                return;
+        {
+            base.OnPaint(e);
 
-            if (LinesBetweenColumns)
+            int rows = DataLabels.GetRowsLenght;
+            int cols = DataLabels.GetColsLenght;
+            if (rows <= 0 || cols <= 0) return;
+
+            if (LinesBetweenColumns && cols > 1)
             {
-                int col = HeaderLabels.Count - 1;
-                Pen pen = new(BorderColor, LinesWidth);
-                for (int i = 0; i < col; i++)
+                using var pen = new Pen(BorderColor, LinesWidth);
+                for (int c = 0; c < cols - 1; c++)
                 {
-                    int locX = HeaderLabels[i].Location.X + HeaderLabels[i].Width;
-                    e.Graphics.DrawLine(pen, new Point(locX, BorderWidth), new Point(locX, Bottom - BorderWidth));
+                    var h = HeaderLabels.GetItem(c);
+                    int x = h.Location.X + h.Width;
+                    e.Graphics.DrawLine(pen, new Point(x, BorderWidth), new Point(x, Bottom - BorderWidth));
                 }
             }
 
-            if (LinesBetweenRows) 
+            if (LinesBetweenRows && rows > 0)
             {
-                int row = DataLabels.GetLength(0);
-                Pen pen = new(BorderColor, LinesWidth);
-                for (int i = 0; i < row; i++)
+                using var pen = new Pen(BorderColor, LinesWidth);
+                for (int r = 0; r < rows; r++)
                 {
-                    int locY = DataLabels[i, 0].Location.Y;// + DataLabels[i,0].Height;
-                    e.Graphics.DrawLine(pen, new Point(BorderWidth, locY), new Point(Right, locY));
+                    var firstCell = DataLabels.GetItem(r, 0);
+                    int y = firstCell.Location.Y;
+                    e.Graphics.DrawLine(pen, new Point(BorderWidth, y), new Point(Right, y));
                 }
             }
-
-            
         }
 
     }

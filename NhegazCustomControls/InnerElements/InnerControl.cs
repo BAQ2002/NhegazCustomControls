@@ -12,7 +12,7 @@ namespace NhegazCustomControls
         private Rectangle bounds = new(0, 0, 0, 0);
         private BackGroundShape backGroundShape = BackGroundShape.FitRectangle;
         public bool Visible { get; set; } = true;
-        public bool IsHoverable { get; set; } = true;
+        public bool AbleToHover { get; set; } = true;
         public virtual Font Font { get; set; } = SystemFonts.DefaultFont;
         public Color ForeColor { get; set; } = SystemColors.ControlText;
         public Color HoverForeColor { get; set; } = SystemColors.Window;
@@ -24,7 +24,7 @@ namespace NhegazCustomControls
         public Size Size
         {
             get => bounds.Size;
-            set { bounds.Size = value; }
+            set { bounds.Size = value;  }
         }
 
         public Point Location
@@ -56,7 +56,7 @@ namespace NhegazCustomControls
         {
             Padding = new(this);
         }
-        private bool isHovering = false; public bool IsHovering => IsHoverable? isHovering : false;
+        private bool isHovering = false; public bool IsHovering => AbleToHover? isHovering : false;
 
         public event EventHandler? Click;
         public event EventHandler? DoubleClick;
@@ -85,7 +85,7 @@ namespace NhegazCustomControls
         }
         public virtual void OnMouseEnter()
         {
-            if (!IsHoverable || isHovering) return;
+            if (!AbleToHover || isHovering) return;
 
             isHovering = true;
             MouseEnter?.Invoke(this, EventArgs.Empty);
@@ -93,7 +93,7 @@ namespace NhegazCustomControls
         }
         public virtual void OnMouseLeave()
         {
-            if (!IsHoverable || !isHovering) return;
+            if (!AbleToHover || !isHovering) return;
 
             isHovering = false;
             MouseLeave?.Invoke(this, EventArgs.Empty);
@@ -106,13 +106,7 @@ namespace NhegazCustomControls
                 SymmetricalCircleAdjust();
             }
         }
-
-        //public virtual void SetColor(Color backgroundColor, Color foreColor) 
-        //{
-        //   BackgroundColor = backgroundColor;  
-        //    ForeColor = foreColor;
-        //}
-
+ 
         /// <summary>
         /// Metodo responsavel por realizar ajustes para BackgroundShape.SymmetricalCircle
         /// </summary>
@@ -132,7 +126,11 @@ namespace NhegazCustomControls
         {
             Location = new Point(x, y);
         }
-
+        public virtual void SetSize(int width, int height)
+        {
+            Width = width; 
+            Height = height;
+        }
         public virtual void OnPaint(CustomControl parent, PaintEventArgs e)
         {
             if (!Visible) return;

@@ -17,7 +17,6 @@ namespace NhegazCustomControls
                 get => day;
                 set { day = value; Text = day.ToString(); }
             }
-            public bool IsCurrentMonth { get; set; }
             public int Year { get; set; }
             public int Month { get; set; }
             public DayItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
@@ -25,7 +24,9 @@ namespace NhegazCustomControls
         }
         MatrixFeature IHasMatrix.Matrix => DayItems;
         public MatrixFeature DayItems { get; private set; }
-        
+        VectorFeature IHasVector.Vector => WeekDays;
+        public VectorFeature WeekDays { get; private set; }
+
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Category("Cabeçalho")]
@@ -45,8 +46,6 @@ namespace NhegazCustomControls
 
         //private DayItemLabel[,] DayItems;//Matriz composta pelos Labels de dias.
         public DayOfWeek StartOfWeek { get; set; } = DayOfWeek.Sunday; //Início da semana configurável; padrão Brasil: Domingo
-
-        private InnerLabel[] WeekDayLabels; //Vetor que Armazena os Labels de dias da semana.
 
         private string[] MonthTexts =  {"null", "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
                                          "Julho", "Agosto", "Setembro", "Outubro", "Novembro","Dezembro" };

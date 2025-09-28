@@ -41,8 +41,8 @@ namespace NhegazCustomControls
 
                     if (row == 0)
                     {
-                        AdjustVectorItemsSizes(col, itemUniformSize, itemUniformSize);
-                        AdjustVectorItemsLocations(col, x, weekDayY);
+                        WeekDays.SetItemSize(col, itemUniformSize, itemUniformSize);
+                        WeekDays.SetItemLocation(col, x, weekDayY);
                     }
 
                     DayItems.SetItemSize(row, col, itemUniformSize, itemUniformSize);
@@ -61,25 +61,12 @@ namespace NhegazCustomControls
             ForwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
 
         }
-        protected override void AdjustVectorItemsSizes(int index, int itemWidth, int ItemHeight)
-        {
-            var label = WeekDayLabels[index];
-            label.Width = itemWidth;
-            label.Height = ItemHeight;
-        }
-
-
         protected override void AdjustInnerLocations()
         {
             int pos = Header.Y + (Header.Height - NhegazSizeMethods.FontUnitSize(Font).Height)/2;
             BackwardIcon.SetLocation(HorizontalPadding, VerticalPadding);
             ForwardIcon.SetLocation(Width - (ForwardIcon.Width + HorizontalPadding), VerticalPadding);
             MonthLabel.SetLocation((Width - MonthLabel.Width) / 2, pos);
-        }
-        protected override void AdjustVectorItemsLocations(int index, int x, int y)
-        {
-            var label = WeekDayLabels[index];
-            label.SetLocation(x, y);
         }
     }
 }

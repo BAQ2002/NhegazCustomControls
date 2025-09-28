@@ -3,12 +3,6 @@ using System.Drawing.Drawing2D;
 
 namespace NhegazCustomControls
 {
-    public interface IMatrixAdjustable
-    {
-        void AdjustInnerSize(int row, int col, int itemWidth, int itemHeight);
-        void AdjustInnerLocation(int row, int col, int x, int y);
-    }
-
     public interface IHasHeader
     {
         HeaderFeature Header { get; set; }
@@ -25,10 +19,13 @@ namespace NhegazCustomControls
     {
         MatrixFeature Matrix { get; }
     }
-    public interface ILinearAdjustable
+
+    /// <summary>
+    /// Define que esse CustomControl deve implementar um VectorFeature
+    /// </summary>
+    public interface IHasVector
     {
-        void AdjustInnerSize(int index, int itemWidth, int itemHeight);
-        void AdjustInnerLocation(int index, int x, int y);
+        VectorFeature Vector { get; }     
     }
     public abstract partial class CustomControl : UserControl
     {              
@@ -111,9 +108,9 @@ namespace NhegazCustomControls
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
-            InnerControls.HandleClick(this, e.Location); // detecta clique virtual
+            InnerControls.HandleClick(this, e.Location); 
             var headerFeature = (this as IHasHeader)?.Header;
-            headerFeature?.HandleMouseClick(e.Location);
+            headerFeature?.HandleClick(e.Location);
         }
 
         /// <summary>
@@ -125,7 +122,7 @@ namespace NhegazCustomControls
             base.OnMouseDoubleClick(e);
             InnerControls.HandleDoubleClick(this, e.Location); 
             var headerFeature = (this as IHasHeader)?.Header;
-            headerFeature?.HandleMouseDoubleClick(e.Location);
+            headerFeature?.HandleDoubleClick(e.Location);
         }
 
         /// <summary>
@@ -220,19 +217,19 @@ namespace NhegazCustomControls
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Color paintBorderColor = OnFocus ? OnFocusBorderColor : BorderColor;
+            Color BorderColor = OnFocus ? OnFocusBorderColor : this.BorderColor;
             int borderWidth = OnFocus ? BorderWidth + OnFocusBorderExtraWidth : BorderWidth;
 
             using (GraphicsPath borderPath = NhegazDrawingMethods.ControlBorderPath(new Rectangle(Location, Size), BorderRadius, borderWidth))
             {              
                 if (borderWidth > 1)
                 {                   
-                    using (SolidBrush borderBrush = new SolidBrush(paintBorderColor))
+                    using (SolidBrush borderBrush = new SolidBrush(BorderColor))
                     {
                         e.Graphics.FillPath(borderBrush, borderPath);
                     }
                 }
-                e.Graphics.DrawPath(new Pen(paintBorderColor, 1f), borderPath);
+                e.Graphics.DrawPath(new Pen(BorderColor, 1f), borderPath);
             }
         }
         protected override void OnPaint(PaintEventArgs e)

@@ -10,9 +10,6 @@
     <Compile Update="NhegazCustomControls\BasesCustomControl\CustomControl.Properties.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\BasesCustomControl\CustomControlWithHeader\CustomControlWithHeader.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="NhegazCustomControls\CustomComboBox\CustomComboBox.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>

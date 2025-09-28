@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
@@ -10,8 +11,15 @@ namespace NhegazCustomControls
         private InnerControl?[,] itemsMatrix;
 
         public InnerControl?[,] ItemsMatrix => itemsMatrix;
-        public int Rows => itemsMatrix.GetLength(0);
-        public int Cols => itemsMatrix.GetLength(1);
+        public int GetRowsLenght => itemsMatrix.GetLength(0);
+        public int GetColsLenght => itemsMatrix.GetLength(1);
+
+        /// <summary>
+        /// Retorna true se o controle estiver em tempo de design (Designer do VS),
+        /// com base em LicenseManager.UsageMode e Site?.DesignMode.
+        /// </summary>
+        private bool InDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime
+                                     || (ownerControl?.Site?.DesignMode ?? false);
 
         public MatrixFeature(CustomControl owner, int rows, int cols)
         {
@@ -39,8 +47,8 @@ namespace NhegazCustomControls
             if (newRows <= 0 || newCols <= 0) throw new ArgumentOutOfRangeException();
 
             var newMatrix = new InnerControl?[newRows, newCols];
-            int rowsToCopy = Math.Min(Rows, newRows);
-            int colsToCopy = Math.Min(Cols, newCols);
+            int rowsToCopy = Math.Min(GetRowsLenght, newRows);
+            int colsToCopy = Math.Min(GetColsLenght, newCols);
 
             for (int r = 0; r < rowsToCopy; r++)
                 for (int c = 0; c < colsToCopy; c++)
@@ -77,8 +85,8 @@ namespace NhegazCustomControls
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         private void EnsureInside(int row, int col)
         {
-            if (row < 0 || col < 0 || row >= Rows || col >= Cols)
-                throw new ArgumentOutOfRangeException($"Índices [{row},{col}] fora dos limites ({Rows}x{Cols}).");
+            if (row < 0 || col < 0 || row >= GetRowsLenght || col >= GetColsLenght)
+                throw new ArgumentOutOfRangeException($"Índices [{row},{col}] fora dos limites ({GetRowsLenght}x{GetColsLenght}).");
         }
 
         /// <summary>
@@ -89,8 +97,30 @@ namespace NhegazCustomControls
         public InnerControl GetItem(int row, int col)
         {
             EnsureInside(row, col);
-            return itemsMatrix[row, col]
-                ?? throw new InvalidOperationException($"Célula [{row},{col}] ainda não foi preenchida.");
+            var item = itemsMatrix[row, col];
+            if (item != null) return item;
+
+            if (InDesignMode)
+            {
+                return AddPlaceholderItem(row, col);
+            }
+
+            throw new InvalidOperationException($"Célula [{row},{col}] ainda não foi preenchida.");
+        }
+
+        /// <summary> InnerControl "dummy" utilizado em Design-time </summary>
+        public InnerControl AddPlaceholderItem(int row, int col)
+        {
+            InnerLabel item = new()
+            {
+                Text = " ",
+                Font = ownerControl.Font,
+                BackgroundColor = ownerControl.BackgroundColor,
+                ForeColor = ownerControl.ForeColor
+            };
+            itemsMatrix[row, col] = item;
+            ownerControl.InnerControls.Add(item);
+            return item;
         }
     }
 }

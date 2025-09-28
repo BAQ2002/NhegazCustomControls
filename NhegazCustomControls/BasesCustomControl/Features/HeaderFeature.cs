@@ -13,8 +13,7 @@ namespace NhegazCustomControls
     public class HeaderFeature
     {
         private readonly CustomControl ownerControl;
-
-        private HeaderHeightMode heightMode = HeaderHeightMode.Absolute;
+        
         private float heightRelativePercent = 1;
         private int borderRadius = 1;
 
@@ -25,6 +24,7 @@ namespace NhegazCustomControls
         private Color hoverForeColor = SystemColors.ControlText;
 
         private Rectangle bounds = new Rectangle(0, 0, 0, 0);
+        private HeaderHeightMode heightMode = HeaderHeightMode.Absolute;
 
         /// <summary>
         /// Define como será definida a altura do cabeçalho.
@@ -79,7 +79,7 @@ namespace NhegazCustomControls
             }
         }
 
-        [Category("DropDowns")]
+        [Category("Cabeçalho")]
         [Browsable(true)]
         public virtual Color HoverBackgroundColor
         {
@@ -88,7 +88,7 @@ namespace NhegazCustomControls
 
         }
 
-        [Category("DropDowns")]
+        [Category("Cabeçalho")]
         [Browsable(true)]
         public virtual Color HoverForeColor
         {
@@ -177,11 +177,14 @@ namespace NhegazCustomControls
             {
                 innerControl.BackgroundColor = BackgroundColor;
                 innerControl.ForeColor = ForeColor;
+
+                innerControl.HoverBackgroundColor = HoverBackgroundColor;
+                innerControl.HoverForeColor = HoverForeColor;
             }
             ownerControl.Invalidate();
         }
-        public bool HandleMouseClick(Point p) => Controls.HandleClick(ownerControl, p);
-        public bool HandleMouseDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
+        public bool HandleClick(Point p) => Controls.HandleClick(ownerControl, p);
+        public bool HandleDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
         public void HandleMouseMove(Point p) => Controls.HandleMouseMove(ownerControl, p);
         public bool HandleGotFocus(Point p) => Controls.HandleGotFocus(ownerControl, p);
         public bool HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);
