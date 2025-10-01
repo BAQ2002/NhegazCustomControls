@@ -116,7 +116,7 @@ namespace NhegazCustomControls
         /// Cada coluna pode ter largura diferente, por isso acumuladores de posicao `headerX` e `cellX`
         /// sao usados para garantir espaco e alinhamento corretos entre colunas.
         /// </remarks>
-        protected override void AdjustControlSize()
+        public override void AdjustControlSize()
         {
             base.AdjustControlSize();
 
@@ -124,8 +124,7 @@ namespace NhegazCustomControls
             int cols = DataLabels.GetColsLenght;
             if (rows <= 0 || cols <= 0) return;
 
-            int xPadding = HorizontalPadding;
-            int yPadding = VerticalPadding;
+            int yPadding = InnerVerticalPadding;
             int borderWidth = BorderWidth;
 
             int lineBetweenCol = LinesBetweenColumns ? LinesWidth : 0;
@@ -140,7 +139,7 @@ namespace NhegazCustomControls
             for (int c = 0; c < cols; c++)
             {
                 var h = HeaderLabels.GetItem(c);
-                int width = ColumnWidth(ColumnWidthMode, h.Width, xPadding);
+                int width = ColumnWidth(ColumnWidthMode, h.Width, InnerHorizontalPadding);
 
                 columnWidth[c] = width;
                 totalHeaderWidth += width;
@@ -178,6 +177,9 @@ namespace NhegazCustomControls
         protected override void AdjustInnerLocations()
         { }
 
+        /// <summary>
+        /// Com 
+        /// </summary>
         public int ColumnWidth(ColumnWidthMode columnWidthMode, int headerWidth, int xPadding)
         {
             int columnWidth = 0;

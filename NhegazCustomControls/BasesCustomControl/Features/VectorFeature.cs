@@ -66,14 +66,24 @@ namespace NhegazCustomControls
             var item = GetItem(index);
             item.SetSize(itemWidth, itemHeight);
         }
-
+        /// <summary>Define largura/altura de um item.</summary>
+        public void SetItemSize(int index, Size itemSize)
+        {
+            var item = GetItem(index);
+            item.SetSize(itemSize);
+        }
         /// <summary>Define posição de um item.</summary>
         public void SetItemLocation(int index, int x, int y)
         {
             var item = GetItem(index);
             item.SetLocation(x, y);
         }
-
+        /// <summary>Define posição de um item.</summary>
+        public void SetItemLocation(int index, Point itemLocation)
+        {
+            var item = GetItem(index);
+            item.SetLocation(itemLocation);
+        }
         /// <summary>Itera com índice (útil para operações em lote).</summary>
         public void ForEach(Action<int, InnerControl> action)
         {

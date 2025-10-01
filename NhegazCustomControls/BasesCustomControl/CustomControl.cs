@@ -35,6 +35,7 @@ namespace NhegazCustomControls
             DoubleBuffered = true;
             BackColor = Color.Transparent;
             InnerControls = new InnerControls(this);
+            ControlPadding = new CustomControlPadding(this);
         }
 
         // ctor opcional: recebe um pai e copia estilo
@@ -46,6 +47,7 @@ namespace NhegazCustomControls
             DoubleBuffered = true;
             BackColor = Color.Transparent;
             InnerControls = new InnerControls(this);
+            ControlPadding = new CustomControlPadding(this);
 
             CopyVisualFrom(parent);
         }
@@ -54,7 +56,7 @@ namespace NhegazCustomControls
         /// Copia propriedades visuais compartilhadas do controle <paramref name="parentControl"/>.
         /// Chame este método somente quando fizer sentido (ex.: drop-downs).
         /// </summary>
-        protected virtual void CopyVisualFrom(CustomControl parentControl)
+        protected virtual void CopyVisualFrom(CustomControl parentControl, bool? copyWidth = false, bool? copyHeight = false)
         {
             if (parentControl is null)
                 throw new ArgumentNullException(nameof(parentControl));
@@ -62,14 +64,36 @@ namespace NhegazCustomControls
             // --- Visuals "core" compartilhados ---
             BorderRadius = parentControl.BorderRadius;
             BorderWidth = parentControl.BorderWidth;
+
             BorderColor = parentControl.BorderColor;
             BackgroundColor = parentControl.BackgroundColor;
+
+            HoverBackgroundColor = parentControl.HoverBackgroundColor;
+            HoverForeColor = parentControl.HoverForeColor;
+
             ForeColor = parentControl.ForeColor;
             Font = parentControl.Font;
-            HorizontalPadding = parentControl.HorizontalPadding;
-            VerticalPadding = parentControl.VerticalPadding;
-            Width = parentControl.Width;
 
+            ControlPadding.Mode = parentControl.ControlPadding.Mode;
+            // Se quiser copiar percentuais:
+            ControlPadding.RelativePercentInnerHorizontal = parentControl.ControlPadding.RelativePercentInnerHorizontal;
+            ControlPadding.RelativePercentInnerVertical = parentControl.ControlPadding.RelativePercentInnerVertical;
+            ControlPadding.RelativePercentBorderLeft = parentControl.ControlPadding.RelativePercentBorderLeft;
+            ControlPadding.RelativePercentBorderTop = parentControl.ControlPadding.RelativePercentBorderTop;
+            ControlPadding.RelativePercentBorderRight = parentControl.ControlPadding.RelativePercentBorderRight;
+            ControlPadding.RelativePercentBorderBottom = parentControl.ControlPadding.RelativePercentBorderBottom;
+
+            ControlPadding.BorderTop = parentControl.ControlPadding.BorderTop;
+            ControlPadding.BorderLeft = parentControl.ControlPadding.BorderLeft;
+            ControlPadding.BorderRight = parentControl.ControlPadding.BorderRight;
+            ControlPadding.BorderBottom = parentControl.ControlPadding.BorderBottom;
+            ControlPadding.InnerHorizontal = parentControl.ControlPadding.InnerHorizontal;
+            ControlPadding.InnerVertical = parentControl.ControlPadding.InnerVertical;
+
+            if (copyWidth == true)
+                Width = parentControl.Width;
+            if (copyHeight == true)
+                Height = parentControl.Height;
 
             // Se o destino não implementa cabeçalho, não há o que fazer
             if (this is not IHasHeader destinationControl)

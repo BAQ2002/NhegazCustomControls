@@ -8,6 +8,10 @@ namespace NhegazCustomControls
 {
     public partial class CustomDatePicker : CustomControl
     {
+        public override void AdjustControlSize()
+        {
+            AdjustInnerSizes();  AdjustInnerLocations();
+        }
         protected override void AdjustInnerSizes()
         {
             selectedDay.Width = NhegazSizeMethods.TextExactSize("00", Font).Width;
@@ -27,29 +31,38 @@ namespace NhegazCustomControls
         }
         protected override void AdjustInnerLocations()
         {
-            selectedDay.Location = new Point(HorizontalPadding, VerticalPadding);
-            dayDropDownIcon.Location = new Point(selectedDay.Location.X + selectedDay.Width, VerticalPadding);
+            selectedDay.Location = new Point(RelativeLeftX(), RelativeCenterY(selectedDay.Height));
+            dayDropDownIcon.SetLocation(selectedDay.Location.X + selectedDay.Width, RelativeCenterY(dayDropDownIcon));
 
-            daySlashMonth.Location = new Point(dayDropDownIcon.Location.X + dayDropDownIcon.Width, VerticalPadding);
+            daySlashMonth.SetLocation(dayDropDownIcon.Right, RelativeCenterY(daySlashMonth));
 
-            selectedMonth.Location = new Point(daySlashMonth.Location.X + daySlashMonth.Width, VerticalPadding);
-            monthDropDownIcon.Location = new Point(selectedMonth.Location.X + selectedMonth.Width, VerticalPadding);
+            selectedMonth.Location = new Point(daySlashMonth.Right, RelativeCenterY(selectedMonth.Height));
+            monthDropDownIcon.SetLocation(selectedMonth.Location.X + selectedMonth.Width, RelativeCenterY(monthDropDownIcon));
 
-            monthSlashYear.Location = new Point(monthDropDownIcon.Location.X + monthDropDownIcon.Width, VerticalPadding);
+            monthSlashYear.SetLocation(monthDropDownIcon.Right, RelativeCenterY(monthDropDownIcon));
 
-            selectedYear.Location = new Point(monthSlashYear.Location.X + monthSlashYear.Width, VerticalPadding);
-            yearDropDownIcon.Location = new Point(selectedYear.Location.X + selectedYear.Width, VerticalPadding);
+            selectedYear.Location = new Point(monthSlashYear.Right, RelativeCenterY(selectedYear.Height));
+            yearDropDownIcon.SetLocation(selectedYear.Location.X + selectedYear.Width, RelativeCenterY(yearDropDownIcon));
         }
-
 
         protected override void SetMinimumSize()
         {
-            base.SetMinimumSize();
-            int X = yearDropDownIcon.Location.X + yearDropDownIcon.Width + VerticalPadding;
-            int Y = (VerticalPadding * 2) + yearDropDownIcon.Height;
-            MinimumSize = new Size(X, Y);
-        }
+            int innerControlsWidth = 0;
+            foreach (InnerControl ic in InnerControls.GetAll) 
+                innerControlsWidth += ic.Width;
 
+            int innerControlsHeight = 0;
+            foreach (InnerControl ic in InnerControls.GetAll) 
+                if (innerControlsWidth < ic.Height) innerControlsWidth = ic.Height;
+
+            int paddingWidth = BorderHorizontalBoundsSum + InnerHorizontalPadding;
+            int paddingHeight = BorderVerticalBoundsSum;
+
+            int minimumWidth = innerControlsWidth + paddingWidth;
+            int minimumHeight = innerControlsHeight + paddingHeight;
+
+            MinimumSize = new Size(minimumWidth, minimumHeight);
+        }
 
     }
 }

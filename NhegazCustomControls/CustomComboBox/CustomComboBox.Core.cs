@@ -26,6 +26,7 @@ namespace NhegazCustomControls
         }
 
         
+        
         //dropDownIcon.SetHoverColors(BackgroundColor, HeaderBackgroundColor);
         private void ToggleDropDown()
         {
@@ -37,7 +38,7 @@ namespace NhegazCustomControls
             }
             else
             {
-                dropDownInstance = new DropDownInstance(this);
+                dropDownInstance = new ComboBoxDropDown(this);
                 Form parentForm = this.FindForm();
                 if (parentForm == null)
                 {
@@ -99,107 +100,5 @@ namespace NhegazCustomControls
             AdjustInnerLocations();
             Invalidate();
         }     
-    }
-    
-    public class DropDownInstance : CustomControl
-    {
-        private CustomComboBox ParentComboBox;
-        private List<InnerLabel> innerLabels = new List<InnerLabel>();
-        public DropDownInstance(CustomComboBox customComboBox)
-        {
-            ParentComboBox = customComboBox;
-            BorderRadius = customComboBox.BorderRadius;
-            BorderWidth = customComboBox.BorderWidth;
-            BorderColor = customComboBox.BorderColor;
-            BackgroundColor = customComboBox.BackgroundColor;
-            Width = customComboBox.Width;
-            HorizontalPadding = customComboBox.HorizontalPadding;
-            VerticalPadding = customComboBox.VerticalPadding;
-            MinimumSize = new Size(5, 5);
-            DoubleBuffered = true;
-            BackColor = Color.Transparent;
-            ForeColor = customComboBox.ForeColor;
-            TabStop = true;
-            Font = customComboBox.Font;
-            CreateOptionsLabels();
-            AdjustControlSize();
-        }
-
-        private void CreateOptionsLabels()
-        {
-            if (ParentComboBox.ItemList == null || ParentComboBox.ItemList.Count == 0) return;
-
-            for (int i = 0; i < ParentComboBox.ItemList.Count; i++) //Cria uma Label para cada item do ItemList
-            {
-                string labelText = ParentComboBox.ItemList[i];
-
-                InnerLabel InnerLabel = new InnerLabel
-                {
-                    Text = labelText,
-                    Font = Font,
-                    ForeColor = ForeColor,
-                    BackgroundColor = BackgroundColor                 
-                };
-                InnerLabel.MouseEnter += (s, e) =>
-                {
-                    InnerLabel.ForeColor = BackgroundColor;
-                    InnerLabel.BackgroundColor = OnFocusBorderColor;
-                    Invalidate();
-                };
-                InnerLabel.MouseLeave += (s, e) =>
-                {
-                    InnerLabel.ForeColor = ForeColor;
-                    InnerLabel.BackgroundColor = BackgroundColor;
-                    Invalidate();
-                };
-
-                InnerLabel.Click += (s, e) => OnLabelClick(InnerLabel.Text);
-
-                this.InnerControls.Add(InnerLabel);
-                innerLabels.Add(InnerLabel);
-            }
-
-        }
-        //Método para ajuste automatizado do tamanho do elemento
-        protected override void AdjustControlSize()
-        {
-           
-            base.AdjustControlSize();
-            
-            if (ParentComboBox.ItemList == null || ParentComboBox.ItemList.Count == 0) return;
-            
-            int count = innerLabels.Count;
-            int currentY = 0;
-            for (int i = 0; i < count; i++) 
-            {
-                var lbl = innerLabels[i];
-                lbl.Location = new Point(BorderWidth, currentY);
-                lbl.Height = lbl.Height + VerticalPadding;
-                lbl.Width = Width;
-                lbl.HorizontalPaddingMode = HorizontalPaddingMode.Absolute;
-                lbl.Padding.Left = HorizontalPadding;
-
-                currentY += lbl.Height; 
-                
-            }
-            Height = count * innerLabels[0].Height;
-        }
-
-        //Método para: ao clicar em uma das Opções, transfere a opção selecionada para o ComboBox
-        private void OnLabelClick(string labelText)
-        {
-            if (ParentComboBox != null)
-            {
-                ParentComboBox.SelectIndexText = labelText; // Atualiza a opção selecionada
-                ParentComboBox.OnFocus = false;
-            }
-            Parent?.Controls.Remove(this); // Fecha o dropdown após a seleção
-        }
-        
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-        }
-    }
+    }  
 }

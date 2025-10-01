@@ -1,22 +1,48 @@
 ﻿namespace NhegazCustomControls
 {
     public partial class CustomComboBox
-    {
+    {       
+        private int GetItemsMaxTextPixelWidth()
+        {
+            if (ItemList == null || ItemList.Count == 0)
+                return 0;
+
+            int maxWidth = 0;
+            foreach (string? @string in ItemList)
+            {
+                var text = @string ?? string.Empty;
+                int width = NhegazSizeMethods.TextExactSize(text, Font).Width; // mede em px
+                if (width > maxWidth) maxWidth = width;
+            }
+
+            return maxWidth;
+        }
         protected override void AdjustInnerSizes()
         {
-            dropDownIcon.BackGroundShape = BackGroundShape.SymmetricCircle;
-            dropDownIcon.Height = Font.Height;
+            selectIndex.SetSize(GetItemsMaxTextPixelWidth(), selectIndex.Height);
+            dropDownIcon.SetSize(Font.Height, Font.Height);
         }
+
         protected override void AdjustInnerLocations()
         {
-            int selectIndexX = BorderWidth + HorizontalPadding;
-            int selectIndexY = (Height - selectIndex.Height) / 2;
-            selectIndex.Location = new Point(selectIndexX, selectIndexY);
-
-            int dropDownIconX = Width - (dropDownIcon.Width + HorizontalPadding + BorderWidth);
-            int dropDownIconY = (Height - dropDownIcon.Height) / 2;
-            dropDownIcon.Location = new Point(dropDownIconX, dropDownIconY);
+            selectIndex.SetLocation(RelativeLeftX(), RelativeCenterY(selectIndex));
+            dropDownIcon.SetLocation(RelativeRightX(dropDownIcon), RelativeCenterY(dropDownIcon));
         }
+
+        protected override void SetMinimumSize()
+        {
+            int innerControlsWidth = selectIndex.Width + dropDownIcon.Width;
+            int innerControlsHeigth = Math.Max(selectIndex.Height, dropDownIcon.Height);
+
+            int paddingWidth = BorderHorizontalBoundsSum + InnerHorizontalPadding;
+            int paddingHeight = BorderVerticalBoundsSum;
+
+            int minimumWidth = innerControlsWidth + paddingWidth;
+            int minimumHeight = innerControlsHeigth + paddingHeight;
+
+            MinimumSize = new Size(minimumWidth, minimumHeight);
+        }
+
         protected override void AdjustHoverColors()
         {
             dropDownIcon.MouseEnter += (s, e) =>

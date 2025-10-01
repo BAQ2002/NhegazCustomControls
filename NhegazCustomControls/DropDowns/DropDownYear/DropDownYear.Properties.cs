@@ -24,14 +24,14 @@ namespace NhegazCustomControls
             { }
         }
         public HeaderFeature Header { get; set; }
+        MatrixFeature IHasMatrix.Matrix => YearItems;
+        public MatrixFeature YearItems { get; private set; }
 
         protected CustomControl parentControl;
 
         private InnerLabel DecadeLabel = new();
         private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle);
-        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
-        private YearItemLabel[,] YearItemsLabels;
-        
+        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);  
 
         private int CurrentDecade;
         private int DecadeLastYear;

@@ -37,6 +37,15 @@
     <Compile Update="NhegazCustomControls\CustomDatePicker\CustomDatePicker.Properties.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\ComboBoxDropDown\ComboBoxDropDown.Core.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\ComboBoxDropDown\ComboBoxDropDown.Layout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\DropDowns\ComboBoxDropDown\ComboBoxDropDown.Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="NhegazCustomControls\DropDowns\DropDownBase.cs">
       <SubType>UserControl</SubType>
     </Compile>

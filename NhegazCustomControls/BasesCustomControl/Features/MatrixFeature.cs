@@ -8,6 +8,7 @@ namespace NhegazCustomControls
     public class MatrixFeature
     {
         private readonly CustomControl ownerControl;
+        private readonly InnerControls target;
         private InnerControl?[,] itemsMatrix;
 
         public InnerControl?[,] ItemsMatrix => itemsMatrix;
@@ -21,11 +22,12 @@ namespace NhegazCustomControls
         private bool InDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime
                                      || (ownerControl?.Site?.DesignMode ?? false);
 
-        public MatrixFeature(CustomControl owner, int rows, int cols)
+        public MatrixFeature(CustomControl owner, int rows, int cols, InnerControls? targetCollection = null)
         {
             ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));
             if (rows <= 0 || cols <= 0) throw new ArgumentOutOfRangeException("rows/cols devem ser > 0.");
             itemsMatrix = new InnerControl?[rows, cols];
+            target = targetCollection ?? owner.InnerControls; // se não informado, mantém comportamento atual
         }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace NhegazCustomControls
         {
             EnsureInside(row, col); //Valida índices do parametro
             itemsMatrix[row, col] = innerControl;
-            ownerControl.InnerControls.Add(innerControl);
+            target.Add(innerControl);
         }
 
         /// <summary>
@@ -73,10 +75,22 @@ namespace NhegazCustomControls
             item.Height = itemHeight;
         }
 
+        public void SetItemSize(int row, int col, Size itemSize)
+        {
+            var item = GetItem(row, col);
+            item.Width = itemSize.Width;
+            item.Height = itemSize.Height;
+        }
+
         public void SetItemLocation(int row, int col, int x, int y)
         {
             var item = GetItem(row, col);
             item.SetLocation(x, y);
+        }
+        public void SetItemLocation(int row, int col, Point itemLocation)
+        {
+            var item = GetItem(row, col);
+            item.SetLocation(itemLocation);
         }
 
         /// <summary>
@@ -119,7 +133,7 @@ namespace NhegazCustomControls
                 ForeColor = ownerControl.ForeColor
             };
             itemsMatrix[row, col] = item;
-            ownerControl.InnerControls.Add(item);
+            target.Add(item);
             return item;
         }
     }

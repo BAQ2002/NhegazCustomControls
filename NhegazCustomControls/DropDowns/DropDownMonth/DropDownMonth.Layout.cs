@@ -8,15 +8,15 @@ namespace NhegazCustomControls
 {
     public partial class DropDownMonth
     {
-        protected override void AdjustControlSize()
+        public override void AdjustControlSize()
         {
             Controls.Clear();
 
             if (MonthList == null || MonthList.Length == 0 || NumberOfColumns <= 0)
                 return;
 
-            int xPadding = HorizontalPadding;
-            int yPadding = VerticalPadding;
+            int xPadding = InnerHorizontalPadding;
+            int yPadding = InnerVerticalPadding;
 
             int itemUniformSize = NhegazSizeMethods.TextProportionalSize("0000", Font, 1.3f).Width;
 
@@ -29,8 +29,8 @@ namespace NhegazCustomControls
         }
         protected override void AdjustInnerLocations()
         {
-            int xPadding = HorizontalPadding;
-            int yPadding = VerticalPadding;
+            int xPadding = InnerHorizontalPadding;
+            int yPadding = InnerVerticalPadding;
             int itemUniformSize = NhegazSizeMethods.TextProportionalSize("0000", Font, 1.3f).Width;
 
             for (int row = 0; row < NumberOfRows; row++)

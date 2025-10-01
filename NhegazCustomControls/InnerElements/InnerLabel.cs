@@ -102,7 +102,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Retorna o valor do Padding Left|Right a partir de HorizontalPaddingMode.
+        /// Retorna o valor do ControlPadding Left|Right a partir de HorizontalPaddingMode.
         /// </summary>
         /// <returns></returns>
         private int GetHorizontalPadding()
@@ -119,7 +119,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Retorna o valor do Padding borderTop|Bottom a partir de VerticalPaddingMode.
+        /// Retorna o valor do ControlPadding borderTop|Bottom a partir de VerticalPaddingMode.
         /// </summary>
         /// <returns></returns>
         private int GetVerticalPadding()

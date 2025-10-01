@@ -126,10 +126,20 @@ namespace NhegazCustomControls
         {
             Location = new Point(x, y);
         }
+        public virtual void SetLocation(Point location)
+        {
+            Location = new Point(location.X, location.Y);
+        }
+
         public virtual void SetSize(int width, int height)
         {
-            Width = width; 
+            Width = width;
             Height = height;
+        }
+        public virtual void SetSize(Size size)
+        {
+            Width = size.Width; 
+            Height = size.Height;
         }
         public virtual void OnPaint(CustomControl parent, PaintEventArgs e)
         {

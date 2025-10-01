@@ -21,14 +21,7 @@ namespace NhegazCustomControls
         public DropDownDateBase(CustomControl parentControl)
         {
             this.parentControl = parentControl;
-            BorderRadius = parentControl.BorderRadius;
-            BorderWidth = parentControl.BorderWidth;
-            BorderColor = parentControl.BorderColor;
-            itemFocusColor = parentControl.OnFocusBorderColor;
-            BackgroundColor = parentControl.BackgroundColor;
-            Width = parentControl.Width;
-            HorizontalPadding = parentControl.HorizontalPadding;
-            VerticalPadding = parentControl.VerticalPadding;
+         
             //HeaderBackgroundColor = parentControl.HeaderBackgroundColor;
 
             MinimumSize = new Size(5, 5);

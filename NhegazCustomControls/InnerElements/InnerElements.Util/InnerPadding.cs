@@ -67,11 +67,11 @@
             Bottom = bottom;
         }
 
-        //public static implicit operator Padding(Padding ip) =>
-        //new Padding(ip.Left, ip.Top, ip.Right, ip.Bottom);
+        //public static implicit operator ControlPadding(ControlPadding ip) =>
+        //new ControlPadding(ip.Left, ip.Top, ip.Right, ip.Bottom);
 
-        //public static implicit operator Padding(Padding p) =>
-        //new Padding(p.Left, p.Top, p.Right, p.Bottom);
+        //public static implicit operator ControlPadding(ControlPadding p) =>
+        //new ControlPadding(p.Left, p.Top, p.Right, p.Bottom);
     }
 }
 

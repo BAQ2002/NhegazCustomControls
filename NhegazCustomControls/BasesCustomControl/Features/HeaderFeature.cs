@@ -137,6 +137,58 @@ namespace NhegazCustomControls
         [Browsable(false)] public int Width => bounds.Width; [Browsable(false)] public int Height => bounds.Height;
 
         /// <summary>
+        /// Retorna a COORDENADA X centralizada
+        /// em relação à largura do InnerControl 
+        /// </summary>
+        [Browsable(false)] 
+        public int RelativeCenterX(int innerWidth)
+        {
+            int centerX = Left + (Width - innerWidth) / 2;
+            return centerX;
+        }
+        ///<summary>
+        /// Retorna a COORDENADA X centralizada
+        /// em relação à largura do InnerControl 
+        ///</summary>
+        [Browsable(false)]
+        public int RelativeCenterX(InnerControl innerControl) => RelativeCenterX(innerControl.Width);
+
+        /// <summary> 
+        /// Retorna a COORDENADA Y centralizada
+        /// em relação à altura do InnerControl 
+        /// </summary>
+        [Browsable(false)]
+        public int RelativeCenterY(int innerHeight)
+        {
+            int centerY = Top + (Height - innerHeight) / 2;
+            return centerY;
+        }
+        /// <summary> 
+        /// Retorna a COORDENADA Y centralizada em 
+        /// relação à altura do InnerControl 
+        /// </summary>
+        [Browsable(false)]
+        public int RelativeCenterY(InnerControl innerControl) => RelativeCenterY(innerControl.Height);
+        /// <summary>
+        /// Retorna a COORDENADA X encostado na EXTREMIDADE ESQUERDA em relação à 
+        /// largura do InnerControl(respeitando padding/borda esquerda).
+        /// </summary>
+        public int RelativeLeftX()
+        {
+            // canto esquerdo do inner control fica exatamente no limite mínimo permitido
+            return Left;
+        }
+
+        /// <summary>X para posicionar o InnerControl encostado na EXTREMIDADE DIREITA.</summary>
+        public int RelativeRightX(int innerControlWidth)
+        {
+            // canto esquerdo = largura total - espessura direita - largura do inner
+            return Right - innerControlWidth;
+        }
+        /// <summary>X para posicionar o InnerControl encostado na EXTREMIDADE DIREITA.</summary>
+        public int RelativeRightX(InnerControl innerControl) => RelativeRightX(innerControl.Width);
+
+        /// <summary>
         /// Coleção de elementos do cabeçalho.
         /// </summary>
         [Browsable(false)]

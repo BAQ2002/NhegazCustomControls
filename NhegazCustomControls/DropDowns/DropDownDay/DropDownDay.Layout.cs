@@ -3,70 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace NhegazCustomControls
 {
     public partial class DropDownDay
     {
-        protected override void AdjustControlSize()
+        public override void AdjustControlSize()
         {
             if (DayItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            AdjustPadding();
+            Size itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f);
 
-            int xPadding = HorizontalPadding;
-            int yPadding = VerticalPadding;
+            int DayItemsOcupationWidth = NumberOfColumns * (itemUniformSize.Height + InnerHorizontalPadding) - InnerHorizontalPadding;
 
-            int itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
+            int DayItemsOcupationHeight = (NumberOfRows+1) * (itemUniformSize.Height + InnerVerticalPadding) - InnerVerticalPadding;
 
-            Width = xPadding + (NumberOfColumns * (itemUniformSize + xPadding));
-            Height = yPadding + ((NumberOfRows + 2) * (itemUniformSize + yPadding));
+            Width = BorderHorizontalBoundsSum + DayItemsOcupationWidth;
+            Height = BorderVerticalBoundsSum + DayItemsOcupationHeight;
 
-            Header.SetSize(Width - (2 * xPadding), itemUniformSize);
-            Header.SetLocation(xPadding, yPadding);
-            
             AdjustInnerSizes(); AdjustInnerLocations();
 
-            int weekDayY = (2 * yPadding) + ForwardIcon.Height;
-            int baseGridY = weekDayY + itemUniformSize + yPadding;
-
-            for (int row = 0; row < NumberOfRows; row++)
-            {
-                int y = baseGridY + row * (itemUniformSize + yPadding);
-
-                for (int col = 0; col < NumberOfColumns; col++)
-                {
-                    int x = xPadding + col * (itemUniformSize + xPadding);
-
-                    if (row == 0)
-                    {
-                        WeekDays.SetItemSize(col, itemUniformSize, itemUniformSize);
-                        WeekDays.SetItemLocation(col, x, weekDayY);
-                    }
-
-                    DayItems.SetItemSize(row, col, itemUniformSize, itemUniformSize);
-                    DayItems.SetItemLocation(row, col, x, y);
-                }
-            }
-
+            
         }
       
         protected override void AdjustInnerSizes()
         {
+            Size itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f);
+
+            Header.SetSize(Width - BorderHorizontalBoundsSum, itemUniformSize.Height);
+
             BackwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
             BackwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
 
             ForwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
             ForwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
+          
+            for (int row = 0; row < NumberOfRows; row++)
+            {
+                for (int col = 0; col < NumberOfColumns; col++)
+                {
+                    if (row == 0)
+                    {
+                        WeekDays.SetItemSize(col, itemUniformSize.Height, itemUniformSize.Height);
+                    }
 
+                    DayItems.SetItemSize(row, col, itemUniformSize.Height, itemUniformSize.Height);
+                }
+            }
         }
+
         protected override void AdjustInnerLocations()
         {
-            int pos = Header.Y + (Header.Height - NhegazSizeMethods.FontUnitSize(Font).Height)/2;
-            BackwardIcon.SetLocation(HorizontalPadding, VerticalPadding);
-            ForwardIcon.SetLocation(Width - (ForwardIcon.Width + HorizontalPadding), VerticalPadding);
-            MonthLabel.SetLocation((Width - MonthLabel.Width) / 2, pos);
+            Header.SetLocation(RelativeLeftX(), RelativeTopY());
+            
+            MonthLabel.SetLocation(Header.RelativeCenterX(MonthLabel), Header.RelativeCenterY(MonthLabel));
+            ForwardIcon.SetLocation(Header.RelativeRightX(ForwardIcon), Header.RelativeCenterY(ForwardIcon));
+            BackwardIcon.SetLocation(Header.RelativeLeftX(), Header.RelativeCenterY(BackwardIcon));
+
+            int weekDaysY = Header.Bottom + InnerVerticalPadding;
+            Size itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f);
+
+            for (int row = 0; row < NumberOfRows; row++)
+            {
+                int dayItemsY = weekDaysY + row * (itemUniformSize.Height + InnerVerticalPadding);
+
+                for (int col = 0; col < NumberOfColumns; col++)
+                {
+                    int x = ContentLeftBound + col * (itemUniformSize.Height + InnerHorizontalPadding);
+
+                    if (row == 0)
+                    {
+                        WeekDays.SetItemLocation(col, x, weekDaysY);
+                    }
+
+                    DayItems.SetItemLocation(row, col, x, dayItemsY);
+                }
+            }
         }
     }
 }

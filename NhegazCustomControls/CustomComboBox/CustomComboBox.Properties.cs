@@ -11,9 +11,11 @@ namespace NhegazCustomControls
     public partial class CustomComboBox
     {
         private StringCollection itemList = new(); //Opções da combo Box     
-        private InnerLabel selectIndex = new(); //Opção atualmente selecionada
+
+        public InnerLabel selectIndex = new(); //Opção atualmente selecionada
         private InnerButton dropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.SymmetricCircle); //Icone de visual
-        private DropDownInstance dropDownInstance = null;
+
+        private ComboBoxDropDown dropDownInstance = null;
         public string SelectIndexText
         {
             get => selectIndex.Text;

@@ -1,13 +1,13 @@
 ﻿
 namespace NhegazCustomControls
 {
-    public partial class DropDownYear : CustomControl, IHasHeader
+    public partial class DropDownYear : CustomControl, IHasHeader , IHasMatrix
     {      
         public DropDownYear(CustomDatePicker owner) : base(owner)
         {
             parentControl = owner;
             Header ??= new HeaderFeature(this);
-            YearItemsLabels = new YearItemLabel[NumberOfRows, NumberOfColumns];
+            YearItems = new MatrixFeature(this, NumberOfRows, NumberOfColumns);
 
             if (parentControl is CustomDatePicker dp)
             {
@@ -25,10 +25,7 @@ namespace NhegazCustomControls
                 Header.Controls.Add(ForwardIcon);
                 ForwardIcon.Click += (s, e) => { ChangeDecade(10); Invalidate(); };          
                 ForwardIcon.DoubleClick += (s, e) => { ChangeDecade(20); Invalidate(); };
-
-                
-                
-                
+               
 
                 CreateYearLabels();
                 AdjustControlSize();
@@ -42,6 +39,9 @@ namespace NhegazCustomControls
             {
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
+                    int currentRow = row;
+                    int currentCol = col;
+
                     var yearItemLabel = new YearItemLabel()
                     {
                         Font = Font,
@@ -51,25 +51,9 @@ namespace NhegazCustomControls
                         SizeBasedOnText = false,
                     };
 
-                    int capturedRow = row;
-                    int capturedCol = col;
+                    yearItemLabel.Click += (s, e) => OnYearLabelClick(currentRow, currentCol);
 
-                    yearItemLabel.MouseEnter += (s, e) =>
-                    {
-                        yearItemLabel.ForeColor = BackgroundColor;
-                        yearItemLabel.BackgroundColor = OnFocusBorderColor;
-                        Invalidate();
-                    };
-                    yearItemLabel.MouseLeave += (s, e) =>
-                    {
-                        yearItemLabel.ForeColor = ForeColor;
-                        yearItemLabel.BackgroundColor = BackgroundColor;
-                        Invalidate();
-                    };
-                    yearItemLabel.Click += (s, e) => OnYearLabelClick(capturedRow, capturedCol);
-
-                    YearItemsLabels[row, col] = yearItemLabel;
-                    InnerControls.Add(yearItemLabel);
+                    YearItems.AddItem(yearItemLabel, row, col);
                 }
             }
             UpdateYearLabels(CurrentDecade);
@@ -91,7 +75,7 @@ namespace NhegazCustomControls
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
                     int year = currentDecade + index;
-                    YearItemLabel yearItemLabel = YearItemsLabels[row, col];                                    
+                    YearItemLabel yearItemLabel = (YearItemLabel)YearItems.GetItem(row, col);                                    
                     yearItemLabel.Year = year;
                     index++;
                 }
@@ -99,9 +83,11 @@ namespace NhegazCustomControls
         }
         protected void OnYearLabelClick(int row, int col)
         {
+            var item = (YearItemLabel)YearItems.GetItem(row, col);
+
             if (parentControl is CustomDatePicker dp)
             {
-                dp.selectedYear.Text = YearItemsLabels[row, col].Year.ToString();
+                dp.selectedYear.Text = item.Year.ToString();
                 Parent?.Controls.Remove(this);
             }
         }        
