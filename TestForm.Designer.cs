@@ -50,10 +50,6 @@
             customDatePicker1.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
             customDatePicker1.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
             customDatePicker1.DropDownFeatures.HeaderHoverForeColor = SystemColors.Window;
-            customDatePicker1.DropDownsHeaderBorderRadius = 6;
-            customDatePicker1.DropDownsHeaderColor = SystemColors.Info;
-            customDatePicker1.DropDownsHeaderHeightMode = HeaderHeightMode.RelativeToFont;
-            customDatePicker1.DropDownsHeaderHight = 1;
             customDatePicker1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customDatePicker1.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker1.HoverColor = SystemColors.Highlight;

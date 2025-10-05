@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -121,6 +122,7 @@ namespace NhegazCustomControls
                 if (dropDownInstance.GetType() != dropDown.GetType())
                 {
                     parentForm.Controls.Remove(dropDownInstance);
+                    dropDownInstance.Dispose();
                     OpenDropDown(dropDown);
                     return;
                 }
@@ -145,12 +147,58 @@ namespace NhegazCustomControls
             Point formLocation = parentForm.PointToClient(screenLocation);
 
             dropDownInstance.Location = new Point(formLocation.X, formLocation.Y + Height + 1);
+
+            dropDownInstance.ControlPadding.Mode = PaddingMode.Absolute;
+            dropDownInstance.ControlPadding.BorderLeft = ControlPadding.EffectiveBorderLeft;
+            dropDownInstance.ControlPadding.BorderTop = ControlPadding.EffectiveBorderTop;
+            dropDownInstance.ControlPadding.BorderRight = ControlPadding.EffectiveBorderRight;
+            dropDownInstance.ControlPadding.BorderBottom = ControlPadding.EffectiveBorderBottom;
+
+            (dropDownInstance.ControlPadding.InnerHorizontal,
+            dropDownInstance.ControlPadding.InnerVertical) = GetInnerPaddings(dropDownInstance);
+            dropDownInstance.AdjustControlSize();
+
+
             dropDownInstance.BringToFront();
             parentForm.Controls.Add(dropDownInstance);
             parentForm.Controls.SetChildIndex(dropDownInstance, 0);
             OnFocus = true;
             Invalidate();
             
+        }
+
+        public (int, int) GetInnerPaddings(CustomControl dropDown)
+        {
+            using var ddDay = new DropDownDay(this); Size dDaySize = ddDay.GetSize(); ddDay.Dispose();
+            using var ddYear = new DropDownYear(this); Size dYearSize = ddYear.GetSize(); ddYear.Dispose();
+            //using var ddMonth = new DropDownMonth(this); Size dMonthSize = ddMonth.GetSize(); ddMonth.Dispose();
+            Size newSize = new(Math.Max(dDaySize.Width, dYearSize.Width), Math.Max(dDaySize.Height, dYearSize.Height));
+            
+            if (dropDown is DropDownDay)
+            {
+                int dDayIdealHorizontalGap = ControlPadding.EffectiveInnerHorizontal + ((newSize.Width - dDaySize.Width) / 6);
+                int dDayIdealVerticalGap = ControlPadding.EffectiveInnerVertical + ((newSize.Height - dDaySize.Height) / 7);
+
+                return (dDayIdealHorizontalGap, dDayIdealVerticalGap);
+            }
+
+            else if (dropDown is DropDownYear)
+            {
+                int dYearIdealHorizontalGap = ControlPadding.EffectiveInnerHorizontal + ((newSize.Width - dYearSize.Width) / 3);
+                int dYearIdealVerticalGap = ControlPadding.EffectiveInnerVertical + ((newSize.Height - dYearSize.Height) / 4);
+
+                return (dYearIdealHorizontalGap, dYearIdealVerticalGap);
+            }
+            else if (dropDown is DropDownMonth)
+            {
+                int dMonthIdealHorizontalGap = ControlPadding.EffectiveInnerHorizontal + ((newSize.Width - dYearSize.Width) / 3);
+                int dMonthIdealVerticalGap = ControlPadding.EffectiveInnerVertical + ((newSize.Height - dYearSize.Height) / 4);
+
+                return (dMonthIdealHorizontalGap, dMonthIdealVerticalGap);
+            }
+            else return (0, 0);
+
+
         }
 
         protected override void OnPaint(PaintEventArgs e)

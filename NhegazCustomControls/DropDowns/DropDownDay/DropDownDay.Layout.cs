@@ -9,47 +9,79 @@ namespace NhegazCustomControls
 {
     public partial class DropDownDay
     {
+        
+
         public override void AdjustControlSize()
         {
             if (DayItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            Size itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f);
-
-            int DayItemsOcupationWidth = NumberOfColumns * (itemUniformSize.Height + InnerHorizontalPadding) - InnerHorizontalPadding;
-
-            int DayItemsOcupationHeight = (NumberOfRows+1) * (itemUniformSize.Height + InnerVerticalPadding) - InnerVerticalPadding;
-
-            Width = BorderHorizontalBoundsSum + DayItemsOcupationWidth;
-            Height = BorderVerticalBoundsSum + DayItemsOcupationHeight;
-
-            AdjustInnerSizes(); AdjustInnerLocations();
-
-            
+            Size =  GetSize(); AdjustInnerSizes(); AdjustInnerLocations();         
         }
-      
+        public Size GetSize()
+        {
+            Size contentSize = GetContentSize();
+            Size paddingSize = GetPaddingSize();
+
+            int sizeWidth = contentSize.Width
+                          + paddingSize.Width
+                          +BorderHorizontalBoundsSum;
+
+            int sizeHeight = contentSize.Height
+                        + paddingSize.Height
+                        + BorderVerticalBoundsSum;
+
+            return new Size(sizeWidth, sizeHeight);
+        }
+
+        public Size GetPaddingSize()
+        {
+            int NumberOfHorizontalPaddings = NumberOfColumns - 1;                   //Quantidade de Gaps Horizontais
+            int NumberOfVerticalPaddings = NumberOfRows + 1;                        //Quantidade de Gaps Verticais
+
+            int paddingWidth = NumberOfHorizontalPaddings * InnerHorizontalPadding; //Paddings entre todos
+            int paddingHeight = NumberOfVerticalPaddings * InnerVerticalPadding;    //Paddings entre todos
+
+            return new Size(paddingWidth, paddingHeight);
+        }
+
+        public Size GetContentSize()
+        {
+            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference
+                            ("00", Font, 1.5f, ReferenceDimension.Height);
+
+            int headerHeight = itemSize.Height;                   //Altura do cabeçalho
+            int weekDaysHeight = itemSize.Height;                 //Altura do WeekDays
+
+            int NumberOfHorizontalPaddings = NumberOfColumns - 1; //Quantidade de Gaps Horizontais
+            int NumberOfVerticalPaddings = NumberOfRows + 1;      //Quantidade de Gaps Verticais
+
+            int contentWidth = NumberOfColumns * itemSize.Height; //Largura do YearItems
+
+            int contentHeight = headerHeight                      //Altura do cabeçalho
+                              + weekDaysHeight                    //Altura do WeekDays
+                              + NumberOfRows * itemSize.Width;    //Altura do YearItems
+
+            return new Size(contentWidth, contentHeight);
+        }
         protected override void AdjustInnerSizes()
         {
-            Size itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f);
+            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Height);
 
-            Header.SetSize(Width - BorderHorizontalBoundsSum, itemUniformSize.Height);
+            Header.SetSize(Width - BorderHorizontalBoundsSum, itemSize.Height);
+            BackwardIcon.SetSize(itemSize);
+            ForwardIcon.SetSize(itemSize);
 
-            BackwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
-            BackwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
-
-            ForwardIcon.Width = NhegazSizeMethods.TextExactSize("00", Font).Height;
-            ForwardIcon.Height = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f).Height;
-          
             for (int row = 0; row < NumberOfRows; row++)
             {
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
                     if (row == 0)
                     {
-                        WeekDays.SetItemSize(col, itemUniformSize.Height, itemUniformSize.Height);
+                        WeekDays.SetItemSize(col, itemSize);
                     }
 
-                    DayItems.SetItemSize(row, col, itemUniformSize.Height, itemUniformSize.Height);
+                    DayItems.SetItemSize(row, col, itemSize);
                 }
             }
         }
@@ -63,15 +95,16 @@ namespace NhegazCustomControls
             BackwardIcon.SetLocation(Header.RelativeLeftX(), Header.RelativeCenterY(BackwardIcon));
 
             int weekDaysY = Header.Bottom + InnerVerticalPadding;
-            Size itemUniformSize = NhegazSizeMethods.TextProportionalSize("00", Font, 1.3f);
+
+            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Height);
 
             for (int row = 0; row < NumberOfRows; row++)
             {
-                int dayItemsY = weekDaysY + row * (itemUniformSize.Height + InnerVerticalPadding);
+                int dayItemsY = weekDaysY + (row + 1) * (itemSize.Height + InnerVerticalPadding);
 
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
-                    int x = ContentLeftBound + col * (itemUniformSize.Height + InnerHorizontalPadding);
+                    int x = ContentLeftBound + col * (itemSize.Height + InnerHorizontalPadding);
 
                     if (row == 0)
                     {

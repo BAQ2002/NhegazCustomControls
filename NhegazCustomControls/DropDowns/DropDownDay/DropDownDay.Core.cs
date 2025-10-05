@@ -57,7 +57,7 @@ namespace NhegazCustomControls
         /// </summary>
         private void CreateWeekDayLabels()
         {                     
-            var weekDayLetters = NhegazCultureMethods.GetCultureWeekdayLettersOrDefault(); // len = 7
+            string[] weekDayLetters = NhegazCultureMethods.GetCultureWeekdayLettersOrDefault(); // len = 7
             int startIndex = (int)StartOfWeek; // 0..6
 
             // 4) Cria N labels, indexando ciclicamente sobre as 7 letras

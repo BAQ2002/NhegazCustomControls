@@ -21,12 +21,8 @@ namespace NhegazCustomControls
         private InnerLabel monthSlashYear = new InnerLabel(); //Elemento visual barra "/"
         private CustomControl dropDownInstance = null; //Referencia para o o DropDown que esta aberto
 
-        private int dropDownsHeaderBorderRadius = 1;
-        private int dropDownsHeaderHight = 1;
 
-        private Color dropDownsHeaderColor = SystemColors.Highlight;
 
-        private HeaderHeightMode dropDownsHeaderHeightMode = HeaderHeightMode.RelativeToFont;
         public override Font Font
         {
             get => base.Font;
@@ -64,34 +60,6 @@ namespace NhegazCustomControls
                 daySlashMonth.ForeColor = value; monthSlashYear.ForeColor = value;
                 Invalidate();
             }
-        }
-
-        [Category("DropDowns")]
-        public virtual Color DropDownsHeaderColor
-        {
-            get => dropDownsHeaderColor;
-            set { dropDownsHeaderColor = value; Invalidate(); }
-        }
-
-        [Category("DropDowns")]
-        public int DropDownsHeaderBorderRadius
-        {
-            get => dropDownsHeaderBorderRadius;
-            set { dropDownsHeaderBorderRadius = value; Invalidate(); }
-        }
-
-        [Category("DropDowns")]
-        public int DropDownsHeaderHight
-        {
-            get => dropDownsHeaderHight;
-            set { dropDownsHeaderHight = value; Invalidate(); }
-        }
-
-        [Category("DropDowns")]
-        public HeaderHeightMode DropDownsHeaderHeightMode
-        {
-            get => dropDownsHeaderHeightMode;
-            set { dropDownsHeaderHeightMode = value; Invalidate(); }
         }
     }
 }

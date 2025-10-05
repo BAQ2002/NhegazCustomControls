@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace NhegazCustomControls
 {
+    public enum ReferenceDimension
+    {
+        None,
+        Width,
+        Height
+    }
+
     public static class NhegazSizeMethods
     {
 
@@ -22,7 +29,7 @@ namespace NhegazCustomControls
             );
             return size;
         }
-        public static Size TextProportionalSize(string text, Font font, float? proportion = 1f)
+        public static Size TextProportionalSize(string text, Font font, float proportion = 1f)
         {
             Size size = TextRenderer.MeasureText(
                 text,
@@ -30,9 +37,54 @@ namespace NhegazCustomControls
                 new Size(int.MaxValue, int.MaxValue),
                 TextFormatFlags.NoPadding | TextFormatFlags.SingleLine
             );
-            float scale = proportion ?? 1f;
+
+            float scale = proportion;
+
             size.Width = (int)(size.Width * scale);
             size.Height = (int)(size.Height * scale);
+            return size;
+        }
+
+     
+        public static Size TextSquareSizeByReference(string text, Font font, float proportion = 1f, ReferenceDimension referenceDimension = ReferenceDimension.None)
+        {
+            Size size = TextRenderer.MeasureText(
+                text,
+                font,
+                new Size(int.MaxValue, int.MaxValue),
+                TextFormatFlags.NoPadding | TextFormatFlags.SingleLine
+            );
+
+            float scale = proportion;
+
+            if (referenceDimension == ReferenceDimension.Height)
+            {
+                return new((int)(size.Height * scale), (int)(size.Height * scale));
+            }
+            else if (referenceDimension == ReferenceDimension.Width)
+            {
+                return new((int)(size.Width * scale), (int)(size.Width * scale));
+            }
+
+            return size;
+        }
+        /// <summary>
+        /// Retorna um Tamanho com base na text, font, widthProportion e heightProportion
+        /// </summary>
+        public static Size TextProportionalSize(string text, Font font, float widthProportion = 1f, float heightProportion = 1f)
+        {
+            Size size = TextRenderer.MeasureText(
+                text,
+                font,
+                new Size(int.MaxValue, int.MaxValue),
+                TextFormatFlags.NoPadding | TextFormatFlags.SingleLine
+            );
+
+            float widthScale = widthProportion;
+            float heightScale = heightProportion;
+
+            size.Width = (int)(size.Width * widthScale);
+            size.Height = (int)(size.Height * heightScale);
             return size;
         }
 
@@ -45,20 +97,6 @@ namespace NhegazCustomControls
                 TextFormatFlags.NoPadding | TextFormatFlags.SingleLine
             );
             return size;
-        }
-
-        public static SizeF textExactSizeTrue(string text, Font font)
-        {
-            using (Bitmap bmp = new Bitmap(1, 1))
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-
-                StringFormat format = StringFormat.GenericTypographic;
-                format.FormatFlags |= StringFormatFlags.MeasureTrailingSpaces;
-
-                return g.MeasureString(text, font, int.MaxValue, format);
-            }
         }
     }
 }

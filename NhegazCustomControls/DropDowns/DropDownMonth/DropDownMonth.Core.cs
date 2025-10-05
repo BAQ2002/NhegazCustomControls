@@ -7,46 +7,47 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NhegazCustomControls
 {
-    public partial class DropDownMonth : CustomControl, IHasHeader
+    public partial class DropDownMonth : CustomControl, IHasHeader, IHasMatrix
     {
         
         public DropDownMonth(CustomDatePicker owner) : base(owner)
         {
             parentControl = owner;
             Header ??= new HeaderFeature(this);
-
+            MonthItems ??= new MatrixFeature(this, NumberOfRows, NumberOfColumns);
             CreateMonthLabels();
             AdjustControlSize();
         }
 
-        protected void OnLabelClick(int rowIndex, int colIndex)
+        protected void OnLabelClick(int row, int col)
         {
-            var item = MonthList[rowIndex, colIndex];
+            var item = (MonthItemLabel)MonthItems.GetItem(row, col);
 
             if (parentControl is CustomDatePicker dp)
+            {
                 dp.selectedMonth.Text = item.Month.ToString("D2");
-
-            Parent?.Controls.Remove(this);
+                dp.selectedYear.Text = item.Year.ToString();
+                Parent?.Controls.Remove(this);
+            }                        
         }
 
         public void CreateMonthLabels()
         {
-            string[] MonthTexts = { "Jan", "Fev", "Mar", "Abr",
-                                    "Mai", "Jun", "Jul", "Ago",
-                                    "Set", "Out", "Nov", "Dez" };
-            MonthList = new MonthItemLabel[NumberOfRows, NumberOfColumns];
+            string[] MonthTexts = NhegazCultureMethods.GetCultureMonthAbbr3OrDefault();
 
-            int gridIndex = 0;
+            int startIndex = 0;
             for (int row = 0; row < NumberOfRows; row++)
             {
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
-                    
+                    int currentRow = row;
+                    int currentCol = col;
 
+                    int dow = (startIndex + i) % 12;
                     var monthItemLabel = new MonthItemLabel
                     {
-                        Text = MonthTexts[gridIndex],
-                        Month = gridIndex + 1,
+                        Text = MonthTexts[dow],
+                        Month = dow,
                         Font = Font,
                         ForeColor = ForeColor,
                         BackgroundColor = BackgroundColor,
@@ -54,23 +55,14 @@ namespace NhegazCustomControls
                         SizeBasedOnText = false,
                     };
 
-                    int capturedRow = row;
-                    int capturedCol = col;
+                    monthItemLabel.Click += (s, e) => OnLabelClick(currentRow, currentCol);
+               
+                    MonthItems.AddItem(monthItemLabel, row, col);
 
-                    monthItemLabel.MouseEnter += (s, e) =>
-                    {
-                        monthItemLabel.ForeColor = BackgroundColor;
-                        monthItemLabel.BackgroundColor = OnFocusBorderColor;                        
-                    };
-                    monthItemLabel.MouseLeave += (s, e) =>
-                    {
-                        monthItemLabel.ForeColor = ForeColor;
-                        monthItemLabel.BackgroundColor = BackgroundColor;
-                    };
-                    monthItemLabel.Click += (s, e) => OnLabelClick(capturedRow, capturedCol);
-                    gridIndex++;
-                    InnerControls.Add(monthItemLabel);
-                    MonthList[row, col] = monthItemLabel;
+                    if (row * col >= 11)
+                        gridIndex = 0;
+                    else
+                        gridIndex++;
                 }
             }
         }

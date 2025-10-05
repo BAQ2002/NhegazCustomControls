@@ -40,5 +40,49 @@ namespace NhegazCustomControls
 
             return DefaultWeekDayLetters;
         }
+        private static readonly string[] DefaultMonthAbbr3 =
+        {
+            "Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"
+        };
+
+        /// <summary>
+        /// Retorna abreviações (3 letras) dos meses conforme a cultura atual.
+        /// Se não for possível, retorna "Jan..Dez" em PT-BR.
+        /// </summary>
+        public static string[] GetCultureMonthAbbr3OrDefault()
+        {
+            try
+            {
+                var dtf = CultureInfo.CurrentUICulture.DateTimeFormat;
+                var abbr = dtf.AbbreviatedMonthNames;
+
+                if (abbr?.Length >= 12)
+                {
+                    var months = new string[12];
+                    var ti = CultureInfo.CurrentUICulture.TextInfo;
+
+                    for (int i = 0; i < 12; i++)
+                    {
+                        var s = abbr[i];
+                        if (string.IsNullOrWhiteSpace(s))
+                            s = dtf.MonthNames != null && dtf.MonthNames.Length > i ? dtf.MonthNames[i] : null;
+
+                        if (string.IsNullOrWhiteSpace(s))
+                        {
+                            months[i] = DefaultMonthAbbr3[i];
+                            continue;
+                        }
+
+                        s = s.Replace(".", "").Trim();
+                        s = s.Length >= 3 ? s[..3] : s;
+                        months[i] = ti.ToTitleCase(s.ToLower());
+                    }
+                    return months;
+                }
+            }
+            catch { /* cai no default */ }
+
+            return DefaultMonthAbbr3;
+        }
     }
 }
