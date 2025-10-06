@@ -9,6 +9,8 @@ namespace NhegazCustomControls
 {
     public partial class CustomDatePicker : CustomControl
     {
+        private DateOnly? date;
+
         public TextBox selectedDay = new TextBox();   //Opção atualmente selecionada Dia
         public TextBox selectedMonth = new TextBox(); //Opção atualmente selecionada mes
         public TextBox selectedYear = new TextBox();  //Opção atualmente selecionada ano
@@ -20,8 +22,6 @@ namespace NhegazCustomControls
         private InnerLabel daySlashMonth = new InnerLabel();  //Elemento visual barra "/"
         private InnerLabel monthSlashYear = new InnerLabel(); //Elemento visual barra "/"
         private CustomControl dropDownInstance = null; //Referencia para o o DropDown que esta aberto
-
-
 
         public override Font Font
         {
@@ -61,5 +61,80 @@ namespace NhegazCustomControls
                 Invalidate();
             }
         }
+
+        [Category("DropDowns")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public DropDownFeature DropDownFeatures { get; } = new();
+
+        [Category("Behavior")]
+        [Description("Data atual do DatePicker (apenas data, sem hora). Ideal para integração com colunas DATE de banco.")]
+        public DateOnly Date
+        {
+            get => date ?? DateOnly.FromDateTime(DateTime.Today);
+            set
+            {
+                date = value;
+                SyncTextsFromProperties();
+                Invalidate();
+            }
+        }
+
+        [Browsable(false)]
+        public int Day
+        {
+            get => Date.Day;
+            set
+            {
+                var year = Date.Year;
+                var month = Date.Month;
+                var day = Math.Max(1, Math.Min(DateTime.DaysInMonth(year, month), value));
+                Date = new DateOnly(year, month, day);
+                SyncTextsFromProperties();
+                Invalidate();
+            }
+        }
+
+        [Browsable(false)]
+        public int Month
+        {
+            get => Date.Month;
+            set
+            {
+                var year = Date.Year;
+                var month = Math.Max(1, Math.Min(12, value));
+                var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));
+                Date = new DateOnly(year, month, day);
+                SyncTextsFromProperties();
+                Invalidate();
+            }
+        }
+
+        [Browsable(false)]
+        public int Year
+        {
+            get => Date.Year;
+            set
+            {
+                // Limites defensivos, ajuste se quiser aceitar qualquer ano válido do DateOnly
+                var year = Math.Max(DateOnly.MinValue.Year, Math.Min(DateOnly.MaxValue.Year, value));
+                var month = Date.Month;
+                var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));
+
+                Date = new DateOnly(year, month, day);
+                SyncTextsFromProperties();
+                Invalidate();
+            }
+        }
+        /// <summary>
+        /// Sincroniza os TextBox (selectedDay/Month/Year) a partir das propriedades.
+        /// </summary>
+        private void SyncTextsFromProperties()
+        {
+            // D2 para dia/mês, D4 para ano
+            selectedDay.Text = Day.ToString("D2");
+            selectedMonth.Text = Month.ToString("D2");
+            selectedYear.Text = Year.ToString("D4");
+        }
+
     }
 }

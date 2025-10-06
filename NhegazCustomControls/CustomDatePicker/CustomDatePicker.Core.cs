@@ -17,11 +17,15 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 namespace NhegazCustomControls
 {
     public partial class CustomDatePicker : CustomControl, IHasDropDown
-    {
-        [Category("DropDowns")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DropDownFeature DropDownFeatures { get; } = new();
-
+    {        
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+            if (date is null)
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now); // usa o setter -> sincroniza textos
+            }
+        }
         public CustomDatePicker() : base() 
         {
             
@@ -31,8 +35,6 @@ namespace NhegazCustomControls
             DropDownFeatures.Add<DropDownYear>(); // enquanto não migrar, funciona do mesmo jeito
 
             Controls.Add(selectedDay);
-            selectedDay.Name = Name + "selectedDay";
-            selectedDay.Text = DateTime.Now.Day.ToString("D2");
             selectedDay.BorderStyle = BorderStyle.None;
             selectedDay.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
             selectedDay.Click += (s, e) => { this.Focus(); this.OnClick(e); };
@@ -45,7 +47,6 @@ namespace NhegazCustomControls
             dayDropDownIcon.Click += (s, e) => { OnClick(e, new DropDownDay(this)); };
           
             Controls.Add(selectedMonth);
-            selectedMonth.Text = DateTime.Now.Month.ToString("D2");
             selectedMonth.BorderStyle = BorderStyle.None;
             selectedMonth.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
             selectedMonth.Click += (s, e) => { this.Focus(); this.OnClick(e); };
@@ -58,7 +59,6 @@ namespace NhegazCustomControls
             monthSlashYear.Text = "/";
 
             Controls.Add(selectedYear);
-            selectedYear.Text = DateTime.Now.Year.ToString();
             selectedYear.BorderStyle = BorderStyle.None;
             selectedYear.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
             selectedYear.Click += (s, e) => { this.Focus(); this.OnClick(e); };

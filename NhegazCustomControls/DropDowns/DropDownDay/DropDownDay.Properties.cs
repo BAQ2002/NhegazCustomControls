@@ -22,29 +22,26 @@ namespace NhegazCustomControls
             public DayItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
             { }
         }
+
+        protected CustomControl parentControl;
+         
+        private int NumberOfRows = 6;
+        private int NumberOfColumns = 7;
+
+        private int CurrentMonth;
+        private int CurrentYear;
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Category("Cabeçalho")]
+        public HeaderFeature Header { get; set; }
         MatrixFeature IHasMatrix.Matrix => DayItems;
         public MatrixFeature DayItems { get; private set; }
         VectorFeature IHasVector.Vector => WeekDays;
         public VectorFeature WeekDays { get; private set; }
 
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Category("Cabeçalho")]
-        public HeaderFeature Header { get; set; }
-
-        protected CustomControl parentControl;
-
-        private int NumberOfRows;
-        private int NumberOfColumns;
-
-        private int CurrentMonth;
-        private int CurrentYear;
-
         private InnerLabel MonthLabel = new();
         private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
         private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
-
-        //private DayItemLabel[,] DayItems;//Matriz composta pelos Labels de dias.
         public DayOfWeek StartOfWeek { get; set; } = DayOfWeek.Sunday; //Início da semana configurável; padrão Brasil: Domingo
 
         private string[] MonthTexts =  {"null", "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",

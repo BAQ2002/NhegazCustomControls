@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
@@ -14,12 +15,10 @@ namespace NhegazCustomControls
 {
     public partial class DropDownDay : CustomControl, IHasHeader, IHasMatrix, IHasVector
     {
+        
         public DropDownDay(CustomDatePicker parent) : base(parent)
         {
             parentControl = parent;
-
-            NumberOfRows = 6;
-            NumberOfColumns = 7;
 
             Header ??=   new HeaderFeature(this);
             WeekDays ??= new VectorFeature(this, NumberOfColumns);
@@ -28,8 +27,8 @@ namespace NhegazCustomControls
 
             if (parentControl is CustomDatePicker dp)
             {              
-                CurrentMonth = int.Parse(dp.selectedMonth.Text);
-                CurrentYear = int.Parse(dp.selectedYear.Text);
+                CurrentMonth = dp.Month;
+                CurrentYear = dp.Year;
 
                 Header.Controls.Add(BackwardIcon);
                 BackwardIcon.Click += (s, e) => { UpdateMonth(-1); Invalidate(); };
@@ -203,9 +202,9 @@ namespace NhegazCustomControls
 
             if (parentControl is CustomDatePicker dp)
             {
-                dp.selectedDay.Text = item.Day.ToString("D2");
-                dp.selectedMonth.Text = item.Month.ToString("D2");
-                dp.selectedYear.Text = item.Year.ToString();
+                dp.Day = item.Day;
+                dp.Month = item.Month;
+                dp.Year = item.Year;
             }
 
             Parent?.Controls.Remove(this);

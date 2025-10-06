@@ -119,7 +119,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(846, 553);
             Controls.Add(customDataGridView1);
             Controls.Add(customDatePicker1);
             Name = "TestForm";

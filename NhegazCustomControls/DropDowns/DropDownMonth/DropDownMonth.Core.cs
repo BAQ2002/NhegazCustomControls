@@ -9,45 +9,56 @@ namespace NhegazCustomControls
 {
     public partial class DropDownMonth : CustomControl, IHasHeader, IHasMatrix
     {
-        
+
         public DropDownMonth(CustomDatePicker owner) : base(owner)
         {
             parentControl = owner;
+
             Header ??= new HeaderFeature(this);
             MonthItems ??= new MatrixFeature(this, NumberOfRows, NumberOfColumns);
-            CreateMonthLabels();
-            AdjustControlSize();
-        }
-
-        protected void OnLabelClick(int row, int col)
-        {
-            var item = (MonthItemLabel)MonthItems.GetItem(row, col);
 
             if (parentControl is CustomDatePicker dp)
             {
-                dp.selectedMonth.Text = item.Month.ToString("D2");
-                dp.selectedYear.Text = item.Year.ToString();
-                Parent?.Controls.Remove(this);
-            }                        
-        }
+                CurrentYear = dp.Year;
 
+                Header.Controls.Add(BackwardIcon);
+                BackwardIcon.Click += (s, e) => { UpdateYear(-1); Invalidate(); };
+                BackwardIcon.DoubleClick += (s, e) => { UpdateYear(-1); Invalidate(); };
+
+                Header.Controls.Add(ForwardIcon);
+                ForwardIcon.Click += (s, e) => { UpdateYear(+1); Invalidate(); };
+                ForwardIcon.DoubleClick += (s, e) => { UpdateYear(+1); Invalidate(); };
+
+                Header.Controls.Add(YearLabel);
+                YearLabel.Text = CurrentYear.ToString();
+                YearLabel.SizeBasedOnText = false;
+
+                // Itens de mês (com o ano atual)
+                CreateMonthLabels();
+                UpdateMonthsYear(CurrentYear);
+
+                AdjustControlSize();
+                Header.AdjustHeaderColors();
+            }
+        }
         public void CreateMonthLabels()
         {
             string[] MonthTexts = NhegazCultureMethods.GetCultureMonthAbbr3OrDefault();
 
-            int startIndex = 0;
+            int monthIndex = 0;
+
             for (int row = 0; row < NumberOfRows; row++)
             {
                 for (int col = 0; col < NumberOfColumns; col++)
                 {
                     int currentRow = row;
                     int currentCol = col;
+                    int dow = monthIndex % 12;
 
-                    int dow = (startIndex + i) % 12;
                     var monthItemLabel = new MonthItemLabel
                     {
                         Text = MonthTexts[dow],
-                        Month = dow,
+                        Month = dow+1,
                         Font = Font,
                         ForeColor = ForeColor,
                         BackgroundColor = BackgroundColor,
@@ -56,16 +67,46 @@ namespace NhegazCustomControls
                     };
 
                     monthItemLabel.Click += (s, e) => OnLabelClick(currentRow, currentCol);
-               
+
                     MonthItems.AddItem(monthItemLabel, row, col);
 
-                    if (row * col >= 11)
-                        gridIndex = 0;
-                    else
-                        gridIndex++;
+                    monthIndex++;
                 }
             }
         }
+
+        private void UpdateYear(int offset)
+        {
+            CurrentYear += offset;
+            YearLabel.Text = CurrentYear.ToString();
+            UpdateMonthsYear(CurrentYear);
+            AdjustInnerLocations(); // mantém coerente com Day/Year após alterar header
+        }
+
+        private void UpdateMonthsYear(int year)
+        {
+            for (int row = 0; row < NumberOfRows; row++)
+                for (int col = 0; col < NumberOfColumns; col++)
+                {
+                    var item = (MonthItemLabel)MonthItems.GetItem(row, col);
+                    int idx = row * NumberOfColumns + col; // 0..15
+                    item.Year = year + (idx >= 12 ? 1 : 0); // idx 12..15 -> ano seguinte
+                }
+        }
+
+        protected void OnLabelClick(int row, int col)
+        {
+            var item = (MonthItemLabel)MonthItems.GetItem(row, col);
+
+            if (parentControl is CustomDatePicker dp)
+            {
+                dp.Month = item.Month;
+                dp.Year = item.Year;
+                Parent?.Controls.Remove(this);
+            }                        
+        }
+
+        
         
     }
 }

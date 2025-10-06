@@ -14,7 +14,7 @@ namespace NhegazCustomControls
             public int Month
             {
                 get => month;
-                set { month = value;Text = month.ToString(); }
+                set { month = value; }
             }
             public int Year { get; set; }
             public MonthItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
@@ -23,6 +23,11 @@ namespace NhegazCustomControls
 
         protected CustomControl parentControl;
 
+        private int NumberOfRows = 4;
+        private int NumberOfColumns = 4;
+
+        private int CurrentYear;
+
         public HeaderFeature Header { get; set; }
         MatrixFeature IHasMatrix.Matrix => MonthItems;
         public MatrixFeature MonthItems { get; private set; }
@@ -30,8 +35,32 @@ namespace NhegazCustomControls
         private InnerLabel YearLabel = new();
         private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
         private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
- 
-        int NumberOfRows = 4;
-        int NumberOfColumns = 4;
+       
+        public override Font Font
+        {
+            get => base.Font;
+            set
+            {
+                base.Font = value;
+                BackwardIcon.Font = value;
+                ForwardIcon.Font = value;
+                YearLabel.Font = new Font(value, FontStyle.Bold);
+                AdjustControlSize();
+            }
+        }
+
+        public override Color ForeColor
+        {
+            get => base.ForeColor;
+            set
+            {
+                base.ForeColor = value;
+                BackwardIcon.ForeColor = value;
+                ForwardIcon.ForeColor = value;
+                YearLabel.ForeColor = value;
+                Invalidate();
+            }
+        }
+
     }
 }

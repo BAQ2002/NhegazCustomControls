@@ -86,7 +86,7 @@ namespace NhegazCustomControls
 
             int startY = Header.Bottom + InnerVerticalPadding;
 
-            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("0000", Font, 1.5f, ReferenceDimension.Width);
+            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("0000", Font, 1.3f, ReferenceDimension.Width);
 
             for (int row = 0; row < NumberOfRows; row++)
             {

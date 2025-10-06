@@ -11,7 +11,7 @@ namespace NhegazCustomControls
 
             if (parentControl is CustomDatePicker dp)
             {
-                CurrentDecade = (DateTime.Now.Year / 10) * 10;
+                CurrentDecade = (dp.Year / 10) * 10;
                 DecadeLastYear = CurrentDecade + 9;
 
                 Header.Controls.Add(DecadeLabel);
@@ -19,17 +19,16 @@ namespace NhegazCustomControls
                 DecadeLabel.SizeBasedOnText = false;
 
                 Header.Controls.Add(BackwardIcon);
-                BackwardIcon.Click += (s, e) => { ChangeDecade(-10); Invalidate(); };
-                BackwardIcon.DoubleClick += (s, e) => { ChangeDecade(-20); Invalidate(); };
+                BackwardIcon.Click += (s, e) => { UpdateDecade(-10); Invalidate(); };
+                BackwardIcon.DoubleClick += (s, e) => { UpdateDecade(-20); Invalidate(); };
 
                 Header.Controls.Add(ForwardIcon);
-                ForwardIcon.Click += (s, e) => { ChangeDecade(10); Invalidate(); };          
-                ForwardIcon.DoubleClick += (s, e) => { ChangeDecade(20); Invalidate(); };
+                ForwardIcon.Click += (s, e) => { UpdateDecade(10); Invalidate(); };          
+                ForwardIcon.DoubleClick += (s, e) => { UpdateDecade(20); Invalidate(); };
                
-
                 CreateYearLabels();
                 AdjustControlSize();
-                //Header.AdjustHeaderColors();
+                Header.AdjustHeaderColors();
             }           
         }
 
@@ -59,7 +58,7 @@ namespace NhegazCustomControls
             UpdateYearLabels(CurrentDecade);
         }
 
-        private void ChangeDecade(int offset)
+        private void UpdateDecade(int offset)
         {
             CurrentDecade += offset;
             DecadeLastYear = CurrentDecade + 9;
@@ -87,7 +86,7 @@ namespace NhegazCustomControls
 
             if (parentControl is CustomDatePicker dp)
             {
-                dp.selectedYear.Text = item.Year.ToString();
+                dp.Year = item.Year;
                 Parent?.Controls.Remove(this);
             }
         }        

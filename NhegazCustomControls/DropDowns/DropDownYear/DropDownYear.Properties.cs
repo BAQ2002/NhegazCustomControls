@@ -23,15 +23,8 @@ namespace NhegazCustomControls
             public YearItemLabel(bool autoSizeBasedOnText = true) : base(autoSizeBasedOnText)
             { }
         }
-        public HeaderFeature Header { get; set; }
-        MatrixFeature IHasMatrix.Matrix => YearItems;
-        public MatrixFeature YearItems { get; private set; }
 
         protected CustomControl parentControl;
-
-        private InnerLabel DecadeLabel = new();
-        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle);
-        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);  
 
         private int CurrentDecade;
         private int DecadeLastYear;
@@ -39,6 +32,14 @@ namespace NhegazCustomControls
         private int NumberOfRows = 4;
         private int NumberOfColumns = 4;
 
+        public HeaderFeature Header { get; set; }
+        MatrixFeature IHasMatrix.Matrix => YearItems;
+        public MatrixFeature YearItems { get; private set; }
+
+        private InnerLabel DecadeLabel = new();
+        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle);
+        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);  
+  
         public override Font Font
         {
             get => base.Font;
@@ -47,7 +48,7 @@ namespace NhegazCustomControls
                 base.Font = value;
                 BackwardIcon.Font = value;
                 ForwardIcon.Font = value;
-                DecadeLabel.Font = value;
+                DecadeLabel.Font = new Font(value, FontStyle.Bold);
                 AdjustControlSize();
             }
         }

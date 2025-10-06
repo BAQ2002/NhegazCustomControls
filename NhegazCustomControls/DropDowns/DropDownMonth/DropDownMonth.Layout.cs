@@ -15,17 +15,8 @@ namespace NhegazCustomControls
             if (MonthItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            int xPadding = InnerHorizontalPadding;
-            int yPadding = InnerVerticalPadding;
+            Size = GetSize(); AdjustInnerSizes();  AdjustInnerLocations();
 
-            int itemUniformSize = NhegazSizeMethods.TextProportionalSize("0000", Font, 1.3f).Width;
-
-            Header.SetSize(Width - (2 * xPadding), itemUniformSize);
-            Header.SetLocation(xPadding, yPadding);
-
-            Width = xPadding + (NumberOfColumns * (itemUniformSize + xPadding));
-            Height = yPadding + (NumberOfRows * (itemUniformSize + yPadding));
-            AdjustInnerLocations();
         }
         public Size GetSize()
         {
@@ -55,9 +46,10 @@ namespace NhegazCustomControls
         public Size GetContentSize()
         {
             Size itemSize = NhegazSizeMethods.TextSquareSizeByReference
-                            ("0000", Font, 1.5f, ReferenceDimension.Width);
-            int headerHeight = NhegazSizeMethods.TextProportionalSize
-                               ("00", Font, 1.5f).Height;
+                            ("0000", Font, 1.3f, ReferenceDimension.Width);
+
+            int headerHeight = NhegazSizeMethods.TextSquareSizeByReference
+                               ("00", Font, 1.5f, ReferenceDimension.Height).Height;
 
             int contentWidth = NumberOfColumns * itemSize.Height; //Largura do YearItems
 
