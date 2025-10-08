@@ -126,10 +126,10 @@ namespace NhegazCustomControls
         public int InnerVerticalPadding => ControlPadding.EffectiveInnerVertical;
 
         /// <summary> </summary>
-        public int BorderHorizontalBoundsSum => 
+        public int BorderHorizontalBoundsSum =>
             ControlPadding.EffectiveBorderHorizontalSum + 2 * BorderWidth;
 
-        /// <summary> </summary>
+        /// <summary></summary>
         public int BorderVerticalBoundsSum =>
             ControlPadding.EffectiveBorderVerticalSum + 2 * BorderWidth;
 
@@ -184,21 +184,21 @@ namespace NhegazCustomControls
         /// Retorna a COORDENADA X encostado na EXTREMIDADE ESQUERDA em relação à 
         /// largura do InnerControl(respeitando padding/borda esquerda).
         /// </summary>
-        public int RelativeLeftX()
-        {
-            // canto esquerdo do inner control fica exatamente no limite mínimo permitido
-            return ContentLeftBound;
-        }
+        public int RelativeLeftX(){ return ContentLeftBound; }
         
-
-        /// <summary>X para posicionar o InnerControl encostado na EXTREMIDADE DIREITA (respeitando padding/borda direita).</summary>
+        /// <summary>
+        /// X para posicionar o InnerControl encostado na EXTREMIDADE DIREITA
+        /// (respeitando padding/borda direita).
+        /// </summary>
         public int RelativeRightX(int innerControlWidth)
         {
             // canto esquerdo = largura total - espessura direita - largura do inner
             return Width - ContentRightBound - innerControlWidth;
         }
-        /// <summary>X para posicionar o InnerControl encostado na EXTREMIDADE DIREITA (respeitando padding/borda direita).</summary>
-        public int RelativeRightX(InnerControl innerControl) => RelativeCenterX(innerControl.Width);
+
+        /// <summary>
+        /// X para posicionar o InnerControl encostado na EXTREMIDADE DIREITA (respeitando padding/borda direita).</summary>
+        public int RelativeRightX(InnerControl innerControl) => RelativeRightX(innerControl.Width);
 
         /// <summary>Y para posicionar o InnerControl encostado na EXTREMIDADE SUPERIOR (respeitando padding/borda superior).</summary>
         public int RelativeTopY()

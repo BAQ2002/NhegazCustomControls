@@ -30,6 +30,8 @@
         {
             customDatePicker1 = new CustomDatePicker();
             customDataGridView1 = new CustomDataGridView();
+            customDatePicker2 = new CustomDatePicker();
+            dateTimePicker1 = new DateTimePicker();
             SuspendLayout();
             // 
             // customDatePicker1
@@ -46,6 +48,8 @@
             customDatePicker1.ControlPadding.RelativePercentBorderTop = 0.6F;
             customDatePicker1.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
             customDatePicker1.ControlPadding.RelativePercentInnerVertical = 0.6F;
+            customDatePicker1.Date = new DateOnly(2025, 10, 6);
+            customDatePicker1.Day = 6;
             customDatePicker1.DropDownFeatures.HeaderBackgroundColor = SystemColors.GradientActiveCaption;
             customDatePicker1.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
             customDatePicker1.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
@@ -54,16 +58,18 @@
             customDatePicker1.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker1.HoverColor = SystemColors.Highlight;
             customDatePicker1.HoverForeColor = SystemColors.Window;
-            customDatePicker1.Location = new Point(393, 107);
-            customDatePicker1.MinimumSize = new Size(153, 44);
+            customDatePicker1.Location = new Point(315, 107);
+            customDatePicker1.MinimumSize = new Size(136, 46);
+            customDatePicker1.Month = 10;
             customDatePicker1.Name = "customDatePicker1";
             customDatePicker1.OnFocus = false;
             customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
             customDatePicker1.OnFocusBorderExtraWidth = 1;
             customDatePicker1.SecondaryBackgroundColor = SystemColors.ActiveCaption;
             customDatePicker1.SecondaryForeColor = SystemColors.GrayText;
-            customDatePicker1.Size = new Size(153, 44);
+            customDatePicker1.Size = new Size(136, 46);
             customDatePicker1.TabIndex = 0;
+            customDatePicker1.Year = 2025;
             // 
             // customDataGridView1
             // 
@@ -114,12 +120,59 @@
             customDataGridView1.Size = new Size(302, 221);
             customDataGridView1.TabIndex = 1;
             // 
+            // customDatePicker2
+            // 
+            customDatePicker2.BackColor = Color.Transparent;
+            customDatePicker2.BackgroundColor = SystemColors.Window;
+            customDatePicker2.BorderColor = SystemColors.WindowFrame;
+            customDatePicker2.BorderRadius = 7;
+            customDatePicker2.BorderWidth = 1;
+            customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
+            customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.6F;
+            customDatePicker2.ControlPadding.RelativePercentBorderLeft = 0.6F;
+            customDatePicker2.ControlPadding.RelativePercentBorderRight = 0.6F;
+            customDatePicker2.ControlPadding.RelativePercentBorderTop = 0.6F;
+            customDatePicker2.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
+            customDatePicker2.ControlPadding.RelativePercentInnerVertical = 0.6F;
+            customDatePicker2.Date = new DateOnly(2025, 10, 8);
+            customDatePicker2.Day = 8;
+            customDatePicker2.DropDownFeatures.HeaderBackgroundColor = SystemColors.GrayText;
+            customDatePicker2.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
+            customDatePicker2.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
+            customDatePicker2.DropDownFeatures.HeaderHoverForeColor = SystemColors.Window;
+            customDatePicker2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
+            customDatePicker2.HoverColor = SystemColors.Highlight;
+            customDatePicker2.HoverForeColor = SystemColors.Window;
+            customDatePicker2.Location = new Point(489, 230);
+            customDatePicker2.MinimumSize = new Size(168, 57);
+            customDatePicker2.Month = 10;
+            customDatePicker2.Name = "customDatePicker2";
+            customDatePicker2.OnFocus = false;
+            customDatePicker2.OnFocusBorderColor = SystemColors.Highlight;
+            customDatePicker2.OnFocusBorderExtraWidth = 1;
+            customDatePicker2.SecondaryBackgroundColor = SystemColors.ControlLightLight;
+            customDatePicker2.SecondaryForeColor = SystemColors.ControlText;
+            customDatePicker2.Size = new Size(168, 57);
+            customDatePicker2.TabIndex = 2;
+            customDatePicker2.Year = 2025;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Format = DateTimePickerFormat.Short;
+            dateTimePicker1.Location = new Point(466, 429);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(90, 23);
+            dateTimePicker1.TabIndex = 3;
+            // 
             // TestForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(846, 553);
+            Controls.Add(dateTimePicker1);
+            Controls.Add(customDatePicker2);
             Controls.Add(customDataGridView1);
             Controls.Add(customDatePicker1);
             Name = "TestForm";
@@ -132,5 +185,7 @@
 
         private CustomDatePicker customDatePicker1;
         private CustomDataGridView customDataGridView1;
+        private CustomDatePicker customDatePicker2;
+        private DateTimePicker dateTimePicker1;
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,45 +29,42 @@ namespace NhegazCustomControls
         }
         public CustomDatePicker() : base() 
         {
-            
-
             DropDownFeatures.Add<DropDownDay>();
             DropDownFeatures.Add<DropDownMonth>();
             DropDownFeatures.Add<DropDownYear>(); // enquanto não migrar, funciona do mesmo jeito
 
-            Controls.Add(selectedDay);
-            selectedDay.BorderStyle = BorderStyle.None;
-            selectedDay.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
-            selectedDay.Click += (s, e) => { this.Focus(); this.OnClick(e); };
+            Controls.Add(dayTextBox);
+            dayTextBox.BorderStyle = BorderStyle.None;
+            dayTextBox.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
+            dayTextBox.Click += (s, e) => { this.Focus(); this.OnClick(e); };
 
             InnerControls.Add(daySlashMonth);
             daySlashMonth.Text = "/";
 
             InnerControls.Add(dayDropDownIcon);    
-            dayDropDownIcon.DoubleClick += (s, e) => { OnClick(e, new DropDownDay(this)); };
-            dayDropDownIcon.Click += (s, e) => { OnClick(e, new DropDownDay(this)); };
-          
-            Controls.Add(selectedMonth);
-            selectedMonth.BorderStyle = BorderStyle.None;
-            selectedMonth.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
-            selectedMonth.Click += (s, e) => { this.Focus(); this.OnClick(e); };
+            dayDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownDay));
+            dayDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownDay));
+            Controls.Add(monthTextBox);
+            monthTextBox.BorderStyle = BorderStyle.None;
+            monthTextBox.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
+            monthTextBox.Click += (s, e) => { this.Focus(); this.OnClick(e); };
            
             InnerControls.Add(monthDropDownIcon);
-            monthDropDownIcon.DoubleClick += (s, e) => { OnClick(e, new DropDownMonth(this)); };
-            monthDropDownIcon.Click += (s, e) => {  OnClick(e, new DropDownMonth(this)); };
+            monthDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownMonth));
+            monthDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownMonth));
 
             InnerControls.Add(monthSlashYear);
             monthSlashYear.Text = "/";
 
-            Controls.Add(selectedYear);
-            selectedYear.BorderStyle = BorderStyle.None;
-            selectedYear.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
-            selectedYear.Click += (s, e) => { this.Focus(); this.OnClick(e); };
+            Controls.Add(yearTextBox);
+            yearTextBox.BorderStyle = BorderStyle.None;
+            yearTextBox.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
+            yearTextBox.Click += (s, e) => { this.Focus(); this.OnClick(e); };
      
           
             InnerControls.Add(yearDropDownIcon);
-            yearDropDownIcon.DoubleClick += (s, e) => { OnClick(e, new DropDownYear(this)); };
-            yearDropDownIcon.Click += (s, e) => { OnClick(e, new DropDownYear(this)); };
+            yearDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownYear));
+            yearDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownYear));
 
             AdjustControlSize();
             AdjustHoverColors();
@@ -107,31 +105,30 @@ namespace NhegazCustomControls
         }
 
         //Sobrescrever o Click para ter o comportamento adequado
-        protected void OnClick(EventArgs e, CustomControl dropDown)
+        protected void OnClick(EventArgs e, Type dropDownType)
         {
             base.OnClick(e);
-            if (dropDownInstance == null) 
+            if (dropDownInstance == null)
             {
-                OpenDropDown(dropDown);
-
+                OpenDropDown((CustomControl)Activator.CreateInstance(dropDownType, this));
             }
-            else if (dropDownInstance != null)
+            else if (dropDownInstance.GetType() != dropDownType)
             {
-                Form parentForm = FindForm();
-
-                if (dropDownInstance.GetType() != dropDown.GetType())
-                {
-                    parentForm.Controls.Remove(dropDownInstance);
-                    dropDownInstance.Dispose();
-                    OpenDropDown(dropDown);
-                    return;
-                }
-                
-                parentForm.Controls.Remove(dropDownInstance);
-                dropDownInstance = null; //Define o dropDownInstance como Null
-                OnFocus = false; //Define que o elemento nao esta em foco
-
+                CloseDropDownInstance();
+                OpenDropDown((CustomControl)Activator.CreateInstance(dropDownType, this));
             }
+            else
+            {
+                CloseDropDownInstance();
+            }
+        }
+
+        public void CloseDropDownInstance()
+        {
+            Form parentForm = FindForm();
+            parentForm.Controls.Remove(dropDownInstance);
+            dropDownInstance.Dispose();
+            dropDownInstance = null;
         }
 
         protected void OpenDropDown(CustomControl dropDown)
@@ -197,8 +194,6 @@ namespace NhegazCustomControls
                 return (dMonthIdealHorizontalGap, dMonthIdealVerticalGap);
             }
             else return (0, 0);
-
-
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -206,18 +201,6 @@ namespace NhegazCustomControls
             base.OnPaint(e);           
         }
 
-        protected override void OnLostFocus(EventArgs e)
-        {
-            base.OnLostFocus(e);
-            if (dropDownInstance != null)
-            {
-                Form parentForm = FindForm();
-                parentForm.Controls.Remove(dropDownInstance);
-                dropDownInstance = null;
-                OnFocus = false;
-                return;
-            }
-        }
         
         protected override void OnResize(EventArgs e)
         {

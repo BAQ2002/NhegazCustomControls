@@ -11,13 +11,13 @@ namespace NhegazCustomControls
     {
         private DateOnly? date;
 
-        public TextBox selectedDay = new TextBox();   //Opção atualmente selecionada Dia
-        public TextBox selectedMonth = new TextBox(); //Opção atualmente selecionada mes
-        public TextBox selectedYear = new TextBox();  //Opção atualmente selecionada ano
+        public TextBox dayTextBox = new TextBox();   //Opção atualmente selecionada Dia
+        public TextBox monthTextBox = new TextBox(); //Opção atualmente selecionada mes
+        public TextBox yearTextBox = new TextBox();  //Opção atualmente selecionada ano
 
-        public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.SymmetricCircle);   //Botão para abrir DropDown
-        public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.SymmetricCircle); //Botão para abrir DropDown
-        public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.SymmetricCircle);  //Botão para abrir DropDown
+        public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);   //Botão para abrir DropDown
+        public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle); //Botão para abrir DropDown
+        public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);  //Botão para abrir DropDown
 
         private InnerLabel daySlashMonth = new InnerLabel();  //Elemento visual barra "/"
         private InnerLabel monthSlashYear = new InnerLabel(); //Elemento visual barra "/"
@@ -29,7 +29,7 @@ namespace NhegazCustomControls
             set
             {
                 base.Font = value;
-                selectedDay.Font = value; selectedMonth.Font = value; selectedYear.Font = value;
+                dayTextBox.Font = value; monthTextBox.Font = value; yearTextBox.Font = value;
                 dayDropDownIcon.Font = value; monthDropDownIcon.Font = value; yearDropDownIcon.Font = value;
                 daySlashMonth.Font = value; monthSlashYear.Font = value;
                 AdjustControlSize();
@@ -42,7 +42,7 @@ namespace NhegazCustomControls
             set
             {
                 base.BackgroundColor = value;
-                selectedDay.BackColor = value; selectedMonth.BackColor = value; selectedYear.BackColor = value;
+                dayTextBox.BackColor = value; monthTextBox.BackColor = value; yearTextBox.BackColor = value;
                 dayDropDownIcon.BackgroundColor = value; monthDropDownIcon.BackgroundColor = value; yearDropDownIcon.BackgroundColor = value;
                 daySlashMonth.BackgroundColor = value; monthSlashYear.BackgroundColor = value;
                 Invalidate();
@@ -55,7 +55,7 @@ namespace NhegazCustomControls
             set
             {
                 base.ForeColor = value;
-                selectedDay.ForeColor = value; selectedMonth.ForeColor = value; selectedYear.ForeColor = value;
+                dayTextBox.ForeColor = value; monthTextBox.ForeColor = value; yearTextBox.ForeColor = value;
                 dayDropDownIcon.ForeColor = value; monthDropDownIcon.ForeColor = value; yearDropDownIcon.ForeColor = value;
                 daySlashMonth.ForeColor = value; monthSlashYear.ForeColor = value;
                 Invalidate();
@@ -126,14 +126,14 @@ namespace NhegazCustomControls
             }
         }
         /// <summary>
-        /// Sincroniza os TextBox (selectedDay/Month/Year) a partir das propriedades.
+        /// Sincroniza os TextBox (dayTextBox/Month/Year) a partir das propriedades.
         /// </summary>
         private void SyncTextsFromProperties()
         {
             // D2 para dia/mês, D4 para ano
-            selectedDay.Text = Day.ToString("D2");
-            selectedMonth.Text = Month.ToString("D2");
-            selectedYear.Text = Year.ToString("D4");
+            dayTextBox.Text = Day.ToString("D2");
+            monthTextBox.Text = Month.ToString("D2");
+            yearTextBox.Text = Year.ToString("D4");
         }
 
     }

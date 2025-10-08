@@ -87,7 +87,7 @@ namespace NhegazCustomControls
             if (parentControl is CustomDatePicker dp)
             {
                 dp.Year = item.Year;
-                Parent?.Controls.Remove(this);
+                dp.CloseDropDownInstance();
             }
         }        
     }

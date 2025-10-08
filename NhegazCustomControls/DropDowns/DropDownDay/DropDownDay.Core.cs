@@ -205,9 +205,8 @@ namespace NhegazCustomControls
                 dp.Day = item.Day;
                 dp.Month = item.Month;
                 dp.Year = item.Year;
+                dp.CloseDropDownInstance();
             }
-
-            Parent?.Controls.Remove(this);
         }
 
     }

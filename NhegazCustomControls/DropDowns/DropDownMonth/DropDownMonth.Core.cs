@@ -102,7 +102,7 @@ namespace NhegazCustomControls
             {
                 dp.Month = item.Month;
                 dp.Year = item.Year;
-                Parent?.Controls.Remove(this);
+                dp.CloseDropDownInstance();
             }                        
         }
 

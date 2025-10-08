@@ -18,17 +18,11 @@ namespace NhegazCustomControls
         /// </summary>
         protected virtual void AdjustInnerSizes()
         { }
-        protected virtual void AdjustMatrixItemsSizes(int row, int col, int itemWidth, int ItemHeight)
-        { }
-
+  
         /// <summary>
         /// Metodo responsavel pelo ajuste das posicoes dos InnerControls.
         /// </summary>
-        /// 
         protected virtual void AdjustInnerLocations()
-        { }
-
-        protected virtual void AdjustMatrixItemsLocations(int row, int col, int x, int y)
         { }
 
         /// <summary>

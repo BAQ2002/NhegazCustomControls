@@ -10,8 +10,6 @@ namespace NhegazCustomControls
     {
         public override void AdjustControlSize()
         {
-            Controls.Clear();
-
             if (MonthItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 

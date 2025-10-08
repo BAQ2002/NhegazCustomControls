@@ -10,56 +10,90 @@ namespace NhegazCustomControls
     {
         public override void AdjustControlSize()
         {
-            AdjustInnerSizes();  AdjustInnerLocations();
+            Size = GetSize(); AdjustInnerSizes();  AdjustInnerLocations(); SetMinimumSize();
+        }
+        public Size GetSize()
+        {
+            Size contentSize = GetContentSize();
+            Size paddingSize = GetPaddingSize();
+
+            int sizeWidth = contentSize.Width
+                          + paddingSize.Width;
+
+            int sizeHeight = contentSize.Height
+                           + paddingSize.Height;
+
+            return new Size(sizeWidth, sizeHeight);
+        }
+        public Size GetPaddingSize()
+        {
+            int paddingWidth = BorderHorizontalBoundsSum;
+            int paddingHeight = BorderVerticalBoundsSum;  
+
+            return new Size(paddingWidth, paddingHeight);
+        }
+        public Size GetContentSize()
+        {
+            Size dayTextBoxSize = NhegazSizeMethods.TextExactSize("00", Font);
+            Size dayDropDownIconSize = NhegazSizeMethods.TextExactSize("00", Font);
+
+            Size monthTextBoxSize = NhegazSizeMethods.TextExactSize("00", Font);
+            Size monthDropDownIconSize = NhegazSizeMethods.TextExactSize("00", Font);
+
+            Size yearTextBoxSize = NhegazSizeMethods.TextExactSize("0000", Font);
+            Size yearDropDownIconSize = NhegazSizeMethods.TextExactSize("00", Font);
+
+            Size slashsSize = NhegazSizeMethods.TextExactSize("/", Font);
+
+            int contentWidth = dayTextBox.Width
+                             + dayDropDownIcon.Width
+                             + monthTextBox.Width
+                             + monthDropDownIcon.Width
+                             + yearTextBox.Width
+                             + yearDropDownIcon.Width
+                             + 2 * slashsSize.Width;
+
+            int contentHeight = NhegazSizeMethods.TextExactSize("00", Font).Height;
+
+            return new Size(contentWidth, contentHeight);
         }
         protected override void AdjustInnerSizes()
         {
-            selectedDay.Width = NhegazSizeMethods.TextExactSize("00", Font).Width;
-            selectedDay.Height = Font.Height;
+            dayTextBox.Width = NhegazSizeMethods.TextExactSize("00", Font).Width;
+            dayTextBox.Height = Font.Height;
 
-            dayDropDownIcon.Height = Font.Height;
+            dayDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
 
-            selectedMonth.Width = NhegazSizeMethods.TextExactSize("00", Font).Width;
-            selectedMonth.Height = Font.Height;
+            monthTextBox.Width = NhegazSizeMethods.TextExactSize("00", Font).Width;
+            monthTextBox.Height = Font.Height;
 
-            monthDropDownIcon.Height = Font.Height;
+            monthDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
 
-            selectedYear.Width = NhegazSizeMethods.TextExactSize("0000", Font).Width;
-            selectedYear.Height = Font.Height;
+            yearTextBox.Width = NhegazSizeMethods.TextExactSize("0000", Font).Width;
+            yearTextBox.Height = Font.Height;
 
-            yearDropDownIcon.Height = Font.Height;
+            yearDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
         }
         protected override void AdjustInnerLocations()
         {
-            selectedDay.Location = new Point(RelativeLeftX(), RelativeCenterY(selectedDay.Height));
-            dayDropDownIcon.SetLocation(selectedDay.Location.X + selectedDay.Width, RelativeCenterY(dayDropDownIcon));
+            dayTextBox.Location = new Point(RelativeLeftX(), RelativeCenterY(dayTextBox.Height));
+            dayDropDownIcon.SetLocation(dayTextBox.Location.X + dayTextBox.Width, RelativeCenterY(dayDropDownIcon));
 
             daySlashMonth.SetLocation(dayDropDownIcon.Right, RelativeCenterY(daySlashMonth));
 
-            selectedMonth.Location = new Point(daySlashMonth.Right, RelativeCenterY(selectedMonth.Height));
-            monthDropDownIcon.SetLocation(selectedMonth.Location.X + selectedMonth.Width, RelativeCenterY(monthDropDownIcon));
+            monthTextBox.Location = new Point(daySlashMonth.Right, RelativeCenterY(monthTextBox.Height));
+            monthDropDownIcon.SetLocation(monthTextBox.Location.X + monthTextBox.Width, RelativeCenterY(monthDropDownIcon));
 
             monthSlashYear.SetLocation(monthDropDownIcon.Right, RelativeCenterY(monthDropDownIcon));
 
-            selectedYear.Location = new Point(monthSlashYear.Right, RelativeCenterY(selectedYear.Height));
-            yearDropDownIcon.SetLocation(selectedYear.Location.X + selectedYear.Width, RelativeCenterY(yearDropDownIcon));
+            yearTextBox.Location = new Point(monthSlashYear.Right, RelativeCenterY(yearTextBox.Height));
+            yearDropDownIcon.SetLocation(yearTextBox.Location.X + yearTextBox.Width, RelativeCenterY(yearDropDownIcon));
         }
 
         protected override void SetMinimumSize()
         {
-            int innerControlsWidth = 0;
-            foreach (InnerControl ic in InnerControls.GetAll) 
-                innerControlsWidth += ic.Width;
-
-            int innerControlsHeight = 0;
-            foreach (InnerControl ic in InnerControls.GetAll) 
-                if (innerControlsWidth < ic.Height) innerControlsWidth = ic.Height;
-
-            int paddingWidth = BorderHorizontalBoundsSum + InnerHorizontalPadding;
-            int paddingHeight = BorderVerticalBoundsSum;
-
-            int minimumWidth = innerControlsWidth + paddingWidth;
-            int minimumHeight = innerControlsHeight + paddingHeight;
+            int minimumWidth = GetSize().Width;
+            int minimumHeight = GetSize().Height;
 
             MinimumSize = new Size(minimumWidth, minimumHeight);
         }
