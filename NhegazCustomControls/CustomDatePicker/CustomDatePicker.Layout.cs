@@ -12,6 +12,7 @@ namespace NhegazCustomControls
         {
             Size = GetSize(); AdjustInnerSizes();  AdjustInnerLocations(); SetMinimumSize();
         }
+        
         public Size GetSize()
         {
             Size contentSize = GetContentSize();

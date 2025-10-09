@@ -48,7 +48,7 @@ namespace NhegazCustomControls
         public Size GetContentSize()
         {
             Size itemSize = NhegazSizeMethods.TextSquareSizeByReference
-                            ("00", Font, 1.5f, ReferenceDimension.Height);
+                            ("00", Font, 1.5f, ReferenceDimension.Width);
 
             int headerHeight = itemSize.Height;                   //Altura do cabeçalho
             int weekDaysHeight = itemSize.Height;                 //Altura do WeekDays
@@ -66,7 +66,7 @@ namespace NhegazCustomControls
         }
         protected override void AdjustInnerSizes()
         {
-            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Height);
+            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Width);
 
             Header.SetSize(Width - BorderHorizontalBoundsSum, itemSize.Height);
             BackwardIcon.SetSize(itemSize);
@@ -96,7 +96,7 @@ namespace NhegazCustomControls
 
             int weekDaysY = Header.Bottom + InnerVerticalPadding;
 
-            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Height);
+            Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Width);
 
             for (int row = 0; row < NumberOfRows; row++)
             {

@@ -14,8 +14,13 @@ namespace NhegazCustomControls
     {
         private readonly CustomControl ownerControl;
         
-        private float heightRelativePercent = 1;
-        private int borderRadius = 1;
+        private float heightRelativePercent = 1; 
+
+        private int borderWidth = 1;
+        private int borderRadius = 4;
+
+        private Color borderColor = SystemColors.WindowFrame;
+        private Color onFocusBorderColor = SystemColors.Highlight;
 
         private Color foreColor = SystemColors.ControlText;
         private Color backgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho    
@@ -39,11 +44,32 @@ namespace NhegazCustomControls
         /// <summary>
         /// Raio do arredondamento das quinas da borda do cabeçalho.
         /// </summary>
-        [Category("Cabeçalho")]
+        [Category("Cabeçalho-Borda")]
         public int BorderRadius
         {
             get => borderRadius;
             set { borderRadius = value; ownerControl.Invalidate(); }
+        }
+       
+        [Category("Cabeçalho-Borda")]
+        public int BorderWidth
+        {
+            get => borderWidth;
+            set { borderWidth = value; ownerControl.Invalidate(); }
+        }
+
+        [Category("Cabeçalho-Borda")]
+        public Color BorderColor
+        {
+            get => borderColor;
+            set { borderColor = value; ownerControl.Invalidate(); }
+        }
+
+        [Category("Cabeçalho-Borda")]
+        public Color OnFocusBorderColor
+        {
+            get => onFocusBorderColor;
+            set { onFocusBorderColor = value; ownerControl.Invalidate(); }
         }
 
         /// <summary>
@@ -66,7 +92,7 @@ namespace NhegazCustomControls
         /// <summary>
         /// Cor de texto para cabeçalho.
         /// </summary>
-        [Category("Cabeçalho")]
+        [Category("Cabeçalho-Cores")]
         public virtual Color ForeColor
         {
             get => foreColor;
@@ -79,7 +105,7 @@ namespace NhegazCustomControls
             }
         }
 
-        [Category("Cabeçalho")]
+        [Category("Cabeçalho-Cores")]
         [Browsable(true)]
         public virtual Color HoverBackgroundColor
         {
@@ -88,7 +114,7 @@ namespace NhegazCustomControls
 
         }
 
-        [Category("Cabeçalho")]
+        [Category("Cabeçalho-Cores")]
         [Browsable(true)]
         public virtual Color HoverForeColor
         {
@@ -96,7 +122,7 @@ namespace NhegazCustomControls
             set { hoverForeColor = value; }
 
         }
-        [Category("Cabeçalho")]
+        [Category("Cabeçalho-Cores")]
         public float HeightRelativePercent
         {
             get => heightRelativePercent;
@@ -240,8 +266,7 @@ namespace NhegazCustomControls
         public void HandleMouseMove(Point p) => Controls.HandleMouseMove(ownerControl, p);
         public bool HandleGotFocus(Point p) => Controls.HandleGotFocus(ownerControl, p);
         public bool HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);
-        
-        
+
         /// <summary>
         /// Desenha o fundo do cabecalho.
         /// </summary>
@@ -258,6 +283,18 @@ namespace NhegazCustomControls
             // elementos internos do cabeçalho
             Controls.OnPaintAll(ownerControl, e);
             e.Graphics.ResetClip();
-        } 
+
+            using (GraphicsPath borderPath = NhegazDrawingMethods.HeaderRectBorderPath(Bounds, borderRadius, borderWidth))
+            {
+                if (borderWidth > 1)
+                {
+                    using (SolidBrush borderBrush = new SolidBrush(BorderColor))
+                    {
+                        e.Graphics.FillPath(borderBrush, borderPath);
+                    }
+                }
+                e.Graphics.DrawPath(new Pen(BorderColor, 1f), borderPath);
+            }
+        }
     }
 }

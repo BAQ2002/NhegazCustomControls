@@ -19,10 +19,10 @@ namespace NhegazCustomControls
         /// <summary>
         /// A partir das propriedades de CustomControl retorna um GraphicsPath que representa a area da sua Border.
         /// </summary>
-        public static GraphicsPath ControlBorderPath(Rectangle customControlRect, float borderRadius, int borderWidth)
+        public static GraphicsPath RectBorderPath(Rectangle rect, float borderRadius, int borderWidth)
         {
-            int width = customControlRect.Width - 1; //Ajuste necessario do Width para ficar dentro do tamanho do innerControl
-            int height = customControlRect.Height - 1; //Ajuste necessario do Height para ficar dentro do tamanho do innerControl
+            int width = rect.Width - 1; //Ajuste necessario do Width para ficar dentro do tamanho do innerControl
+            int height = rect.Height - 1; //Ajuste necessario do Height para ficar dentro do tamanho do innerControl
 
             GraphicsPath borderPath = new();
 
@@ -61,7 +61,54 @@ namespace NhegazCustomControls
             }
             return borderPath;
         }
-       
+        public static GraphicsPath HeaderRectBorderPath(Rectangle rect, float borderRadius, int borderWidth)
+        {
+            int locX = rect.X;
+            int locY = rect.Y;
+
+            int width = rect.Width - 1; //Ajuste necessario do Width para ficar dentro do tamanho do innerControl
+            int height = rect.Height - 1; //Ajuste necessario do Height para ficar dentro do tamanho do innerControl
+
+            GraphicsPath borderPath = new();
+
+            var baseArc = GenerateArc(borderRadius); // 0°→90° (como hoje)
+
+            // Borda externa com offset de localização
+            var arcTopLeft = baseArc.Select(p => new PointF(locX + p.X, locY + p.Y));
+            var arcTopRight = baseArc.Select(p => new PointF(locX + (width - p.X), locY + p.Y)).Reverse();
+            var arcBottomRight = baseArc.Select(p => new PointF(locX + (width - p.X), locY + (height - p.Y)));
+            var arcBottomLeft = baseArc.Select(p => new PointF(locX + p.X, locY + (height - p.Y))).Reverse();
+
+            borderPath.StartFigure();
+
+            borderPath.AddLines(arcTopLeft.ToArray());
+            borderPath.AddLines(arcTopRight.ToArray());
+            borderPath.AddLines(arcBottomRight.ToArray());
+            borderPath.AddLines(arcBottomLeft.ToArray());
+
+            borderPath.CloseFigure();
+
+            if (borderWidth > 1)
+            {
+                int offset = borderWidth - 1;
+                var arcInner = GenerateArc(borderRadius * 1f); // já vem invertido
+
+                var innerTopLeft = arcInner.Select(p => new PointF(locX + p.X + offset, locY + p.Y + offset));
+                var innerTopRight = arcInner.Select(p => new PointF(locX + (width - p.X) - offset, locY + p.Y + offset)).Reverse();
+                var innerBottomRight = arcInner.Select(p => new PointF(locX + (width - p.X) - offset, locY + (height - p.Y) - offset));
+                var innerBottomLeft = arcInner.Select(p => new PointF(locX + p.X + offset, locY + (height - p.Y) - offset)).Reverse();
+
+                borderPath.StartFigure();
+
+                borderPath.AddLines(innerTopLeft.ToArray());
+                borderPath.AddLines(innerTopRight.ToArray());
+                borderPath.AddLines(innerBottomRight.ToArray());
+                borderPath.AddLines(innerBottomLeft.ToArray());
+
+                borderPath.CloseFigure();
+            }
+            return borderPath;
+        }
         /// <summary>
         /// A partir das propriedades de InnerControl retorna um GraphicsPath que representa a area interna do InnerControl.
         /// </summary>

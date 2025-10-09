@@ -8,8 +8,14 @@ namespace NhegazCustomControls
     [TypeConverter(typeof(DropDownFeatureTypeConverter))] // expandir no PropertyGrid
     public class DropDownFeature
     {
+        private int headerBorderWidth = 1;
+        private int headerBorderRadius = 4;
+
         private Color headerBackgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho 
         private Color headerForeColor = SystemColors.ControlText;
+
+        private Color headerBorderColor = SystemColors.WindowFrame;
+        private Color headerOnFocusBorderColor = SystemColors.Highlight;
 
         private Color headerHoverBackgroundColor = SystemColors.Highlight;
         private Color headerHoverForeColor = SystemColors.Window;
@@ -63,6 +69,20 @@ namespace NhegazCustomControls
         /// Retorna true se removeu, false se o tipo não estava registrado.
         /// </summary>
         public bool Remove(Type t) => ControlsTypes.Remove(t);
+
+        [Category("Cabeçalho-Borda")]
+        public int HeaderBorderRadius
+        {
+            get => headerBorderRadius;
+            set { headerBorderRadius = value; }
+        }
+
+        [Category("Cabeçalho-Borda")]
+        public int HeaderBorderWidth
+        {
+            get => headerBorderWidth;
+            set { headerBorderWidth = value; }
+        }
         /// <summary>
         /// Cor de fundo para cabeçalho.
         /// </summary>
@@ -82,6 +102,20 @@ namespace NhegazCustomControls
             get => headerForeColor;
             set { headerForeColor = value; }
 
+
+        }
+        [Category("Cabeçalho-Borda")]
+        public Color HeaderBorderColor
+        {
+            get => headerBorderColor;
+            set { headerBorderColor = value; }
+        }
+
+        [Category("Cabeçalho-Borda")]
+        public Color HeaderOnFocusBorderColor
+        {
+            get => headerOnFocusBorderColor;
+            set { headerOnFocusBorderColor = value;}
         }
 
         [Category("DropDowns")]

@@ -117,8 +117,14 @@ namespace NhegazCustomControls
             if (parentControl is IHasDropDown srcDrop &&
                 srcDrop.DropDownFeatures.AnyIsHasHeader)
             {
+                destinationHeader.BorderRadius = srcDrop.DropDownFeatures.HeaderBorderRadius;
+                destinationHeader.BorderWidth = srcDrop.DropDownFeatures.HeaderBorderWidth;
+
                 destinationHeader.BackgroundColor = srcDrop.DropDownFeatures.HeaderBackgroundColor;
                 destinationHeader.ForeColor = srcDrop.DropDownFeatures.HeaderForeColor;
+
+                destinationHeader.BorderColor = srcDrop.DropDownFeatures.HeaderBorderColor;
+                destinationHeader.OnFocusBorderColor = srcDrop.DropDownFeatures.HeaderOnFocusBorderColor;
 
                 destinationHeader.HoverBackgroundColor = srcDrop.DropDownFeatures.HeaderHoverBackgroundColor;
                 destinationHeader.HoverForeColor = srcDrop.DropDownFeatures.HeaderHoverForeColor;
@@ -244,7 +250,7 @@ namespace NhegazCustomControls
             Color BorderColor = OnFocus ? OnFocusBorderColor : this.BorderColor;
             int borderWidth = OnFocus ? BorderWidth + OnFocusBorderExtraWidth : BorderWidth;
 
-            using (GraphicsPath borderPath = NhegazDrawingMethods.ControlBorderPath(new Rectangle(Location, Size), BorderRadius, borderWidth))
+            using (GraphicsPath borderPath = NhegazDrawingMethods.RectBorderPath(new Rectangle(Location, Size), BorderRadius, borderWidth))
             {              
                 if (borderWidth > 1)
                 {                   

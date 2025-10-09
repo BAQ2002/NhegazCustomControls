@@ -27,6 +27,7 @@ namespace NhegazCustomControls
                 Date = DateOnly.FromDateTime(DateTime.Now); // usa o setter -> sincroniza textos
             }
         }
+
         public CustomDatePicker() : base() 
         {
             DropDownFeatures.Add<DropDownDay>();

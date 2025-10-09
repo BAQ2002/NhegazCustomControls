@@ -80,9 +80,8 @@ namespace NhegazCustomControls
 
         protected override void AdjustControlSize()
         {
-            if (BackGroundShape == BackGroundShape.SymmetricCircle)
-                SymmetricalCircleAdjust();           
-
+            base.AdjustControlSize();
+         
             if (SizeBasedOnText == true)
                 Size = NhegazSizeMethods.TextExactSize(Text, Font);
 

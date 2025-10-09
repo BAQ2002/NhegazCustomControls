@@ -29,41 +29,27 @@ namespace NhegazCustomControls
             );
             return size;
         }
+
         public static Size TextProportionalSize(string text, Font font, float proportion = 1f)
         {
-            Size size = TextRenderer.MeasureText(
-                text,
-                font,
-                new Size(int.MaxValue, int.MaxValue),
-                TextFormatFlags.NoPadding | TextFormatFlags.SingleLine
-            );
+            Size size = TextExactSize(text, font);
 
-            float scale = proportion;
-
-            size.Width = (int)(size.Width * scale);
-            size.Height = (int)(size.Height * scale);
+            size.Width = (int)(size.Width * proportion);
+            size.Height = (int)(size.Height * proportion);
             return size;
         }
 
-     
         public static Size TextSquareSizeByReference(string text, Font font, float proportion = 1f, ReferenceDimension referenceDimension = ReferenceDimension.None)
         {
-            Size size = TextRenderer.MeasureText(
-                text,
-                font,
-                new Size(int.MaxValue, int.MaxValue),
-                TextFormatFlags.NoPadding | TextFormatFlags.SingleLine
-            );
-
-            float scale = proportion;
+            Size size = TextExactSize(text, font);
 
             if (referenceDimension == ReferenceDimension.Height)
             {
-                return new((int)(size.Height * scale), (int)(size.Height * scale));
+                return new((int)(size.Height * proportion), (int)(size.Height * proportion));
             }
             else if (referenceDimension == ReferenceDimension.Width)
             {
-                return new((int)(size.Width * scale), (int)(size.Width * scale));
+                return new((int)(size.Width * proportion), (int)(size.Width * proportion));
             }
 
             return size;

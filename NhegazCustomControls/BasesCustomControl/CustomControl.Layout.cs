@@ -38,8 +38,8 @@ namespace NhegazCustomControls
         /// </summary>
         public virtual void AdjustControlSize()
         {
-            AdjustInnerLocations();
             AdjustInnerSizes();
+            AdjustInnerLocations();      
             SetMinimumSize();
             Invalidate();
         }
