@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             customDatePicker1 = new CustomDatePicker();
-            customDataGridView1 = new CustomDataGridView();
             customDatePicker2 = new CustomDatePicker();
             dateTimePicker1 = new DateTimePicker();
+            customDataGridView1 = new CustomDataGridView();
             SuspendLayout();
             // 
             // customDatePicker1
@@ -74,58 +74,6 @@
             customDatePicker1.Size = new Size(136, 46);
             customDatePicker1.TabIndex = 0;
             customDatePicker1.Year = 2025;
-            // 
-            // customDataGridView1
-            // 
-            customDataGridView1.BackColor = Color.Transparent;
-            customDataGridView1.BackgroundColor = SystemColors.Control;
-            customDataGridView1.BorderColor = SystemColors.WindowFrame;
-            customDataGridView1.BorderRadius = 5;
-            customDataGridView1.BorderWidth = 1;
-            customDataGridView1.ColumnWidthMode = ColumnWidthMode.HeaderWidth;
-            customDataGridView1.ControlPadding.BorderBottom = 0;
-            customDataGridView1.ControlPadding.BorderLeft = 0;
-            customDataGridView1.ControlPadding.BorderRight = 0;
-            customDataGridView1.ControlPadding.BorderTop = 0;
-            customDataGridView1.ControlPadding.InnerHorizontal = 1;
-            customDataGridView1.ControlPadding.InnerVertical = 1;
-            customDataGridView1.ControlPadding.Mode = PaddingMode.Absolute;
-            customDataGridView1.ControlPadding.RelativePercentBorderBottom = 0F;
-            customDataGridView1.ControlPadding.RelativePercentBorderLeft = 0F;
-            customDataGridView1.ControlPadding.RelativePercentBorderRight = 0F;
-            customDataGridView1.ControlPadding.RelativePercentBorderTop = 0F;
-            customDataGridView1.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
-            customDataGridView1.ControlPadding.RelativePercentInnerVertical = 0.6F;
-            customDataGridView1.DifferentColorsBetweenRows = true;
-            customDataGridView1.FixedCharCount = 10;
-            customDataGridView1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            customDataGridView1.Header.BackgroundColor = SystemColors.GradientInactiveCaption;
-            customDataGridView1.Header.BorderColor = SystemColors.Highlight;
-            customDataGridView1.Header.BorderRadius = 1;
-            customDataGridView1.Header.BorderWidth = 2;
-            customDataGridView1.Header.ForeColor = SystemColors.ControlText;
-            customDataGridView1.Header.HeightMode = HeaderHeightMode.Absolute;
-            customDataGridView1.Header.HeightRelativePercent = 1F;
-            customDataGridView1.Header.HoverBackgroundColor = SystemColors.ControlText;
-            customDataGridView1.Header.HoverForeColor = SystemColors.ControlText;
-            customDataGridView1.Header.Location = new Point(0, 0);
-            customDataGridView1.Header.OnFocusBorderColor = SystemColors.Highlight;
-            customDataGridView1.Header.Size = new Size(0, 0);
-            customDataGridView1.HoverBackgroundColor = SystemColors.Highlight;
-            customDataGridView1.HoverColor = SystemColors.Highlight;
-            customDataGridView1.HoverForeColor = SystemColors.Window;
-            customDataGridView1.LinesBetweenColumns = true;
-            customDataGridView1.LinesBetweenRows = true;
-            customDataGridView1.LinesWidth = 1;
-            customDataGridView1.Location = new Point(33, 158);
-            customDataGridView1.Name = "customDataGridView1";
-            customDataGridView1.OnFocus = false;
-            customDataGridView1.OnFocusBorderColor = SystemColors.Highlight;
-            customDataGridView1.OnFocusBorderExtraWidth = 1;
-            customDataGridView1.SecondaryBackgroundColor = SystemColors.ControlLightLight;
-            customDataGridView1.SecondaryForeColor = SystemColors.GrayText;
-            customDataGridView1.Size = new Size(302, 221);
-            customDataGridView1.TabIndex = 1;
             // 
             // customDatePicker2
             // 
@@ -171,20 +119,65 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(466, 429);
+            dateTimePicker1.Location = new Point(788, 130);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(90, 23);
             dateTimePicker1.TabIndex = 3;
+            // 
+            // customDataGridView1
+            // 
+            customDataGridView1.BackColor = Color.Transparent;
+            customDataGridView1.BackgroundColor = SystemColors.Window;
+            customDataGridView1.BorderColor = SystemColors.WindowFrame;
+            customDataGridView1.BorderRadius = 5;
+            customDataGridView1.BorderWidth = 1;
+            customDataGridView1.ColumnWidthMode = ColumnWidthMode.HeaderWidth;
+            customDataGridView1.ControlPadding.Mode = PaddingMode.RelativeToFont;
+            customDataGridView1.ControlPadding.RelativePercentBorderBottom = 0F;
+            customDataGridView1.ControlPadding.RelativePercentBorderLeft = 0F;
+            customDataGridView1.ControlPadding.RelativePercentBorderRight = 0F;
+            customDataGridView1.ControlPadding.RelativePercentBorderTop = 0F;
+            customDataGridView1.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
+            customDataGridView1.ControlPadding.RelativePercentInnerVertical = 0.6F;
+            customDataGridView1.DifferentColorsBetweenRows = true;
+            customDataGridView1.FixedCharCount = 10;
+            customDataGridView1.Header.BackgroundColor = SystemColors.GrayText;
+            customDataGridView1.Header.BorderColor = SystemColors.WindowFrame;
+            customDataGridView1.Header.BorderRadius = 4;
+            customDataGridView1.Header.BorderWidth = 1;
+            customDataGridView1.Header.ForeColor = SystemColors.ControlText;
+            customDataGridView1.Header.HeightMode = HeaderHeightMode.Absolute;
+            customDataGridView1.Header.HeightRelativePercent = 1F;
+            customDataGridView1.Header.HoverBackgroundColor = SystemColors.ControlText;
+            customDataGridView1.Header.HoverForeColor = SystemColors.ControlText;
+            customDataGridView1.Header.Location = new Point(0, 0);
+            customDataGridView1.Header.OnFocusBorderColor = SystemColors.Highlight;
+            customDataGridView1.Header.Size = new Size(0, 0);
+            customDataGridView1.HoverBackgroundColor = SystemColors.Highlight;
+            customDataGridView1.HoverColor = SystemColors.Highlight;
+            customDataGridView1.HoverForeColor = SystemColors.Window;
+            customDataGridView1.LinesBetweenColumns = true;
+            customDataGridView1.LinesBetweenRows = true;
+            customDataGridView1.LinesWidth = 1;
+            customDataGridView1.Location = new Point(12, 280);
+            customDataGridView1.Name = "customDataGridView1";
+            customDataGridView1.OnFocus = false;
+            customDataGridView1.OnFocusBorderColor = SystemColors.Highlight;
+            customDataGridView1.OnFocusBorderExtraWidth = 1;
+            customDataGridView1.SecondaryBackgroundColor = SystemColors.ActiveCaption;
+            customDataGridView1.SecondaryForeColor = SystemColors.ControlText;
+            customDataGridView1.Size = new Size(439, 305);
+            customDataGridView1.TabIndex = 4;
             // 
             // TestForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(846, 553);
+            ClientSize = new Size(1019, 609);
+            Controls.Add(customDataGridView1);
             Controls.Add(dateTimePicker1);
             Controls.Add(customDatePicker2);
-            Controls.Add(customDataGridView1);
             Controls.Add(customDatePicker1);
             Name = "TestForm";
             Text = "Form1";
@@ -195,8 +188,8 @@
         #endregion
 
         private CustomDatePicker customDatePicker1;
-        private CustomDataGridView customDataGridView1;
         private CustomDatePicker customDatePicker2;
         private DateTimePicker dateTimePicker1;
+        private CustomDataGridView customDataGridView1;
     }
 }

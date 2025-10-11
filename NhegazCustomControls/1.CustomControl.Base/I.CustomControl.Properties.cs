@@ -201,10 +201,7 @@ namespace NhegazCustomControls
         public int RelativeRightX(InnerControl innerControl) => RelativeRightX(innerControl.Width);
 
         /// <summary>Y para posicionar o InnerControl encostado na EXTREMIDADE SUPERIOR (respeitando padding/borda superior).</summary>
-        public int RelativeTopY()
-        {
-            return ContentTopBound;
-        }
+        public int RelativeTopY(){ return ContentTopBound; }
 
         /// <summary>Y para posicionar o InnerControl encostado na EXTREMIDADE INFERIOR (respeitando padding/borda inferior).</summary>
         public int RelativeBottomY(int innerControlHeight)

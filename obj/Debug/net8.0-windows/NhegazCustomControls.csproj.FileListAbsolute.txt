@@ -24,3 +24,4 @@ C:\Users\anton\source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\Nhegaz
 C:\Users\anton\source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.sourcelink.json
 C:\Users\anton\Source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.CustomComboBox.resources
 C:\Users\anton\Source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.DropDownYear.resources
+C:\Users\anton\Source\repos\NhegazCustomControls\obj\Debug\net8.0-windows\NhegazCustomControls.DropDownMonth.resources

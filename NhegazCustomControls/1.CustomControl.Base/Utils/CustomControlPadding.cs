@@ -15,7 +15,7 @@ namespace NhegazCustomControls
         private float relInnerH = 0.60f, relInnerV = 0.60f;
         private float relBorderLeft, relBorderTop, relBorderRight, relBorderBottom;
 
-        private PaddingMode mode = PaddingMode.Absolute;
+        private PaddingMode mode = PaddingMode.RelativeToFont;
         private readonly CustomControl Owner;
 
         public event EventHandler? Changed;

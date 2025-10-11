@@ -13,7 +13,7 @@ namespace NhegazCustomControls
             public string Cor { get; set; }
             public string Ano { get; set; }
         }
-        
+
         private void TestForm_Load(object sender, EventArgs e)
         {
             List<Carro> CarrosList = new List<Carro>
@@ -69,6 +69,8 @@ namespace NhegazCustomControls
             };
 
             customDataGridView1.SetDataSource(CarrosList);
-        }      
+        }
+
+
     }
 }
