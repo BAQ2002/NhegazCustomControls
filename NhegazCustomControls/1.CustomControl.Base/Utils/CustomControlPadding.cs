@@ -254,7 +254,7 @@ namespace NhegazCustomControls
         private void NotifyOwner()
         {
             Changed?.Invoke(this, EventArgs.Empty);
-            Owner?.AdjustControlSize();
+            Owner?.UpdateLayout();
             Owner?.Invalidate();
         }
 

@@ -11,12 +11,12 @@ namespace NhegazCustomControls
     {
         
 
-        public override void AdjustControlSize()
+        public override void UpdateLayout()
         {
             if (DayItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            Size =  GetSize(); AdjustInnerSizes(); AdjustInnerLocations();         
+            Size =  GetSize(); SetInnerSizes(); SetInnerLocations();         
         }
         public Size GetSize()
         {
@@ -64,7 +64,7 @@ namespace NhegazCustomControls
 
             return new Size(contentWidth, contentHeight);
         }
-        protected override void AdjustInnerSizes()
+        protected override void SetInnerSizes()
         {
             Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Width);
 
@@ -86,7 +86,7 @@ namespace NhegazCustomControls
             }
         }
 
-        protected override void AdjustInnerLocations()
+        protected override void SetInnerLocations()
         {
             Header.SetLocation(RelativeLeftX(), RelativeTopY());
             

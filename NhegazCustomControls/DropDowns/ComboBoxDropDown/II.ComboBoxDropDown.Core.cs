@@ -21,7 +21,7 @@ namespace NhegazCustomControls
             OptionsLabels ??= new VectorFeature(this, NumberOfColumns);
 
             CreateOptionsLabels();
-            AdjustControlSize();
+            UpdateLayout();
         }
 
         private void CreateOptionsLabels()
@@ -51,10 +51,10 @@ namespace NhegazCustomControls
 
         }
         //Método para ajuste automatizado do tamanho do elemento
-        public override void AdjustControlSize()
+        public override void UpdateLayout()
         {
 
-            base.AdjustControlSize();
+            base.UpdateLayout();
 
             if (ParentControl.ItemList == null || ParentControl.ItemList.Count == 0) return;
 

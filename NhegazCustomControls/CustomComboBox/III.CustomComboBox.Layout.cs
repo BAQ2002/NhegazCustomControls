@@ -17,13 +17,13 @@
 
             return maxWidth;
         }
-        protected override void AdjustInnerSizes()
+        protected override void SetInnerSizes()
         {
             selectIndex.SetSize(GetItemsMaxTextPixelWidth(), selectIndex.Height);
             dropDownIcon.SetSize(Font.Height, Font.Height);
         }
 
-        protected override void AdjustInnerLocations()
+        protected override void SetInnerLocations()
         {
             selectIndex.SetLocation(RelativeLeftX(), RelativeCenterY(selectIndex));
             dropDownIcon.SetLocation(RelativeRightX(dropDownIcon), RelativeCenterY(dropDownIcon));

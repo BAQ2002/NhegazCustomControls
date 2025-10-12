@@ -8,12 +8,12 @@ namespace NhegazCustomControls
 {
     public partial class DropDownMonth
     {
-        public override void AdjustControlSize()
+        public override void UpdateLayout()
         {
             if (MonthItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            Size = GetSize(); AdjustInnerSizes();  AdjustInnerLocations();
+            Size = GetSize(); SetInnerSizes();  SetInnerLocations();
 
         }
         public Size GetSize()
@@ -56,7 +56,7 @@ namespace NhegazCustomControls
 
             return new Size(contentWidth, contentHeight);
         }
-        protected override void AdjustInnerSizes()
+        protected override void SetInnerSizes()
         {
             Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("0000", Font, 1.3f, ReferenceDimension.Width);
             Size headerItemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Height);
@@ -73,7 +73,7 @@ namespace NhegazCustomControls
                 }
             }
         }
-        protected override void AdjustInnerLocations()
+        protected override void SetInnerLocations()
         {
             Header.SetLocation(RelativeLeftX(), RelativeTopY());
 

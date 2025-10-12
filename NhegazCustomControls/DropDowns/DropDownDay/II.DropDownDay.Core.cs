@@ -46,7 +46,7 @@ namespace NhegazCustomControls
                 CreateWeekDayLabels();
                 CreateDayItems();  
                 
-                AdjustControlSize();
+                UpdateLayout();
                 Header.AdjustHeaderColors();
             }
         }
@@ -112,7 +112,7 @@ namespace NhegazCustomControls
 
         /// <summary>
         /// Método que é invocado no Click/DoubleClick de Backward/Forward.
-        /// Invoke => UpdateDayLabels; AdjustControlSize.
+        /// Invoke => UpdateDayLabels; UpdateLayout.
         /// </summary>
         /// <param name="offset"></param>
         private void UpdateMonth(int offset)
@@ -133,7 +133,7 @@ namespace NhegazCustomControls
             }
             MonthLabel.Text = MonthTexts[CurrentMonth];
             UpdateDayItemLabels(CurrentYear, CurrentMonth);
-            AdjustInnerLocations();
+            SetInnerLocations();
         }
 
         /// <summary>

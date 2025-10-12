@@ -8,12 +8,12 @@ namespace NhegazCustomControls
 {
     public partial class CustomDataGridView
     {
-        public override void AdjustControlSize()
+        public override void UpdateLayout()
         {
-            AdjustInnerSizes(); AdjustInnerLocations();
+            SetInnerSizes(); SetInnerLocations();
         }
 
-        protected override void AdjustInnerSizes()
+        protected override void SetInnerSizes()
         {
             int rows = DataLabels.GetRowsLenght;
             int cols = DataLabels.GetColsLenght;
@@ -47,7 +47,7 @@ namespace NhegazCustomControls
             }
         }
 
-        protected override void AdjustInnerLocations()
+        protected override void SetInnerLocations()
         {
             int rows = DataLabels.GetRowsLenght;
             int cols = DataLabels.GetColsLenght;

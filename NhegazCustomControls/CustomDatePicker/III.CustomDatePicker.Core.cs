@@ -67,7 +67,7 @@ namespace NhegazCustomControls
             yearDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownYear));
             yearDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownYear));
 
-            AdjustControlSize();
+            UpdateLayout();
             AdjustHoverColors();
         }
 
@@ -154,7 +154,7 @@ namespace NhegazCustomControls
 
             (dropDownInstance.ControlPadding.InnerHorizontal,
             dropDownInstance.ControlPadding.InnerVertical) = GetInnerPaddings(dropDownInstance);
-            dropDownInstance.AdjustControlSize();
+            dropDownInstance.UpdateLayout();
 
 
             dropDownInstance.BringToFront();
@@ -169,7 +169,7 @@ namespace NhegazCustomControls
         {
             using var ddDay = new DropDownDay(this); Size dDaySize = ddDay.GetSize(); ddDay.Dispose();
             using var ddYear = new DropDownYear(this); Size dYearSize = ddYear.GetSize(); ddYear.Dispose();
-            //using var ddMonth = new DropDownMonth(this); Size dMonthSize = ddMonth.GetSize(); ddMonth.Dispose();
+            //using var ddMonth = new DropDownMonth(this); Size dMonthSize = ddMonth.GetControlSize(); ddMonth.Dispose();
             Size newSize = new(Math.Max(dDaySize.Width, dYearSize.Width), Math.Max(dDaySize.Height, dYearSize.Height));
             
             if (dropDown is DropDownDay)
@@ -206,7 +206,7 @@ namespace NhegazCustomControls
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            AdjustControlSize();
+            UpdateLayout();
             Invalidate();
         }
     }    

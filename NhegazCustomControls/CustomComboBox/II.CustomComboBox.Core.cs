@@ -21,7 +21,7 @@ namespace NhegazCustomControls
             dropDownIcon.DoubleClick += (s, e) => { Focus(); base.OnClick(e); };
             dropDownIcon.Click += (s, e) => { Focus(); base.OnClick(e); };           
             
-            AdjustControlSize();           
+            UpdateLayout();           
             AdjustHoverColors();
         }
 
@@ -97,7 +97,7 @@ namespace NhegazCustomControls
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            AdjustInnerLocations();
+            SetInnerLocations();
             Invalidate();
         }     
     }  

@@ -47,7 +47,7 @@ namespace NhegazCustomControls
         public override Font Font
         {
             get => base.Font;
-            set { base.Font = value; selectIndex.Font = value; dropDownIcon.Font = value; AdjustControlSize(); }
+            set { base.Font = value; selectIndex.Font = value; dropDownIcon.Font = value; UpdateLayout(); }
         }
 
     }

@@ -83,10 +83,10 @@
             customDatePicker2.BorderRadius = 7;
             customDatePicker2.BorderWidth = 1;
             customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
-            customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.6F;
+            customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.2F;
             customDatePicker2.ControlPadding.RelativePercentBorderLeft = 0.6F;
             customDatePicker2.ControlPadding.RelativePercentBorderRight = 0.6F;
-            customDatePicker2.ControlPadding.RelativePercentBorderTop = 0.6F;
+            customDatePicker2.ControlPadding.RelativePercentBorderTop = 0.2F;
             customDatePicker2.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
             customDatePicker2.ControlPadding.RelativePercentInnerVertical = 0.6F;
             customDatePicker2.Date = new DateOnly(2025, 10, 8);
@@ -104,7 +104,7 @@
             customDatePicker2.HoverColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
             customDatePicker2.Location = new Point(489, 230);
-            customDatePicker2.MinimumSize = new Size(168, 57);
+            customDatePicker2.MinimumSize = new Size(168, 37);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";
             customDatePicker2.OnFocus = false;
@@ -112,7 +112,7 @@
             customDatePicker2.OnFocusBorderExtraWidth = 1;
             customDatePicker2.SecondaryBackgroundColor = SystemColors.ControlLightLight;
             customDatePicker2.SecondaryForeColor = SystemColors.ControlText;
-            customDatePicker2.Size = new Size(168, 57);
+            customDatePicker2.Size = new Size(168, 37);
             customDatePicker2.TabIndex = 2;
             customDatePicker2.Year = 2025;
             // 
@@ -121,7 +121,7 @@
             dateTimePicker1.Format = DateTimePickerFormat.Short;
             dateTimePicker1.Location = new Point(788, 130);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(90, 23);
+            dateTimePicker1.Size = new Size(74, 23);
             dateTimePicker1.TabIndex = 3;
             // 
             // customDataGridView1

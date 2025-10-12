@@ -16,13 +16,13 @@ namespace NhegazCustomControls
         /// <summary>
         /// Método responsavel pelo ajuste do tamanho dos InnerControls.
         /// </summary>
-        protected virtual void AdjustInnerSizes()
+        protected virtual void SetInnerSizes()
         { }
   
         /// <summary>
         /// Metodo responsavel pelo ajuste das posicoes dos InnerControls.
         /// </summary>
-        protected virtual void AdjustInnerLocations()
+        protected virtual void SetInnerLocations()
         { }
 
         /// <summary>
@@ -36,10 +36,10 @@ namespace NhegazCustomControls
         /// <summary>
         /// Metodo que invoca todos ajustes de posicoes e tamanhos.
         /// </summary>
-        public virtual void AdjustControlSize()
+        public virtual void UpdateLayout()
         {
-            AdjustInnerSizes();
-            AdjustInnerLocations();      
+            SetInnerSizes();
+            SetInnerLocations();      
             SetMinimumSize();
             Invalidate();
         }

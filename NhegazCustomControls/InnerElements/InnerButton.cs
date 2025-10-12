@@ -63,7 +63,7 @@ namespace NhegazCustomControls
                 IconSize = (int)(fontHeight * IconSizePercent);
             }
         }
-        //protected override void AdjustControlSize()
+        //protected override void UpdateLayout()
         //{
         //    if (ButtonIcon == ButtonIcon.None);
         //}

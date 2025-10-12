@@ -56,7 +56,7 @@ namespace NhegazCustomControls
                 MonthLabel.Font = new Font(value, FontStyle.Bold); 
                 ForwardIcon.Font = value;
                 BackwardIcon.Font = value;
-                AdjustControlSize();
+                UpdateLayout();
             }
         }
 

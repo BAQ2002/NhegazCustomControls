@@ -37,7 +37,7 @@ namespace NhegazCustomControls
                 CreateMonthLabels();
                 UpdateMonthsYear(CurrentYear);
 
-                AdjustControlSize();
+                UpdateLayout();
                 Header.AdjustHeaderColors();
             }
         }
@@ -80,7 +80,7 @@ namespace NhegazCustomControls
             CurrentYear += offset;
             YearLabel.Text = CurrentYear.ToString();
             UpdateMonthsYear(CurrentYear);
-            AdjustInnerLocations(); // mantém coerente com Day/Year após alterar header
+            SetInnerLocations(); // mantém coerente com Day/Year após alterar header
         }
 
         private void UpdateMonthsYear(int year)

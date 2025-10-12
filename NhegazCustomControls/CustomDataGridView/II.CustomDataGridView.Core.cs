@@ -39,7 +39,7 @@ namespace NhegazCustomControls
             // Solicita o redesenho do controle
             CreateHeadersLabels();
             CreateDataLabels();
-            AdjustControlSize();
+            UpdateLayout();
             Invalidate();
         }
         public void CreateHeadersLabels()

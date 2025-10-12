@@ -32,7 +32,7 @@ namespace NhegazCustomControls
                 dayTextBox.Font = value; monthTextBox.Font = value; yearTextBox.Font = value;
                 dayDropDownIcon.Font = value; monthDropDownIcon.Font = value; yearDropDownIcon.Font = value;
                 daySlashMonth.Font = value; monthSlashYear.Font = value;
-                AdjustControlSize();
+                UpdateLayout();
             }
         }
 

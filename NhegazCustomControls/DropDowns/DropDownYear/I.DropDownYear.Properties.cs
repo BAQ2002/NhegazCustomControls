@@ -49,7 +49,7 @@ namespace NhegazCustomControls
                 BackwardIcon.Font = value;
                 ForwardIcon.Font = value;
                 DecadeLabel.Font = new Font(value, FontStyle.Bold);
-                AdjustControlSize();
+                UpdateLayout();
             }
         }
 

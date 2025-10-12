@@ -27,7 +27,7 @@ namespace NhegazCustomControls
                 ForwardIcon.DoubleClick += (s, e) => { UpdateDecade(20); Invalidate(); };
                
                 CreateYearLabels();
-                AdjustControlSize();
+                UpdateLayout();
                 Header.AdjustHeaderColors();
             }           
         }
