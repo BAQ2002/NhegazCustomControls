@@ -13,35 +13,11 @@ namespace NhegazCustomControls
             if (MonthItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            Size = GetSize(); SetInnerSizes();  SetInnerLocations();
+            SetInnerSizes(); SetInnerLocations(); SetMinimumSize();
 
         }
-        public Size GetSize()
-        {
-            Size contentSize = GetContentSize();
-            Size paddingSize = GetPaddingSize();
 
-            int sizeWidth = contentSize.Width
-                          + paddingSize.Width
-                          + BorderHorizontalBoundsSum;
-
-            int sizeHeight = contentSize.Height
-                        + paddingSize.Height
-                        + BorderVerticalBoundsSum;
-
-            return new Size(sizeWidth, sizeHeight);
-        }
-        public Size GetPaddingSize()
-        {
-            int NumberOfHorizontalPaddings = NumberOfColumns - 1;                   //Quantidade de Gaps Horizontais
-            int NumberOfVerticalPaddings = NumberOfRows;                            //Quantidade de Gaps Verticais
-
-            int paddingWidth = NumberOfHorizontalPaddings * InnerHorizontalPadding; //Paddings entre todos
-            int paddingHeight = NumberOfVerticalPaddings * InnerVerticalPadding;    //Paddings entre todos
-
-            return new Size(paddingWidth, paddingHeight);
-        }
-        public Size GetContentSize()
+        public override Size GetContentSize()
         {
             Size itemSize = NhegazSizeMethods.TextSquareSizeByReference
                             ("0000", Font, 1.3f, ReferenceDimension.Width);
@@ -56,6 +32,21 @@ namespace NhegazCustomControls
 
             return new Size(contentWidth, contentHeight);
         }
+
+        public override Size GetPaddingSize()
+        {
+            int NumberOfHorizontalPaddings = NumberOfColumns - 1;                   //Quantidade de Gaps Horizontais
+            int NumberOfVerticalPaddings = NumberOfRows;                            //Quantidade de Gaps Verticais
+
+            int paddingWidth = BorderHorizontalBoundsSum                            //Padding horizontal das bordas 
+                             + NumberOfHorizontalPaddings * InnerHorizontalPadding; //Paddings entre todos
+
+            int paddingHeight = BorderVerticalBoundsSum                             //Padding vertical das bordas 
+                              + NumberOfVerticalPaddings * InnerVerticalPadding;    //Paddings entre todos
+
+            return new Size(paddingWidth, paddingHeight);
+        }
+
         protected override void SetInnerSizes()
         {
             Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("0000", Font, 1.3f, ReferenceDimension.Width);

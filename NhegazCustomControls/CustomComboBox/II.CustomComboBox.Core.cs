@@ -93,12 +93,5 @@ namespace NhegazCustomControls
                 OnFocus = false;
             }
         }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            SetInnerLocations();
-            Invalidate();
-        }     
     }  
 }

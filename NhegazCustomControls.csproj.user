@@ -82,9 +82,6 @@
     <Compile Update="NhegazCustomControls\DropDowns\DropDownYear\I.DropDownYear.Properties.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\RoundedTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>

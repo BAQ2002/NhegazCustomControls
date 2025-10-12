@@ -8,9 +8,15 @@ namespace NhegazCustomControls
 {
     public partial class CustomDataGridView
     {
-        public override void UpdateLayout()
+        public override Size GetContentSize()
         {
-            SetInnerSizes(); SetInnerLocations();
+            return new(0, 0);
+            //throw new NotImplementedException();
+        }
+        public override Size GetPaddingSize()
+        {
+            return new(0, 0);
+            //throw new NotImplementedException();
         }
 
         protected override void SetInnerSizes()

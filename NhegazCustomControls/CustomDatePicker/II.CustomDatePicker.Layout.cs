@@ -13,18 +13,7 @@ namespace NhegazCustomControls
             SetInnerSizes(); SetInnerLocations(); SetMinimumSize();
         }
         
-        public Size GetControlSize()
-        {
-            Size controlSize = GetContentSize() + GetPaddingSize();
-            return controlSize;
-        }
-
-        /// <summary>
-        /// Retorna os valores de Largura e Altura que as propriedades de Padding
-        /// ocupam com base em uma política específica para cada CustomControl.
-        /// </summary>
-        /// <returns>Size(paddingWidth, paddingHeight)</returns>
-        public Size GetPaddingSize()
+        public override Size GetPaddingSize()
         {
             int paddingWidth = BorderHorizontalBoundsSum;
             int paddingHeight = BorderVerticalBoundsSum;  
@@ -32,12 +21,7 @@ namespace NhegazCustomControls
             return new Size(paddingWidth, paddingHeight);
         }
 
-        /// <summary>
-        /// Retorna os valores de Largura e Altura que os InnerControls ocupam
-        /// com base em uma política específica para cada CustomControl.
-        /// </summary>
-        /// <returns>Size(contentWidth, contentHeight)</returns>
-        public Size GetContentSize()
+        public override Size GetContentSize()
         {
             Size slashsSize = NhegazSizeMethods.TextExactSize("/", Font);
 
@@ -53,8 +37,7 @@ namespace NhegazCustomControls
 
             return new Size(contentWidth, contentHeight);
         }
-         
-        
+             
         protected override void SetInnerSizes()
         {
             dayTextBox.Size = NhegazSizeMethods.TextExactSize("00", Font);
@@ -82,14 +65,5 @@ namespace NhegazCustomControls
             yearTextBox.Location = new Point(monthSlashYear.Right, RelativeCenterY(yearTextBox.Height));
             yearDropDownIcon.SetLocation(yearTextBox.Location.X + yearTextBox.Width, RelativeCenterY(yearDropDownIcon));
         }
-
-        protected override void SetMinimumSize()
-        {
-            int minimumWidth = GetControlSize().Width;
-            int minimumHeight = GetControlSize().Height;
-
-            MinimumSize = new Size(minimumWidth, minimumHeight);
-        }
-
     }
 }

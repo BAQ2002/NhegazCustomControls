@@ -51,34 +51,7 @@ namespace NhegazCustomControls
 
         }
         //Método para ajuste automatizado do tamanho do elemento
-        public override void UpdateLayout()
-        {
-
-            base.UpdateLayout();
-
-            if (ParentControl.ItemList == null || ParentControl.ItemList.Count == 0) return;
-
-
-            int height = Font.Height + ControlPadding.EffectiveInnerVertical / 2;
-            int boundsHeight = Font.Height + ControlPadding.EffectiveBorderTop + ControlPadding.EffectiveInnerVertical;
-
-            for (int col = 0; col < NumberOfColumns; col++)
-            {
-                var lbl = (InnerLabel)OptionsLabels.GetItem(col);
-                lbl.Padding.Left = ControlPadding.BorderLeft;
-
-                if (col == 0 || col == NumberOfColumns)
-                    OptionsLabels.SetItemSize(col, Width, boundsHeight);
-                else
-                    OptionsLabels.SetItemSize(col, Width, height);
-
-                OptionsLabels.SetItemLocation(col, BorderWidth, Height);
-                
-
-                Height += OptionsLabels.GetItem(col).Height;
-            }
-
-        }
+        
 
         //Método para: ao clicar em uma das Opções, transfere a opção selecionada para o ComboBox
         private void OnLabelClick(string labelText)

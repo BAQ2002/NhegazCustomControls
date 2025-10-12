@@ -16,21 +16,41 @@ namespace NhegazCustomControls
         /// <summary>
         /// Método responsavel pelo ajuste do tamanho dos InnerControls.
         /// </summary>
-        protected virtual void SetInnerSizes()
-        { }
-  
+        protected abstract void SetInnerSizes();
+
         /// <summary>
         /// Metodo responsavel pelo ajuste das posicoes dos InnerControls.
         /// </summary>
-        protected virtual void SetInnerLocations()
-        { }
+        protected abstract void SetInnerLocations();
+  
+        /// <summary>
+        /// Retorna os valores de Largura e Altura que os InnerControls ocupam
+        /// com base em uma política específica para cada CustomControl.
+        /// </summary>
+        /// <returns>Size(contentWidth, contentHeight)</returns>
+        public abstract Size GetContentSize();
+
+        /// <summary>
+        /// Retorna os valores de Largura e Altura que as propriedades de Padding
+        /// ocupam com base em uma política específica para cada CustomControl.
+        /// </summary>
+        /// <returns>Size(paddingWidth, paddingHeight)</returns>
+        public abstract Size GetPaddingSize();
+        public Size GetControlSize()
+        {
+            Size controlSize = GetContentSize() + GetPaddingSize();
+            return controlSize;
+        }
 
         /// <summary>
         /// Metodo responsavel por definir o MinimumSize a partir dos InnerControls.
         /// </summary>
         protected virtual void SetMinimumSize()
         {
+            int minimumWidth = GetControlSize().Width;
+            int minimumHeight = GetControlSize().Height;
 
+            MinimumSize = new Size(minimumWidth, minimumHeight);
         }
 
         /// <summary>
@@ -42,6 +62,12 @@ namespace NhegazCustomControls
             SetInnerLocations();      
             SetMinimumSize();
             Invalidate();
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            UpdateLayout();
         }
     }
 }

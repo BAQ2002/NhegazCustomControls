@@ -1,5 +1,4 @@
-﻿using NhegazCustomControls.PL.CustomControls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -167,8 +166,8 @@ namespace NhegazCustomControls
 
         public (int, int) GetInnerPaddings(CustomControl dropDown)
         {
-            using var ddDay = new DropDownDay(this); Size dDaySize = ddDay.GetSize(); ddDay.Dispose();
-            using var ddYear = new DropDownYear(this); Size dYearSize = ddYear.GetSize(); ddYear.Dispose();
+            using var ddDay = new DropDownDay(this); Size dDaySize = ddDay.GetControlSize(); ddDay.Dispose();
+            using var ddYear = new DropDownYear(this); Size dYearSize = ddYear.GetControlSize(); ddYear.Dispose();
             //using var ddMonth = new DropDownMonth(this); Size dMonthSize = ddMonth.GetControlSize(); ddMonth.Dispose();
             Size newSize = new(Math.Max(dDaySize.Width, dYearSize.Width), Math.Max(dDaySize.Height, dYearSize.Height));
             
@@ -196,18 +195,7 @@ namespace NhegazCustomControls
             }
             else return (0, 0);
         }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);           
-        }
-
         
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            UpdateLayout();
-            Invalidate();
-        }
+        
     }    
 }

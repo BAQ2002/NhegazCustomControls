@@ -17,6 +17,16 @@
 
             return maxWidth;
         }
+        public override Size GetContentSize()
+        {
+            return new(0, 0);
+            // throw new NotImplementedException();
+        }
+        public override Size GetPaddingSize()
+        {
+            return new(0, 0);
+            //throw new NotImplementedException();
+        }
         protected override void SetInnerSizes()
         {
             selectIndex.SetSize(GetItemsMaxTextPixelWidth(), selectIndex.Height);
