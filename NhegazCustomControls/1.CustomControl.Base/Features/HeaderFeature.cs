@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -271,19 +272,27 @@ namespace NhegazCustomControls
 
         private void DrawBackground(PaintEventArgs e)
         {
-            if (Bounds.Width == 0 || Bounds.Height == 0) return;
-            e.Graphics.SmoothingMode = SmoothingMode.None;
+            //Posições(X,Y) do Background. //Tamanhos(Width, Height) do Background. //
+            int locX = X + BorderWidth; int width = Width - (2 * BorderWidth);
+            int locY = Y + BorderWidth; int height = Height - (2 * BorderWidth);
+            //Serão diferentes das Propriedades Originais apenas se BorderWidth >=1.//
 
-            using (var path = NhegazDrawingMethods.RectBackgroundPath(Bounds, BorderRadius))
+            Rectangle backgroundRect = new(locX, locY, width, height);
+            if (backgroundRect.Width <= 0 || backgroundRect.Height <= 0)
+                return;
+
+            //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+            using (var backgroundPath = NhegazDrawingMethods.RectBackgroundPath(backgroundRect, BorderRadius))
             {
                 using (var brush = new SolidBrush(BackgroundColor))
-                {                    
-                    e.Graphics.FillPath(brush, path);                
-                }
-                e.Graphics.SetClip(path);
-            }        
-        }
+                {e.Graphics.FillPath(brush, backgroundPath);}
 
+                e.Graphics.IntersectClip(new Region(backgroundPath));
+            }     
+            
+        }
+ 
         private void DrawInnerControls(PaintEventArgs e)
         {
             Controls.OnPaintAll(e);
@@ -292,29 +301,26 @@ namespace NhegazCustomControls
 
         private void DrawBorder(PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            var state = e.Graphics.Save();
-            e.Graphics.TranslateTransform(Left, Top);
-
-            using (var path = NhegazDrawingMethods.RectBorderPath(Bounds, BorderRadius, BorderWidth))
+            //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            using (var borderPath = NhegazDrawingMethods.RectBorderPath(Bounds, BorderRadius, BorderWidth))
             {
                 if (borderWidth > 1)
                 {
                     using var brush = new SolidBrush(BorderColor);
-                    e.Graphics.FillPath(brush, path); 
+                    e.Graphics.FillPath(brush, borderPath); 
                 }
 
                 using var pen = new Pen(BorderColor, 1f);
-                e.Graphics.DrawPath(pen, path);
+                e.Graphics.DrawPath(pen, borderPath);
             }
-
-            e.Graphics.Restore(state);
         }
 
-        public void PaintHeader(PaintEventArgs e)
+        public void OnPaint(PaintEventArgs e)
         {
-            DrawBackground(e); DrawInnerControls(e);
-            if (HasBorder == true) DrawBorder(e);
+            DrawBackground(e); DrawInnerControls(e); //Desenha o Background; Desenha os InnerControls.
+            if (HasBorder == true) DrawBorder(e);    //Se tiver Border: Desenha Border.
         }
+ 
+
     }
 }

@@ -40,21 +40,25 @@ namespace NhegazCustomControls
         /// </summary>
         public static List<PointF> GenerateArc(float radius)//Método que gera os pontos do arco
         {
-            int segments = Math.Max(1, (int)radius / 2); //Maior valor entre 1 e radius/2
+            int segments = Math.Max(1, (int)(Math.PI * radius / 2)); //Maior valor entre 1 e (π*radius)/2
 
             List<PointF> points = new(); //lista que armazena os pontos do arco
 
-            for (int i = 0; i <= segments; i++) // * segments + 1
+            for (int i = 0; i < segments; i++) // * segments
             {
                 float t = i / (float)segments; //Valor do progresso atual até o final do arco(de 0 a 1)
                 float angle = (float)(Math.PI / 2 * t); //Valor do angulo do progresso atual(de 0° até 90°)
+
                 float fx = radius * (1 - (float)Math.Cos(angle)); //Gera o X do ponto atual
                 float fy = radius * (1 - (float)Math.Sin(angle)); //Gera o Y do ponto atual
+
                 var x = RoundFloat(fx);
                 var y = RoundFloat(fy);
+
                 points.Add(new PointF(x, y)); //Adiciona o ponto a lista de pontos
             }
             return points;
         }
+
     }
 }

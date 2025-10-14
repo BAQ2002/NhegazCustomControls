@@ -80,7 +80,7 @@
             customDatePicker2.BackColor = Color.Transparent;
             customDatePicker2.BackgroundColor = SystemColors.Window;
             customDatePicker2.BorderColor = SystemColors.WindowFrame;
-            customDatePicker2.BorderRadius = 7;
+            customDatePicker2.BorderRadius = 11;
             customDatePicker2.BorderWidth = 1;
             customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
             customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.2F;
@@ -131,7 +131,7 @@
             customDataGridView1.BackColor = Color.Transparent;
             customDataGridView1.BackgroundColor = SystemColors.Window;
             customDataGridView1.BorderColor = SystemColors.WindowFrame;
-            customDataGridView1.BorderRadius = 5;
+            customDataGridView1.BorderRadius = 8;
             customDataGridView1.BorderWidth = 1;
             customDataGridView1.ColumnWidthMode = ColumnWidthMode.HeaderWidth;
             customDataGridView1.ControlPadding.Mode = PaddingMode.RelativeToFont;

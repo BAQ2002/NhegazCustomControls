@@ -141,22 +141,26 @@ namespace NhegazCustomControls
             Width = size.Width; 
             Height = size.Height;
         }
-
-        public virtual void OnPaint(PaintEventArgs e)
+        public void DrawBackground(PaintEventArgs e)
         {
-            if (!Visible) return;
-
             Color backgroundColor = IsHovering ? HoverBackgroundColor : BackgroundColor;
 
             using (GraphicsPath backgroundPath = NhegazDrawingMethods.InnerControlBackgroundPath(this)) //Define o GraphicsPath da area interna do InnerControl
             {
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                //e.Graphics.IntersectClip(new Region(backgroundPath));
+                //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
                 using (SolidBrush brush = new SolidBrush(backgroundColor)) //Preenche a area com o BackgroundColor
                 {
                     e.Graphics.FillPath(brush, backgroundPath);
                 }
             }
+        }
+
+        public virtual void OnPaint(PaintEventArgs e)
+        {
+            if (!Visible) return;
+            DrawBackground(e);
         }
     }
 }

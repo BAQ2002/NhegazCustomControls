@@ -177,6 +177,8 @@ namespace NhegazCustomControls
         {
             base.OnPaint(e);
 
+            
+
             Color foreColor = IsHovering? HoverForeColor : ForeColor;
             
             TextRenderer.DrawText(
