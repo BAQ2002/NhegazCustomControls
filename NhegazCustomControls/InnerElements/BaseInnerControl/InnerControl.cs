@@ -141,7 +141,8 @@ namespace NhegazCustomControls
             Width = size.Width; 
             Height = size.Height;
         }
-        public virtual void OnPaint(CustomControl parent, PaintEventArgs e)
+
+        public virtual void OnPaint(PaintEventArgs e)
         {
             if (!Visible) return;
 

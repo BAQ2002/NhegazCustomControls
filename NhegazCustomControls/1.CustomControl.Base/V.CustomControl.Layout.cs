@@ -8,10 +8,7 @@ namespace NhegazCustomControls
 {
     public partial class CustomControl
     {
-        protected virtual void AdjustHoverColors()
-        {
-
-        }
+        protected virtual void AdjustHoverColors(){}
 
         /// <summary>
         /// Método responsavel pelo ajuste do tamanho dos InnerControls.
@@ -36,6 +33,13 @@ namespace NhegazCustomControls
         /// </summary>
         /// <returns>Size(paddingWidth, paddingHeight)</returns>
         public abstract Size GetPaddingSize();
+
+        /// <summary>
+        /// Retorna os valores de Largura e Altura com base
+        /// nas políticas específicas de GetContentSize e GetPaddingSize
+        /// de cada CustomControl.
+        /// </summary>
+        /// <returns>Size(controlWidth, controlHeight)</returns>
         public Size GetControlSize()
         {
             Size controlSize = GetContentSize() + GetPaddingSize();
@@ -45,7 +49,7 @@ namespace NhegazCustomControls
         /// <summary>
         /// Metodo responsavel por definir o MinimumSize a partir dos InnerControls.
         /// </summary>
-        protected virtual void SetMinimumSize()
+        protected void SetMinimumSize()
         {
             int minimumWidth = GetControlSize().Width;
             int minimumHeight = GetControlSize().Height;
@@ -54,13 +58,15 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Metodo que invoca todos ajustes de posicoes e tamanhos.
+        /// Método que invoca todos ajustes de posições e tamanhos.
+        /// Cada CustomControl pode passar uma variável "bool" específica para confirmação
+        /// prévia se os ajustes devem ser realizados.
         /// </summary>
+        /// <param name="verifyCondition">
+        /// Condição de confirmação adaptável para cada CustomControl.</param>
         public virtual void UpdateLayout()
         {
-            SetInnerSizes();
-            SetInnerLocations();      
-            SetMinimumSize();
+            SetInnerSizes(); SetInnerLocations(); SetMinimumSize();
             Invalidate();
         }
 

@@ -34,12 +34,12 @@ namespace NhegazCustomControls
         }
     
         public InnerControls(CustomControl parent) { Parent = parent; }
-        public void OnPaintAll(CustomControl parent, PaintEventArgs e)
+        public void OnPaintAll(PaintEventArgs e)
         {
             foreach (var element in elements)
             {
                 if (element.Visible)
-                    element.OnPaint(parent, e);
+                    element.OnPaint(e);
             }
         }
         public bool HandleClick(CustomControl parent, Point clickLocation)

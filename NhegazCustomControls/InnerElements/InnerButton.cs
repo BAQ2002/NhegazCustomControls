@@ -81,9 +81,9 @@ namespace NhegazCustomControls
             };
         }
         
-        public override void OnPaint(CustomControl parent, PaintEventArgs e)
+        public override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(parent, e);
+            base.OnPaint(e);
 
             Color iconColor = IsHovering ? HoverForeColor : ForeColor;
 

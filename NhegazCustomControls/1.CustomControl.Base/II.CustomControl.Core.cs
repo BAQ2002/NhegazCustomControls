@@ -37,7 +37,7 @@ namespace NhegazCustomControls
             InnerControls = new InnerControls(this);
             ControlPadding = new CustomControlPadding(this);
         }
-
+        
         // ctor opcional: recebe um pai e copia estilo
         protected CustomControl(CustomControl parent) : this()
         {

@@ -13,23 +13,16 @@ namespace NhegazCustomControls
         /// Realiza o desenho do fundo do controle, respeitando a área interna delimitada pela borda.
         /// Usa RectBackgroundPath com offset calculado baseado em ClientRectangle.
         /// </summary>
-        protected virtual void DrawControlBackground(PaintEventArgs e)
+        protected void DrawBackground(PaintEventArgs e)
         {
-            // Calcula o offset interno com base na espessura da borda
-            int offset = BorderWidth > 1 ? BorderWidth - 1 : 0;
 
             // Usa ClientRectangle e aplica offset interno, garantindo que o Path fique dentro da área do controle
-            Rectangle backgroundRect = new Rectangle(
-                offset,
-                offset,
-                Width - (2 * offset),
-                Height - (2 * offset)
-            );
+            Rectangle backgroundRect = new(Point.Empty, Size);
 
             // Garante que largura e altura sejam válidas
             if (backgroundRect.Width <= 0 || backgroundRect.Height <= 0)
                 return;
-
+            e.Graphics.SmoothingMode = SmoothingMode.None;
             // Cria o path com raio original
             using (GraphicsPath backgroundPath = NhegazDrawingMethods.RectBackgroundPath(backgroundRect, BorderRadius))
             {
@@ -50,7 +43,7 @@ namespace NhegazCustomControls
         /// </summary>
         protected virtual void DrawInnerControls(PaintEventArgs e)
         {
-            InnerControls.OnPaintAll(this, e);
+            InnerControls.OnPaintAll(e);
             e.Graphics.ResetClip();
         }
 
@@ -61,30 +54,28 @@ namespace NhegazCustomControls
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Color BorderColor = OnFocus ? OnFocusBorderColor : this.BorderColor;
+            Color borderColor = OnFocus ? OnFocusBorderColor : BorderColor;
             int borderWidth = OnFocus ? BorderWidth + OnFocusBorderExtraWidth : BorderWidth;
 
-            using (GraphicsPath borderPath = NhegazDrawingMethods.RectBorderPath(new Rectangle(Location, Size), BorderRadius, borderWidth))
+            using (GraphicsPath borderPath = NhegazDrawingMethods.RectBorderPath(Bounds, BorderRadius, borderWidth))
             {
                 if (borderWidth > 1)
                 {
-                    using (SolidBrush borderBrush = new SolidBrush(BorderColor))
+                    using (SolidBrush borderBrush = new(borderColor))
                     {
                         e.Graphics.FillPath(borderBrush, borderPath);
                     }
                 }
-                e.Graphics.DrawPath(new Pen(BorderColor, 1f), borderPath);
+                e.Graphics.DrawPath(new Pen(borderColor, 1f), borderPath);
             }
         }
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-            e.Graphics.SmoothingMode = SmoothingMode.None;
-            DrawControlBackground(e);
-            var headerFeature = (this as IHasHeader)?.Header;
-            headerFeature?.PaintHeader(e);
-            DrawInnerControls(e);
-            DrawBorder(e);
+            base.OnPaint(e);                             //Invoca o evento base de Windows.Forms.Control.
+            DrawBackground(e); DrawInnerControls(e);     //Desenha o Background; Desenha os InnerControls.
+            (this as IHasHeader)?.Header.PaintHeader(e); //Se tiver Header: Desenha Header.
+            if(HasBorder == true)DrawBorder(e);          //Se tiver Border: Desenha Border.
         }
 
     }

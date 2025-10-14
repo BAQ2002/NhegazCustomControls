@@ -103,7 +103,7 @@
             customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.HoverColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
-            customDatePicker2.Location = new Point(489, 230);
+            customDatePicker2.Location = new Point(502, 229);
             customDatePicker2.MinimumSize = new Size(168, 37);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";
@@ -118,10 +118,12 @@
             // 
             // dateTimePicker1
             // 
+            dateTimePicker1.CalendarFont = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateTimePicker1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(788, 130);
+            dateTimePicker1.Location = new Point(713, 107);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(74, 23);
+            dateTimePicker1.Size = new Size(134, 33);
             dateTimePicker1.TabIndex = 3;
             // 
             // customDataGridView1
@@ -134,25 +136,26 @@
             customDataGridView1.ColumnWidthMode = ColumnWidthMode.HeaderWidth;
             customDataGridView1.ControlPadding.Mode = PaddingMode.RelativeToFont;
             customDataGridView1.ControlPadding.RelativePercentBorderBottom = 0F;
-            customDataGridView1.ControlPadding.RelativePercentBorderLeft = 0F;
-            customDataGridView1.ControlPadding.RelativePercentBorderRight = 0F;
+            customDataGridView1.ControlPadding.RelativePercentBorderLeft = 0.2F;
+            customDataGridView1.ControlPadding.RelativePercentBorderRight = 1F;
             customDataGridView1.ControlPadding.RelativePercentBorderTop = 0F;
             customDataGridView1.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
             customDataGridView1.ControlPadding.RelativePercentInnerVertical = 0.6F;
             customDataGridView1.DifferentColorsBetweenRows = true;
             customDataGridView1.FixedCharCount = 10;
-            customDataGridView1.Header.BackgroundColor = SystemColors.GrayText;
+            customDataGridView1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            customDataGridView1.Header.BackgroundColor = SystemColors.HotTrack;
             customDataGridView1.Header.BorderColor = SystemColors.WindowFrame;
-            customDataGridView1.Header.BorderRadius = 4;
-            customDataGridView1.Header.BorderWidth = 1;
+            customDataGridView1.Header.BorderRadius = 0;
+            customDataGridView1.Header.BorderWidth = 0;
             customDataGridView1.Header.ForeColor = SystemColors.ControlText;
             customDataGridView1.Header.HeightMode = HeaderHeightMode.Absolute;
             customDataGridView1.Header.HeightRelativePercent = 1F;
             customDataGridView1.Header.HoverBackgroundColor = SystemColors.ControlText;
             customDataGridView1.Header.HoverForeColor = SystemColors.ControlText;
-            customDataGridView1.Header.Location = new Point(0, 0);
+            customDataGridView1.Header.Location = new Point(1, 1);
             customDataGridView1.Header.OnFocusBorderColor = SystemColors.Highlight;
-            customDataGridView1.Header.Size = new Size(0, 0);
+            customDataGridView1.Header.Size = new Size(8, 24);
             customDataGridView1.HoverBackgroundColor = SystemColors.Highlight;
             customDataGridView1.HoverColor = SystemColors.Highlight;
             customDataGridView1.HoverForeColor = SystemColors.Window;

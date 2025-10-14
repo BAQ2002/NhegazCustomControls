@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Compile Update="NhegazCustomControls\1.CustomControl.Base\III.CustomControl.Bounds.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\II.CustomControl.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\IV.CustomControl.Draw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\1.CustomControl.Base\III.CustomControl.Layout.cs">
+    <Compile Update="NhegazCustomControls\1.CustomControl.Base\V.CustomControl.Layout.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\I.CustomControl.Properties.cs">

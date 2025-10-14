@@ -14,7 +14,7 @@ namespace NhegazCustomControls
             if (YearItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            SetInnerSizes(); SetInnerLocations(); SetMinimumSize();
+            base.UpdateLayout();
         }
 
         public override Size GetPaddingSize()
@@ -36,7 +36,7 @@ namespace NhegazCustomControls
                             ("0000", Font, 1.3f, ReferenceDimension.Width);
 
             int headerHeight = NhegazSizeMethods.TextSquareSizeByReference
-                               ("00", Font, 1.5f, ReferenceDimension.Height).Height;
+                               ("00", Font, 1.5f, ReferenceDimension.Width).Height;
 
             int contentWidth = NumberOfColumns * itemSize.Height; //Largura do YearItems
 
@@ -49,7 +49,7 @@ namespace NhegazCustomControls
         protected override void SetInnerSizes()
         {
             Size itemSize = NhegazSizeMethods.TextSquareSizeByReference("0000", Font, 1.3f, ReferenceDimension.Width);
-            Size headerItemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Height);
+            Size headerItemSize = NhegazSizeMethods.TextSquareSizeByReference("00", Font, 1.5f, ReferenceDimension.Width);
 
             Header.SetSize(Width - BorderHorizontalBoundsSum, headerItemSize.Height);
             BackwardIcon.SetSize(headerItemSize);

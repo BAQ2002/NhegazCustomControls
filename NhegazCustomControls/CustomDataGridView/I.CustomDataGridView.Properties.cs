@@ -10,14 +10,19 @@ namespace NhegazCustomControls
 {
     public partial class CustomDataGridView
     {
-        private List<object> DataSource = new(); //Lista de objetos que formada pelos 
+        /// <summary> Lista de objetos SetDataSource</summary>
+        private bool DataIsSourced = false;
+
+        /// <summary> Lista de objetos SetDataSource</summary>
+        private List<object> DataSource = new();
+
         private List<PropertyInfo> Properties = new();
        
         private ColumnWidthMode columnWidthMode = ColumnWidthMode.HeaderWidth;
 
         private int fixedCharCount = 10;
         private int linesWidth = 1;
-
+       
         private bool linesBetweenColumns;
         private bool linesBetweenRows;
         private bool differentColorsBetweenRows;

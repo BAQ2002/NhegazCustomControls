@@ -19,6 +19,8 @@ namespace NhegazCustomControls
         private int borderWidth = 1;
         private int borderRadius = 4;
 
+        private bool HasBorder => borderWidth > 0;
+
         private Color borderColor = SystemColors.WindowFrame;
         private Color onFocusBorderColor = SystemColors.Highlight;
 
@@ -265,36 +267,54 @@ namespace NhegazCustomControls
         public bool HandleDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
         public void HandleMouseMove(Point p) => Controls.HandleMouseMove(ownerControl, p);
         public bool HandleGotFocus(Point p) => Controls.HandleGotFocus(ownerControl, p);
-        public bool HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);
+        public bool HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);        
 
-        /// <summary>
-        /// Desenha o fundo do cabecalho.
-        /// </summary>
-        public void PaintHeader(PaintEventArgs e)
+        private void DrawBackground(PaintEventArgs e)
         {
-            using var path = NhegazDrawingMethods.RectBackgroundPath(Bounds, borderRadius);
-            using var brush = new SolidBrush(backgroundColor);
+            if (Bounds.Width == 0 || Bounds.Height == 0) return;
+            e.Graphics.SmoothingMode = SmoothingMode.None;
 
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.FillPath(brush, path);
-            e.Graphics.DrawPath(new Pen(backgroundColor, 1f), path);
-            e.Graphics.SetClip(path);
+            using (var path = NhegazDrawingMethods.RectBackgroundPath(Bounds, BorderRadius))
+            {
+                using (var brush = new SolidBrush(BackgroundColor))
+                {                    
+                    e.Graphics.FillPath(brush, path);                
+                }
+                e.Graphics.SetClip(path);
+            }        
+        }
 
-            // elementos internos do cabeçalho
-            Controls.OnPaintAll(ownerControl, e);
+        private void DrawInnerControls(PaintEventArgs e)
+        {
+            Controls.OnPaintAll(e);
             e.Graphics.ResetClip();
+        }
 
-            using (GraphicsPath borderPath = NhegazDrawingMethods.HeaderRectBorderPath(Bounds, borderRadius, borderWidth))
+        private void DrawBorder(PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            var state = e.Graphics.Save();
+            e.Graphics.TranslateTransform(Left, Top);
+
+            using (var path = NhegazDrawingMethods.RectBorderPath(Bounds, BorderRadius, BorderWidth))
             {
                 if (borderWidth > 1)
                 {
-                    using (SolidBrush borderBrush = new SolidBrush(BorderColor))
-                    {
-                        e.Graphics.FillPath(borderBrush, borderPath);
-                    }
+                    using var brush = new SolidBrush(BorderColor);
+                    e.Graphics.FillPath(brush, path); 
                 }
-                e.Graphics.DrawPath(new Pen(BorderColor, 1f), borderPath);
+
+                using var pen = new Pen(BorderColor, 1f);
+                e.Graphics.DrawPath(pen, path);
             }
+
+            e.Graphics.Restore(state);
+        }
+
+        public void PaintHeader(PaintEventArgs e)
+        {
+            DrawBackground(e); DrawInnerControls(e);
+            if (HasBorder == true) DrawBorder(e);
         }
     }
 }

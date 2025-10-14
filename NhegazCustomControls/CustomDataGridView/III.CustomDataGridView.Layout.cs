@@ -8,6 +8,13 @@ namespace NhegazCustomControls
 {
     public partial class CustomDataGridView
     {
+        public override void UpdateLayout()
+        {
+            if (DataIsSourced == false) return;
+
+            base.UpdateLayout();
+        }
+
         public override Size GetContentSize()
         {
             return new(0, 0);
@@ -26,23 +33,21 @@ namespace NhegazCustomControls
 
             int columnsTotalWidth = 0;
 
-            int rowItemHeight = NhegazSizeMethods.FontUnitSize(Font).Height + InnerVerticalPadding;
+            int rowHeight = NhegazSizeMethods.FontUnitSize(Font).Height + InnerVerticalPadding;
 
             for (int col = 0; col < cols; col++)
             {
-                Size headerItemSize = new(ColumnWidth
-                                         (ColumnWidthMode, HeaderLabels.GetItem(col).Width, InnerHorizontalPadding),
-                                          NhegazSizeMethods.FontUnitSize(Font).Height + InnerVerticalPadding);
+                Size headerItemSize = new(ColumnWidth(HeaderLabels.GetItem(col).Width), rowHeight);
 
-                if (col == 0) { headerItemSize.Width += ContentLeftBound; }
-                if (col == cols) { headerItemSize.Width += ContentRightBound; }
+                if (col == 0) { headerItemSize.Width += BorderLeftPadding; }
+                if (col == cols-1) { headerItemSize.Width += BorderRightPadding; }
 
                 columnsTotalWidth += headerItemSize.Width;
 
                 HeaderLabels.SetItemSize(col, headerItemSize);
             }
 
-            Header.SetSize(columnsTotalWidth, rowItemHeight);
+            Header.SetSize(columnsTotalWidth, rowHeight);
 
             for (int row = 0; row < rows; row++)
             {
@@ -71,7 +76,7 @@ namespace NhegazCustomControls
                 headerX += HeaderLabels.GetItem(col).Width + col * lineBetweenCol;
             }
 
-            Header.SetLocation(BorderWidth, BorderWidth);
+            Header.SetLocation(0, 0);
 
             for (int row = 0; row < rows; row++)
             {
@@ -92,17 +97,17 @@ namespace NhegazCustomControls
         /// <summary>
         /// Com 
         /// </summary>
-        public int ColumnWidth(ColumnWidthMode columnWidthMode, int headerWidth, int xPadding)
+        public int ColumnWidth( int headerWidth)
         {
             int columnWidth = 0;
 
-            if (columnWidthMode == ColumnWidthMode.HeaderWidth)
-                columnWidth = headerWidth + xPadding;
+            if (ColumnWidthMode == ColumnWidthMode.HeaderWidth)
+                columnWidth = headerWidth + InnerHorizontalPadding;
 
-            if (columnWidthMode == ColumnWidthMode.FixedCharWidth)
+            if (ColumnWidthMode == ColumnWidthMode.FixedCharWidth)
             {
-                string sample = new string('0', FixedCharCount);
-                columnWidth = NhegazSizeMethods.TextExactSize(sample, Font).Width + xPadding;
+                columnWidth = NhegazSizeMethods.FontUnitSize(Font).Width 
+                            + InnerHorizontalPadding;
             }
 
             return columnWidth;

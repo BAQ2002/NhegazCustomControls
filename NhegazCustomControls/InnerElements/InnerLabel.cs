@@ -173,9 +173,9 @@ namespace NhegazCustomControls
             textLocation = new Point(textX, textY);
         }
 
-        public override void OnPaint(CustomControl parent, PaintEventArgs e)
+        public override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(parent, e);
+            base.OnPaint(e);
 
             Color foreColor = IsHovering? HoverForeColor : ForeColor;
             

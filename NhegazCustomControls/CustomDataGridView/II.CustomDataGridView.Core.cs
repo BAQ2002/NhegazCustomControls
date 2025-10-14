@@ -28,9 +28,11 @@ namespace NhegazCustomControls
             if (_source == null || _source.Count == 0) //Se não a fonte de dados(list) for null ou não tiver 
                 return;
 
+            DataIsSourced = true;
+
             // Armazena os dados internamente como uma lista de objetos
             DataSource = _source.Cast<object>().ToList(); //Passa os elementos de source para o 
-
+            
             // Descobre as propriedades públicas da classe T
             Properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
                                   .Where(p => p.CanRead)
@@ -40,12 +42,10 @@ namespace NhegazCustomControls
             CreateHeadersLabels();
             CreateDataLabels();
             UpdateLayout();
-            Invalidate();
         }
+
         public void CreateHeadersLabels()
         {
-            // zera o cabeçalho anterior a partir da coleção do Header
-            HeaderLabels.Clear();
 
             int cols = Properties.Count;
             if (cols <= 0) return;
@@ -59,6 +59,7 @@ namespace NhegazCustomControls
                 {
                     Text = Properties[i].Name,
                     Font = Font,
+                    
                     BackgroundColor = Header.BackgroundColor        
                 };
 

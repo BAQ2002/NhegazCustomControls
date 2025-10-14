@@ -39,20 +39,6 @@
             dropDownIcon.SetLocation(RelativeRightX(dropDownIcon), RelativeCenterY(dropDownIcon));
         }
 
-        protected override void SetMinimumSize()
-        {
-            int innerControlsWidth = selectIndex.Width + dropDownIcon.Width;
-            int innerControlsHeigth = Math.Max(selectIndex.Height, dropDownIcon.Height);
-
-            int paddingWidth = BorderHorizontalBoundsSum + InnerHorizontalPadding;
-            int paddingHeight = BorderVerticalBoundsSum;
-
-            int minimumWidth = innerControlsWidth + paddingWidth;
-            int minimumHeight = innerControlsHeigth + paddingHeight;
-
-            MinimumSize = new Size(minimumWidth, minimumHeight);
-        }
-
         protected override void AdjustHoverColors()
         {
             dropDownIcon.MouseEnter += (s, e) =>

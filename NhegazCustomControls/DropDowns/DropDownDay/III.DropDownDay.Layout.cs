@@ -14,7 +14,7 @@ namespace NhegazCustomControls
             if (DayItems == null || NumberOfColumns <= 0 || NumberOfRows <= 0)
                 return;
 
-            SetInnerSizes(); SetInnerLocations(); SetMinimumSize();    
+            base.UpdateLayout();
         }
 
         public override Size GetContentSize()
