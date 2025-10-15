@@ -37,6 +37,7 @@ namespace NhegazCustomControls
 
             return path;
         }
+
         public static GraphicsPath DropDownIconPath(InnerControl innerControl, int iconSize)
         {
             GraphicsPath iconPath = new GraphicsPath();

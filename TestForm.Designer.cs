@@ -80,7 +80,7 @@
             customDatePicker2.BackColor = Color.Transparent;
             customDatePicker2.BackgroundColor = SystemColors.Window;
             customDatePicker2.BorderColor = SystemColors.WindowFrame;
-            customDatePicker2.BorderRadius = 11;
+            customDatePicker2.BorderRadius = 7;
             customDatePicker2.BorderWidth = 1;
             customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
             customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.2F;
@@ -93,7 +93,7 @@
             customDatePicker2.Day = 8;
             customDatePicker2.DropDownFeatures.HeaderBackgroundColor = SystemColors.ControlLight;
             customDatePicker2.DropDownFeatures.HeaderBorderColor = SystemColors.WindowFrame;
-            customDatePicker2.DropDownFeatures.HeaderBorderRadius = 4;
+            customDatePicker2.DropDownFeatures.HeaderBorderRadius = 7;
             customDatePicker2.DropDownFeatures.HeaderBorderWidth = 1;
             customDatePicker2.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
             customDatePicker2.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;

@@ -38,27 +38,53 @@ namespace NhegazCustomControls
         /// <summary>
         /// Gera uma List de PointF que representa um arco de 90 graus.
         /// </summary>
-        public static List<PointF> GenerateArc(float radius)//Método que gera os pontos do arco
+        public static List<PointF> GenerateArc(int radius)   
         {
-            int segments = Math.Max(1, (int)(Math.PI * radius / 2)); //Maior valor entre 1 e (π*radius)/2
+            int arcLenght = (int)(Math.PI * radius / 2);          //Comprimento do arco "π*radius/2"
+            int segments = Math.Max(1, arcLenght);                //Maior valor entre 1 e arcLenght
 
-            List<PointF> points = new(); //lista que armazena os pontos do arco
+            List<PointF> points = [];                             //lista que armazena os pontos do arco
 
-            for (int i = 0; i < segments; i++) // * segments
+            for (int i = 0; i < segments; i++)                    // * segments
             {
-                float t = i / (float)segments; //Valor do progresso atual até o final do arco(de 0 a 1)
-                float angle = (float)(Math.PI / 2 * t); //Valor do angulo do progresso atual(de 0° até 90°)
+                float t = i / (float)segments;                    //Valor do progresso atual até o final do arco(de 0 a 1)
+                float angle = (float)(Math.PI / 2 * t);           //Valor do angulo do progresso atual(de 0° até 90°)
 
                 float fx = radius * (1 - (float)Math.Cos(angle)); //Gera o X do ponto atual
                 float fy = radius * (1 - (float)Math.Sin(angle)); //Gera o Y do ponto atual
 
-                var x = RoundFloat(fx);
-                var y = RoundFloat(fy);
+                var x = RoundFloat(fx);                           //Arrendonda a coordenada X para .0 ou .5
+                var y = RoundFloat(fy);                           //Arrendonda a coordenada Y para .0 ou .5
 
-                points.Add(new PointF(x, y)); //Adiciona o ponto a lista de pontos
+                points.Add(new PointF(x, y));                     //Adiciona o ponto a lista de pontos
             }
             return points;
         }
 
+        /// <summary>
+        /// Gera uma List de PointF que representa um arco de 90 graus.
+        /// </summary>
+        public static List<PointF> GenerateInnerArc(float radius, int arcWidth)
+        { 
+            int arcLenght = (int)(Math.PI * (radius - (arcWidth -1)) / 2); //Ccomprimento do arco "π*radius - (arcWidth - 1) / 2"
+            int segments = Math.Max(1, arcLenght);                         //Maior valor entre 1 e arcLenght
+
+            List<PointF> points = [];                                      //lista que armazena os pontos do arco
+
+            for (int i = 0; i < segments; i++)                             // * segments
+            {
+                float t = i / (float)segments;                             //Valor do progresso atual até o final do arco(de 0 a 1)
+                float angle = (float)(Math.PI / 2 * t);                    //Valor do angulo do progresso atual(de 0° até 90°)
+
+                float fx = radius * (1 - (float)Math.Cos(angle));          //Gera o X do ponto atual
+                float fy = radius * (1 - (float)Math.Sin(angle));          //Gera o Y do ponto atual
+
+                var x = RoundFloat(fx);                                    //Arrendonda a coordenada X para .0 ou .5
+                var y = RoundFloat(fy);                                    //Arrendonda a coordenada Y para .0 ou .5
+
+                points.Add(new PointF(x, y));                              //Adiciona o ponto a lista de pontos
+            }
+            return points;
+        }
     }
 }
