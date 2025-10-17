@@ -283,7 +283,7 @@ namespace NhegazCustomControls
 
             //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            using (var backgroundPath = NhegazDrawingMethods.RectBackgroundPath(Bounds, BorderRadius))
+            using (var backgroundPath = NhegazDrawingMethods.RectangularPath(Bounds, BorderRadius))
             {
                 using (var brush = new SolidBrush(BackgroundColor))
                 {e.Graphics.FillPath(brush, backgroundPath);}

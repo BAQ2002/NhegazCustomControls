@@ -76,12 +76,7 @@ namespace NhegazCustomControls
 
         public static Size FontUnitSize(Font font)
         {
-            Size size = TextRenderer.MeasureText(
-                "0",
-                font,
-                new Size(int.MaxValue, int.MaxValue),
-                TextFormatFlags.NoPadding | TextFormatFlags.SingleLine
-            );
+            Size size = TextExactSize( "0", font);
             return size;
         }
     }

@@ -99,12 +99,12 @@
             customDatePicker2.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.DropDownFeatures.HeaderHoverForeColor = SystemColors.ControlLight;
             customDatePicker2.DropDownFeatures.HeaderOnFocusBorderColor = SystemColors.Highlight;
-            customDatePicker2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            customDatePicker2.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.HoverColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
             customDatePicker2.Location = new Point(502, 229);
-            customDatePicker2.MinimumSize = new Size(168, 37);
+            customDatePicker2.MinimumSize = new Size(136, 30);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";
             customDatePicker2.OnFocus = false;
@@ -112,7 +112,7 @@
             customDatePicker2.OnFocusBorderExtraWidth = 1;
             customDatePicker2.SecondaryBackgroundColor = SystemColors.ControlLightLight;
             customDatePicker2.SecondaryForeColor = SystemColors.ControlText;
-            customDatePicker2.Size = new Size(168, 37);
+            customDatePicker2.Size = new Size(136, 30);
             customDatePicker2.TabIndex = 2;
             customDatePicker2.Year = 2025;
             // 

@@ -9,7 +9,7 @@ namespace NhegazCustomControls
 {
     public partial class CustomControl
     {
-        /// <summary>Raio de arrendondamento das quinas da borda do Controle.</summary>
+        /// <summary>Raio do arrendondamento das quinas da borda do Controle.</summary>
         private int borderRadius = 5;
 
         /// <summary>Espessura das bordas do Controle.</summary>
@@ -40,7 +40,14 @@ namespace NhegazCustomControls
             BorderWidth <= 0 ? 0 :
             BorderWidth == 1 ? 1 :
             BorderWidth - 1;
-            
+
+        /// <summary>
+        /// Raio do arrendondamento das quinas do fundo do Controle baseado em
+        /// <para>(BorderWidth  = 0 : BackgroundCornerRaidius = BorderRadius); </para>
+        /// <para>(BorderWidth >= 1 : BackgroundCornerRaidius = BorderRadius - 1); </para>
+        /// </summary>
+        private int BackgroundCornerRaidius => HasBorder ? BorderRadius - 1 : BorderRadius;
+
         /// <summary>Cor de textos secundários.</summary>
         private Color secondaryForeColor = SystemColors.ControlText;
 
@@ -61,6 +68,8 @@ namespace NhegazCustomControls
 
         /// <summary>Cor da Borda do Controle quando em Foco.</summary>
         private Color onFocusBorderColor = SystemColors.Highlight;
+
+        public Size FontUnitSize => NhegazSizeMethods.FontUnitSize(Font);
        
         [Browsable(false)]
         public InnerControls InnerControls { get; }

@@ -11,7 +11,7 @@ namespace NhegazCustomControls
     {
         /// <summary>
         /// Realiza o desenho do fundo do controle, respeitando a área interna delimitada pela borda.
-        /// Usa RectBackgroundPath com offset calculado baseado em ClientRectangle.
+        /// Usa RectangularPath com offset calculado baseado em ClientRectangle.
         /// </summary>
         protected void DrawBackground(PaintEventArgs e)
         {          
@@ -27,9 +27,9 @@ namespace NhegazCustomControls
             if (backgroundRect.Width <= 0 || backgroundRect.Height <= 0)
                 return;
 
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.SmoothingMode = SmoothingMode.None;
 
-            NhegazDrawingMethods.DrawBackgroundPath(e, backgroundRect, cornerRadius, BackgroundColor);
+            NhegazDrawingMethods.DrawRectangularPath(e, backgroundRect, cornerRadius, BackgroundColor, true);
 
         }
 
@@ -48,7 +48,7 @@ namespace NhegazCustomControls
         protected virtual void DrawBorder(PaintEventArgs e)
         {
             e.Graphics.ResetClip();
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.SmoothingMode = SmoothingMode.None;
 
             Rectangle borderRect = new(Point.Empty, Size);
             Color borderColor = OnFocus ? OnFocusBorderColor                    : BorderColor;

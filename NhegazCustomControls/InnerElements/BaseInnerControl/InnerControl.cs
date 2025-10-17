@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Taskbar;
 
 namespace NhegazCustomControls
 {
@@ -11,6 +14,7 @@ namespace NhegazCustomControls
     {
         private Rectangle bounds = new(0, 0, 0, 0);
         private BackGroundShape backGroundShape = BackGroundShape.FitRectangle;
+        private int cornerRadius = 0;
         public bool Visible { get; set; } = true;
         public bool AbleToHover { get; set; } = true;
         public virtual Font Font { get; set; } = SystemFonts.DefaultFont;
@@ -21,6 +25,11 @@ namespace NhegazCustomControls
         public InnerControlPadding Padding { get; }
         public bool HitBox(Point p) => Bounds.Contains(p);
         public Rectangle Bounds => bounds;
+        public int CornerRadius
+        {
+            get => cornerRadius;
+            set { cornerRadius = value; }
+        }
         public Size Size
         {
             get => bounds.Size;
@@ -141,22 +150,26 @@ namespace NhegazCustomControls
             Width = size.Width; 
             Height = size.Height;
         }
+
         public void DrawBackground(PaintEventArgs e)
         {
             Color backgroundColor = IsHovering ? HoverBackgroundColor : BackgroundColor;
 
-            using (GraphicsPath backgroundPath = NhegazDrawingMethods.InnerControlBackgroundPath(this)) //Define o GraphicsPath da area interna do InnerControl
+            switch (BackGroundShape)
             {
-                //e.Graphics.IntersectClip(new Region(backgroundPath));
-                //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                case BackGroundShape.FitRectangle:
+                    NhegazDrawingMethods.DrawRectangularPath(e, Bounds, 0, backgroundColor);
+                    break;
 
-                using (SolidBrush brush = new SolidBrush(backgroundColor)) //Preenche a area com o BackgroundColor
-                {
-                    e.Graphics.FillPath(brush, backgroundPath);
-                }
+                case BackGroundShape.SymmetricCircle:
+                    NhegazDrawingMethods.DrawSymmetricCirclePath(e, Bounds, backgroundColor);
+                    break;
+
+                case BackGroundShape.RoundedRectangle:
+                    NhegazDrawingMethods.DrawRectangularPath(e, Bounds, cornerRadius, backgroundColor);
+                    break;
             }
         }
-
         public virtual void OnPaint(PaintEventArgs e)
         {
             if (!Visible) return;
