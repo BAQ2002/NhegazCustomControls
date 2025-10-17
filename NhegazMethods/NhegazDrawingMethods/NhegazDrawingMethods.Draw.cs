@@ -40,7 +40,13 @@ namespace NhegazCustomControls
                 e.Graphics.DrawPath(new Pen(color, 1f), backgroundPath);
 
                 // Define a área de recorte (clip) para limitar os próximos desenhos, se necessário
-                 if(setClip == true) e.Graphics.SetClip(backgroundPath);
+                if (setClip == true) 
+                {
+                    if (e.Graphics.IsClipEmpty == false) 
+                        e.Graphics.IntersectClip(new Region(backgroundPath));
+                    else 
+                        e.Graphics.SetClip(backgroundPath);
+                }                                
             }
         }
 

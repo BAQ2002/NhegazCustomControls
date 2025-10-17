@@ -7,13 +7,22 @@ namespace NhegazCustomControls
 {
     public abstract partial class CustomControl
     {
+        /// <summary>Espaçamento Horizontal entre os elmementos internos.</summary>
         public int InnerHorizontalPadding => ControlPadding.EffectiveInnerHorizontal;
+
+        /// <summary>Espaçamento Vertical entre os elmementos internos.</summary>
         public int InnerVerticalPadding => ControlPadding.EffectiveInnerVertical;
 
+        /// <summary>Espaçamento entre o lado esquerdo da borda e os elmementos internos.</summary>
         public int BorderLeftPadding => ControlPadding.EffectiveBorderLeft;
+
+        /// <summary>Espaçamento entre o lado direito da borda e os elmementos internos.</summary>
         public int BorderRightPadding => ControlPadding.EffectiveBorderRight;
 
+        /// <summary>Espaçamento entre o lado superior da borda e os elmementos internos.</summary>
         public int BorderTopPadding => ControlPadding.EffectiveBorderTop;
+
+        /// <summary>Espaçamento entre o lado inferior da borda e os elmementos internos.</summary>
         public int BorderBottomPadding => ControlPadding.EffectiveBorderBottom;
 
         /// <summary> </summary>

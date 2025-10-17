@@ -31,8 +31,9 @@ namespace NhegazCustomControls
             int rows = DataLabels.GetRowsLenght;
             int cols = DataLabels.GetColsLenght;
 
-            int columnsTotalWidth = 0;
+            int lineBetweenCol = LinesBetweenColumns ? LinesWidth : 0;
 
+            int columnsTotalWidth = 0;
             int rowHeight = NhegazSizeMethods.FontUnitSize(Font).Height + InnerVerticalPadding;
 
             for (int col = 0; col < cols; col++)
@@ -42,7 +43,7 @@ namespace NhegazCustomControls
                 if (col == 0) { headerItemSize.Width += BorderLeftPadding; }
                 if (col == cols-1) { headerItemSize.Width += BorderRightPadding; }
 
-                columnsTotalWidth += headerItemSize.Width;
+                columnsTotalWidth += headerItemSize.Width + lineBetweenCol;
 
                 HeaderLabels.SetItemSize(col, headerItemSize);
             }
@@ -69,19 +70,19 @@ namespace NhegazCustomControls
             int itemHeight = NhegazSizeMethods.FontUnitSize(Font).Height + InnerVerticalPadding;
 
             int headerX = BorderWidth;
-
+            Header.SetLocation(BorderWidth, BorderWidth);
             for (int col = 0; col < cols; col++)
             {
                 HeaderLabels.SetItemLocation(col, headerX, BorderWidth);
-                headerX += HeaderLabels.GetItem(col).Width + col * lineBetweenCol;
+                headerX += HeaderLabels.GetItem(col).Width + lineBetweenCol;
             }
 
-            Header.SetLocation(0, 0);
+            
 
             for (int row = 0; row < rows; row++)
             {
                 int x = BorderWidth;
-                int y = BorderWidth + (row + 1) * (itemHeight + lineBetweenRow);
+                int y = Header.Bottom + row * (itemHeight + lineBetweenRow);
 
                 for (int col = 0; col < cols; col++)
                 {
@@ -97,7 +98,7 @@ namespace NhegazCustomControls
         /// <summary>
         /// Com 
         /// </summary>
-        public int ColumnWidth( int headerWidth)
+        public int ColumnWidth(int headerWidth)
         {
             int columnWidth = 0;
 

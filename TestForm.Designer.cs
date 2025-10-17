@@ -144,7 +144,7 @@
             customDataGridView1.DifferentColorsBetweenRows = true;
             customDataGridView1.FixedCharCount = 10;
             customDataGridView1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            customDataGridView1.Header.BackgroundColor = SystemColors.HotTrack;
+            customDataGridView1.Header.BackgroundColor = SystemColors.ButtonFace;
             customDataGridView1.Header.BorderColor = SystemColors.WindowFrame;
             customDataGridView1.Header.BorderRadius = 0;
             customDataGridView1.Header.BorderWidth = 0;

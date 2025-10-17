@@ -62,7 +62,7 @@ namespace NhegazCustomControls
                     
                     BackgroundColor = Header.BackgroundColor        
                 };
-
+                columnHeader.Click += (s, e) => MessageBox.Show(columnHeader.Size.ToString());
                 HeaderLabels.AddItem(columnHeader, i);
             }
         }
@@ -96,7 +96,7 @@ namespace NhegazCustomControls
                                           : BackgroundColor
                     };
 
-                    cell.Click += (s, e) => MessageBox.Show(cell.Text);
+                    cell.Click += (s, e) => MessageBox.Show(cell.Size.ToString());
 
                     // coloca no (r,c) e adiciona em InnerControls via MatrixFeature
                     DataLabels.AddItem(cell, r, c);

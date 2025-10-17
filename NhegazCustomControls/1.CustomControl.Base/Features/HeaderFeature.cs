@@ -282,15 +282,7 @@ namespace NhegazCustomControls
                 return;
 
             //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-            using (var backgroundPath = NhegazDrawingMethods.RectangularPath(Bounds, BorderRadius))
-            {
-                using (var brush = new SolidBrush(BackgroundColor))
-                {e.Graphics.FillPath(brush, backgroundPath);}
-
-                e.Graphics.IntersectClip(new Region(backgroundPath));
-            }     
-            
+            NhegazDrawingMethods.DrawRectangularPath(e, backgroundRect, BorderRadius, BackgroundColor, true);              
         }
  
         private void DrawInnerControls(PaintEventArgs e)
