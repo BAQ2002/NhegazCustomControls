@@ -59,10 +59,13 @@ namespace NhegazCustomControls
                 {
                     Text = Properties[i].Name,
                     Font = Font,
-                    
-                    BackgroundColor = Header.BackgroundColor        
+
+                    BackgroundColor = Header.BackgroundColor
                 };
-                columnHeader.Click += (s, e) => MessageBox.Show(columnHeader.Size.ToString());
+                columnHeader.Click += (s, e) => { MessageBox.Show(columnHeader.Size.ToString()); 
+                                                  MessageBox.Show(Header.Size.ToString()); 
+                                                };
+
                 HeaderLabels.AddItem(columnHeader, i);
             }
         }

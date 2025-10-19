@@ -42,12 +42,27 @@ namespace NhegazCustomControls
             BorderWidth - 1;
 
         /// <summary>
+        /// Retangulo que fornece o Size e Location para o Fundo do Controle
+        /// <para>(X = BackgroundOffset : Width - (2 * BackgroundOffset)); </para>
+        /// <para>(Y = BackgroundOffset : height = Height - (2 * BackgroundOffset)); </para>
+        /// </summary>
+        private Rectangle BackgroundRectangle
+        {
+            get
+            {
+                int locX = BackgroundOffset; int width = Width - (2 * BackgroundOffset);
+                int locY = BackgroundOffset; int height = Height - (2 * BackgroundOffset);
+
+                return new(locY, locX, width, height);
+            }
+        }
+        /// <summary>
         /// Raio do arrendondamento das quinas do fundo do Controle baseado em
         /// <para>(BorderWidth  = 0 : BackgroundCornerRaidius = BorderRadius); </para>
         /// <para>(BorderWidth >= 1 : BackgroundCornerRaidius = BorderRadius - 1); </para>
         /// </summary>
-        private int BackgroundCornerRaidius => HasBorder ? BorderRadius - 1 : BorderRadius;
-
+        private int BackgroundCornerRaidus => HasBorder ? BorderRadius - 1 : BorderRadius;
+  
         /// <summary>Cor de textos secundários.</summary>
         private Color secondaryForeColor = SystemColors.ControlText;
 

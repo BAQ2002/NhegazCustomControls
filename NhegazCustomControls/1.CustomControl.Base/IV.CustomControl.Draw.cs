@@ -16,20 +16,17 @@ namespace NhegazCustomControls
         protected void DrawBackground(PaintEventArgs e)
         {          
             
-            int cornerRadius = HasBorder ? BorderRadius - 1 : BorderRadius;
-
             //Posições(X,Y) do Background. //Tamanhos(Width, Height) do Background. //
             int locX = BackgroundOffset;        int width = Width - (2 * BackgroundOffset);
             int locY = BackgroundOffset;        int height = Height - (2 * BackgroundOffset);
             //Serão diferentes das Propriedades Originais apenas se BorderWidth >=1.//
           
-            Rectangle backgroundRect = new(locX, locY, width, height);
-            if (backgroundRect.Width <= 0 || backgroundRect.Height <= 0)
+            if (BackgroundRectangle.Width <= 0 || BackgroundRectangle.Height <= 0)
                 return;
 
             e.Graphics.SmoothingMode = SmoothingMode.None;
 
-            NhegazDrawingMethods.DrawRectangularPath(e, backgroundRect, cornerRadius, BackgroundColor, true);
+            NhegazDrawingMethods.DrawRectangularPath(e, BackgroundRectangle, BackgroundCornerRaidus, BackgroundColor, true);
 
         }
 

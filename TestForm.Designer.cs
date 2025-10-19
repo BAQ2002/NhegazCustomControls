@@ -162,7 +162,7 @@
             customDataGridView1.LinesBetweenColumns = true;
             customDataGridView1.LinesBetweenRows = true;
             customDataGridView1.LinesWidth = 1;
-            customDataGridView1.Location = new Point(12, 280);
+            customDataGridView1.Location = new Point(45, 270);
             customDataGridView1.Name = "customDataGridView1";
             customDataGridView1.OnFocus = false;
             customDataGridView1.OnFocusBorderColor = SystemColors.Highlight;

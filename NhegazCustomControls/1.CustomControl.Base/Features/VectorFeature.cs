@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NhegazCustomControls
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class VectorFeature
     {
         private readonly CustomControl ownerControl;
@@ -50,6 +53,19 @@ namespace NhegazCustomControls
             }
         }
 
+        public int ItemsWidthSum
+        {
+            get 
+            {   
+                int sum = 0;
+                for (int i = 0; i < items.Length; i++)
+                {
+                    sum += GetItem(i).Width;
+                }
+                return sum;
+            }           
+        }
+
         /// <summary>Redimensiona preservando o que couber.</summary>
         public void Resize(int newLength)
         {
@@ -66,24 +82,28 @@ namespace NhegazCustomControls
             var item = GetItem(index);
             item.SetSize(itemWidth, itemHeight);
         }
+
         /// <summary>Define largura/altura de um item.</summary>
         public void SetItemSize(int index, Size itemSize)
         {
             var item = GetItem(index);
             item.SetSize(itemSize);
         }
+
         /// <summary>Define posição de um item.</summary>
         public void SetItemLocation(int index, int x, int y)
         {
             var item = GetItem(index);
             item.SetLocation(x, y);
         }
+
         /// <summary>Define posição de um item.</summary>
         public void SetItemLocation(int index, Point itemLocation)
         {
             var item = GetItem(index);
             item.SetLocation(itemLocation);
         }
+
         /// <summary>Itera com índice (útil para operações em lote).</summary>
         public void ForEach(Action<int, InnerControl> action)
         {
@@ -91,6 +111,7 @@ namespace NhegazCustomControls
             for (int i = 0; i < items.Length; i++)
                 if (items[i] is InnerControl ic) action(i, ic);
         }
+
         public InnerControl GetItem(int index)
         {
             EnsureInside(index);

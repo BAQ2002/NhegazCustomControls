@@ -32,29 +32,31 @@ namespace NhegazCustomControls
             int cols = DataLabels.GetColsLenght;
 
             int lineBetweenCol = LinesBetweenColumns ? LinesWidth : 0;
+            int NumberOfCloumnsLines = DataLabels.GetColsLenght -1;
 
-            int columnsTotalWidth = 0;
-            int rowHeight = NhegazSizeMethods.FontUnitSize(Font).Height + InnerVerticalPadding;
+            int rowHeight = FontUnitSize.Height + InnerVerticalPadding;
+
+            Size[] columnsSizes = new Size[cols];
 
             for (int col = 0; col < cols; col++)
             {
-                Size headerItemSize = new(ColumnWidth(HeaderLabels.GetItem(col).Width), rowHeight);
+                columnsSizes[col] = new(ColumnWidth(HeaderLabels.GetItem(col).Width), rowHeight);
 
-                if (col == 0) { headerItemSize.Width += BorderLeftPadding; }
-                if (col == cols-1) { headerItemSize.Width += BorderRightPadding; }
+                if (col == 0) { columnsSizes[col].Width += BorderLeftPadding; }
+                if (col == cols-1) { columnsSizes[col].Width += BorderRightPadding; }
 
-                columnsTotalWidth += headerItemSize.Width + lineBetweenCol;
-
-                HeaderLabels.SetItemSize(col, headerItemSize);
+                HeaderLabels.SetItemSize(col, columnsSizes[col]);
             }
 
-            Header.SetSize(columnsTotalWidth, rowHeight);
+            int headerTotalWidth = HeaderLabels.ItemsWidthSum + (cols-1)* lineBetweenCol;
+
+            Header.SetSize(headerTotalWidth, rowHeight);
 
             for (int row = 0; row < rows; row++)
             {
                 for (int col = 0; col < cols; col++)
                 {
-                    DataLabels.SetItemSize(row, col, HeaderLabels.GetItem(col).Size);
+                    DataLabels.SetItemSize(row, col, columnsSizes[col]);
                 }
             }
         }
@@ -67,18 +69,17 @@ namespace NhegazCustomControls
             int lineBetweenCol = LinesBetweenColumns ? LinesWidth : 0;
             int lineBetweenRow = LinesBetweenRows ? LinesWidth : 0;
 
-            int itemHeight = NhegazSizeMethods.FontUnitSize(Font).Height + InnerVerticalPadding;
+            int itemHeight = FontUnitSize.Height + InnerVerticalPadding;
 
-            int headerX = BorderWidth;
+            int headerItemX = BorderWidth;
             Header.SetLocation(BorderWidth, BorderWidth);
+
             for (int col = 0; col < cols; col++)
             {
-                HeaderLabels.SetItemLocation(col, headerX, BorderWidth);
-                headerX += HeaderLabels.GetItem(col).Width + lineBetweenCol;
+                HeaderLabels.SetItemLocation(col, headerItemX, BorderWidth);
+                headerItemX += HeaderLabels.GetItem(col).Width + lineBetweenCol;
             }
-
             
-
             for (int row = 0; row < rows; row++)
             {
                 int x = BorderWidth;
