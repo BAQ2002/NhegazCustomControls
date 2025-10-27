@@ -11,17 +11,17 @@ namespace NhegazCustomControls
     {
         private DateOnly? date;
 
-        public TextBox dayTextBox = new TextBox();   //Opção atualmente selecionada Dia
-        public TextBox monthTextBox = new TextBox(); //Opção atualmente selecionada mes
-        public TextBox yearTextBox = new TextBox();  //Opção atualmente selecionada ano
+        public TextBox dayTextBox = new TextBox();   //Opção atualmente selecionada de dia.
+        public TextBox monthTextBox = new TextBox(); //Opção atualmente selecionada de mês.
+        public TextBox yearTextBox = new TextBox();  //Opção atualmente selecionada de ano.
 
-        public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);   //Botão para abrir DropDown
-        public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle); //Botão para abrir DropDown
-        public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);  //Botão para abrir DropDown
+        public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);   //Botão para abrir DropDown.
+        public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle); //Botão para abrir DropDown.
+        public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);  //Botão para abrir DropDown.
 
-        private InnerLabel daySlashMonth = new InnerLabel();  //Elemento visual barra "/"
-        private InnerLabel monthSlashYear = new InnerLabel(); //Elemento visual barra "/"
-        private CustomControl dropDownInstance = null; //Referencia para o o DropDown que esta aberto
+        private InnerLabel daySlashMonth = new InnerLabel();  //Elemento visual barra "/".
+        private InnerLabel monthSlashYear = new InnerLabel(); //Elemento visual barra "/".
+        private CustomControl? dropDownInstance = null; //Referencia para o o DropDown que esta aberto.
 
         public override Font Font
         {

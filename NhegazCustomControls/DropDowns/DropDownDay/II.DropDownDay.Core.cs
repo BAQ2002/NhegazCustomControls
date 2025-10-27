@@ -31,13 +31,17 @@ namespace NhegazCustomControls
                 CurrentYear = dp.Year;
 
                 Header.Controls.Add(BackwardIcon);
-                BackwardIcon.Click += (s, e) => { UpdateMonth(-1); Invalidate(); };
+                BackwardIcon.Click += (s, e) => { UpdateMonth(-1); Invalidate();  
+                    MessageBox.Show("Icon.Location: " + BackwardIcon.Location.ToString() + " Icon.Size: " + BackwardIcon.Size.ToString()
+                                   +"Header.Location:" + Header.Location.ToString() + "Header.Size:" + Header.Size.ToString()); };
                 BackwardIcon.DoubleClick += (s, e) => { UpdateMonth(-1); Invalidate(); };
      
                 Header.Controls.Add(ForwardIcon);
-                ForwardIcon.Click += (s, e) => { UpdateMonth(1); Invalidate(); };
+                ForwardIcon.Click += (s, e) => { UpdateMonth(1); Invalidate(); 
+                    MessageBox.Show("Icon.Location: " + ForwardIcon.Location.ToString()
+                                   +"Icon.Size: " + ForwardIcon.Size.ToString()); };
                 ForwardIcon.DoubleClick += (s, e) => { UpdateMonth(1); Invalidate(); };
-
+        
                 Header.Controls.Add(MonthLabel);
                 MonthLabel.Text = MonthTexts[CurrentMonth];
 
@@ -103,6 +107,7 @@ namespace NhegazCustomControls
                     };
 
                     dayItemLabel.Click += (s, e) => OnDayItemLabelClick(currentRow, currentCol);
+                   
                     DayItems.AddItem(dayItemLabel, row, col);
                 }
             }
@@ -137,21 +142,21 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Método responsável por atualizar as propriedades dos DayItems
+        /// Método responsável por atualizar as propriedades dos DayItems.
         /// </summary>
         private void UpdateDayItemLabels(int currentYear, int currentMonth)
         {
-            DateTime firstDay = new DateTime(currentYear, currentMonth, 1);
-            int firstDayOfWeek = (int)firstDay.DayOfWeek;
+            DateTime firstDay = new DateTime(currentYear, currentMonth, 1);           //Data do primeiro dia do mês atual.
+            int firstDayOfWeek = (int)firstDay.DayOfWeek;                             //Dia da semana do primeiro dia do mês atual. 
 
-            int daysInCurrentMonth = DateTime.DaysInMonth(currentYear, currentMonth);
+            int daysInCurrentMonth = DateTime.DaysInMonth(currentYear, currentMonth); //Quantidade de dias no mês atual.
 
-            int previousMonth = (currentMonth == 1) ? 12 : currentMonth - 1;
-            int previousYear = (currentMonth == 1) ? currentYear - 1 : currentYear;
-            int daysInPrevMonth = DateTime.DaysInMonth(previousYear, previousMonth);
+            int previousMonth = (currentMonth == 1) ? 12 : currentMonth - 1;          //Mês anterior.
+            int previousYear = (currentMonth == 1) ? currentYear - 1 : currentYear;   //Ano do mês anterior.
+            int daysInPrevMonth = DateTime.DaysInMonth(previousYear, previousMonth);  //Quantidade de dias no mês anterior.
 
-            int nextMonth = (currentMonth == 12) ? 1 : currentMonth + 1;
-            int nextYear = (currentMonth == 12) ? currentYear + 1 : currentYear;
+            int nextMonth = (currentMonth == 12) ? 1 : currentMonth + 1;              //Mês sucessor.
+            int nextYear = (currentMonth == 12) ? currentYear + 1 : currentYear;      //Ano do mês sucessor.
 
             int gridIndex = 0;
 

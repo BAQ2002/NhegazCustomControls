@@ -75,7 +75,7 @@ namespace NhegazCustomControls
 
         protected override void SetInnerLocations()
         {
-            Header.SetLocation(RelativeLeftX(), RelativeTopY());
+            Header.SetLocation(RelativeCenterX(Header.Width), RelativeTopY());
             
             MonthLabel.SetLocation(Header.RelativeCenterX(MonthLabel), Header.RelativeCenterY(MonthLabel));
             ForwardIcon.SetLocation(Header.RelativeRightX(ForwardIcon), Header.RelativeCenterY(ForwardIcon));

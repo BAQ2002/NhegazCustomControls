@@ -11,28 +11,77 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace NhegazCustomControls
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class HeaderFeature
+    public partial class HeaderFeature
     {
         private readonly CustomControl ownerControl;
         
-        private float heightRelativePercent = 1; 
-
+        private float heightRelativePercent = 1;
+        /// <summary></summary>
         private int borderWidth = 1;
+
+        /// <summary></summary>
         private int borderRadius = 4;
 
-        private bool HasBorder => borderWidth > 0;
-
+        /// <summary></summary>
         private Color borderColor = SystemColors.WindowFrame;
+
+        /// <summary></summary>
         private Color onFocusBorderColor = SystemColors.Highlight;
 
+        /// <summary></summary>
         private Color foreColor = SystemColors.ControlText;
-        private Color backgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho    
 
+        /// <summary></summary>
+        private Color backgroundColor = SystemColors.GrayText; //Cor do fundo do cabecalho
+                                                               
+        /// <summary></summary>
         private Color hoverBackgroundColor = SystemColors.ControlText;
+
+        /// <summary></summary>
         private Color hoverForeColor = SystemColors.ControlText;
 
+        /// <summary></summary>
         private Rectangle bounds = new Rectangle(0, 0, 0, 0);
+
+        /// <summary></summary>
         private HeaderHeightMode heightMode = HeaderHeightMode.Absolute;
+
+        /// <summary>Indica se o Controle possui visualmente uma borda.</summary>
+        private bool HasBorder => borderWidth >= 1;
+
+        /// <summary>
+        /// Raio do arrendondamento das quinas do fundo do Controle baseado em
+        /// <para>(BorderWidth  = 0 : BackgroundCornerRaidius = BorderRadius); </para>
+        /// <para>(BorderWidth >= 1 : BackgroundCornerRaidius = BorderRadius - 1); </para>
+        /// </summary>
+        private int BackgroundCornerRaidus => HasBorder ? BorderRadius - 1 : BorderRadius;
+
+        /// <summary> 
+        /// Valor do deslocamento do GraphicsPath utilizado em DrawBackground baseado em
+        /// <para>(BorderWidth = 0 : BackgroundOffset = 0); </para>
+        /// <para>(BorderWidth = 1 : BackgroundOffset = 1); </para>
+        /// <para>(BorderWidth > 1 : BackgroundOffset = BorderWidth-1); </para>
+        /// </summary>
+        private int BackgroundOffset =>
+            BorderWidth <= 0 ? 0 :
+            BorderWidth == 1 ? 1 :
+            BorderWidth - 1;
+
+        /// <summary>
+        /// Retangulo que fornece o Size e Location para o Fundo do Controle
+        /// <para>(X = BackgroundOffset : Width - (2 * BackgroundOffset)); </para>
+        /// <para>(Y = BackgroundOffset : height = Height - (2 * BackgroundOffset)); </para>
+        /// </summary>
+        private Rectangle BackgroundRectangle
+        {
+            get
+            {
+                int locX = X + BackgroundOffset; int width = Width - (2 * BackgroundOffset);
+                int locY = Y + BackgroundOffset; int height = Height - (2 * BackgroundOffset);
+
+                return new( locX, locY, width, height);
+            }
+        }
 
         /// <summary>
         /// Define como será definida a altura do cabeçalho.
@@ -145,7 +194,7 @@ namespace NhegazCustomControls
         /// </summary>
         [Browsable(false)]
         public Rectangle Bounds => bounds;
-
+        
         [Browsable(false)]
         public Size Size
         { 
@@ -264,55 +313,12 @@ namespace NhegazCustomControls
             }
             ownerControl.Invalidate();
         }
+
         public bool HandleClick(Point p) => Controls.HandleClick(ownerControl, p);
         public bool HandleDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
         public void HandleMouseMove(Point p) => Controls.HandleMouseMove(ownerControl, p);
         public bool HandleGotFocus(Point p) => Controls.HandleGotFocus(ownerControl, p);
         public bool HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);        
-
-        private void DrawBackground(PaintEventArgs e)
-        {
-            //Posições(X,Y) do Background. //Tamanhos(Width, Height) do Background. //
-            int locX = X + BorderWidth; int width = Width - (2 * BorderWidth);
-            int locY = Y + BorderWidth; int height = Height - (2 * BorderWidth);
-            //Serão diferentes das Propriedades Originais apenas se BorderWidth >=1.//
-
-            Rectangle backgroundRect = new(locX, locY, width, height);
-            if (backgroundRect.Width <= 0 || backgroundRect.Height <= 0)
-                return;
-
-            //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            NhegazDrawingMethods.DrawRectangularPath(e, backgroundRect, BorderRadius, BackgroundColor, true);              
-        }
- 
-        private void DrawInnerControls(PaintEventArgs e)
-        {
-            Controls.OnPaintAll(e);
-            e.Graphics.ResetClip();
-        }
-
-        private void DrawBorder(PaintEventArgs e)
-        {
-            //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            using (var borderPath = NhegazDrawingMethods.RectBorderPath(Bounds, BorderRadius, BorderWidth))
-            {
-                if (borderWidth > 1)
-                {
-                    using var brush = new SolidBrush(BorderColor);
-                    e.Graphics.FillPath(brush, borderPath); 
-                }
-
-                using var pen = new Pen(BorderColor, 1f);
-                e.Graphics.DrawPath(pen, borderPath);
-            }
-        }
-
-        public void OnPaint(PaintEventArgs e)
-        {
-            DrawBackground(e); DrawInnerControls(e); //Desenha o Background; Desenha os InnerControls.
-            if (HasBorder == true) DrawBorder(e);    //Se tiver Border: Desenha Border.
-        }
- 
 
     }
 }

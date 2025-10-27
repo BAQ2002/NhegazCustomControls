@@ -35,8 +35,8 @@ namespace NhegazCustomControls
 
             Controls.Add(dayTextBox);
             dayTextBox.BorderStyle = BorderStyle.None;
-            dayTextBox.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
-            dayTextBox.Click += (s, e) => { this.Focus(); this.OnClick(e); };
+            dayTextBox.DoubleClick += (s, e) => { this.Focus(); OnClick(e); };
+            dayTextBox.Click += (s, e) => { this.Focus(); OnClick(e); };
 
             InnerControls.Add(daySlashMonth);
             daySlashMonth.Text = "/";
@@ -44,10 +44,11 @@ namespace NhegazCustomControls
             InnerControls.Add(dayDropDownIcon);    
             dayDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownDay));
             dayDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownDay));
+
             Controls.Add(monthTextBox);
             monthTextBox.BorderStyle = BorderStyle.None;
-            monthTextBox.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
-            monthTextBox.Click += (s, e) => { this.Focus(); this.OnClick(e); };
+            monthTextBox.DoubleClick += (s, e) => { this.Focus(); OnClick(e); };
+            monthTextBox.Click += (s, e) => { this.Focus(); OnClick(e); };
            
             InnerControls.Add(monthDropDownIcon);
             monthDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownMonth));
@@ -58,8 +59,8 @@ namespace NhegazCustomControls
 
             Controls.Add(yearTextBox);
             yearTextBox.BorderStyle = BorderStyle.None;
-            yearTextBox.DoubleClick += (s, e) => { this.Focus(); this.OnClick(e); };
-            yearTextBox.Click += (s, e) => { this.Focus(); this.OnClick(e); };
+            yearTextBox.DoubleClick += (s, e) => { this.Focus(); OnClick(e); };
+            yearTextBox.Click += (s, e) => { this.Focus(); OnClick(e); };
      
           
             InnerControls.Add(yearDropDownIcon);
@@ -108,11 +109,11 @@ namespace NhegazCustomControls
         protected void OnClick(EventArgs e, Type dropDownType)
         {
             base.OnClick(e);
-            if (dropDownInstance == null)
+            if (dropDownInstance == null)                        //Se não houver um DropDown ativo.
             {
                 OpenDropDown((CustomControl)Activator.CreateInstance(dropDownType, this));
             }
-            else if (dropDownInstance.GetType() != dropDownType)
+            else if (dropDownInstance.GetType() != dropDownType) //Se houver um DropDown ativo, porém de tipo diferente do acionado pelo Click.
             {
                 CloseDropDownInstance();
                 OpenDropDown((CustomControl)Activator.CreateInstance(dropDownType, this));
@@ -122,13 +123,19 @@ namespace NhegazCustomControls
                 CloseDropDownInstance();
             }
         }
+        public void UpdateFocus()
+        {
+            OnFocus = (OnFocus == true) ? false : true;
+        }
 
         public void CloseDropDownInstance()
         {
-            Form parentForm = FindForm();
-            parentForm.Controls.Remove(dropDownInstance);
-            dropDownInstance.Dispose();
-            dropDownInstance = null;
+            if (FindForm() == null || dropDownInstance == null)
+                return;
+
+            Form parentForm = FindForm(); parentForm.Controls.Remove(dropDownInstance);
+            dropDownInstance.Dispose(); dropDownInstance = null;
+            OnFocus = false;
         }
 
         protected void OpenDropDown(CustomControl dropDown)

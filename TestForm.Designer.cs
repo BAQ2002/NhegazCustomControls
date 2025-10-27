@@ -81,7 +81,7 @@
             customDatePicker2.BackgroundColor = SystemColors.Window;
             customDatePicker2.BorderColor = SystemColors.WindowFrame;
             customDatePicker2.BorderRadius = 7;
-            customDatePicker2.BorderWidth = 1;
+            customDatePicker2.BorderWidth = 0;
             customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
             customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.2F;
             customDatePicker2.ControlPadding.RelativePercentBorderLeft = 0.6F;
@@ -94,7 +94,7 @@
             customDatePicker2.DropDownFeatures.HeaderBackgroundColor = SystemColors.ControlLight;
             customDatePicker2.DropDownFeatures.HeaderBorderColor = SystemColors.WindowFrame;
             customDatePicker2.DropDownFeatures.HeaderBorderRadius = 7;
-            customDatePicker2.DropDownFeatures.HeaderBorderWidth = 1;
+            customDatePicker2.DropDownFeatures.HeaderBorderWidth = 0;
             customDatePicker2.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
             customDatePicker2.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.DropDownFeatures.HeaderHoverForeColor = SystemColors.ControlLight;
@@ -103,7 +103,7 @@
             customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.HoverColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
-            customDatePicker2.Location = new Point(502, 229);
+            customDatePicker2.Location = new Point(575, 238);
             customDatePicker2.MinimumSize = new Size(136, 30);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";

@@ -15,12 +15,6 @@ namespace NhegazCustomControls
         /// </summary>
         protected void DrawBackground(PaintEventArgs e)
         {          
-            
-            //Posições(X,Y) do Background. //Tamanhos(Width, Height) do Background. //
-            int locX = BackgroundOffset;        int width = Width - (2 * BackgroundOffset);
-            int locY = BackgroundOffset;        int height = Height - (2 * BackgroundOffset);
-            //Serão diferentes das Propriedades Originais apenas se BorderWidth >=1.//
-          
             if (BackgroundRectangle.Width <= 0 || BackgroundRectangle.Height <= 0)
                 return;
 

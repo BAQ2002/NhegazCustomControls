@@ -1,6 +1,7 @@
 ﻿using NhegazCustomControls;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,20 @@ namespace NhegazCustomControls
         /// <returns></returns>
         public static GraphicsPath RectangularPath(Rectangle rect, int cornerRadius)
         {
+            GraphicsPath path = new(); 
+            GraphicsPath outlinePath = new();
+            Pen pen = new(SystemColors.Control, 1f);
+
+            cornerRadius = Math.Min(cornerRadius, Math.Min(rect.Width, rect.Height) / 2);
+            
             if (cornerRadius <= 0) //Se cornerRadius for <= 0 retorna um retangulo
             {
-                GraphicsPath path = new(); path.AddRectangle(rect);
+                rect.Size = new Size(rect.Width - 1, rect.Height);
+                path.AddRectangle(rect); path.FillMode = FillMode.Winding;
+
+                outlinePath = (GraphicsPath)path.Clone(); outlinePath.Widen(pen);
+                path.AddPath(outlinePath, connect: false);
+
                 return path;
             }
 
@@ -29,11 +41,8 @@ namespace NhegazCustomControls
 
             int left  = rect.Left;  int top    = rect.Top;
             int right = rect.Right; int bottom = rect.Bottom;
-
-            // cornerRadius = Math.Min(cornerRadius, Math.Min(width, height) / 2);
-            
-            GraphicsPath FullPath = new();
-            FullPath.StartFigure();
+          
+            path.StartFigure();
 
             var baseArc = GenerateArc(cornerRadius);
 
@@ -42,13 +51,17 @@ namespace NhegazCustomControls
             var arcBottomRight = baseArc.Select(p => new PointF(right - p.X, bottom - p.Y));
             var arcBottomLeft  = baseArc.Select(p => new PointF(left  + p.X, bottom - p.Y)).Reverse();
 
-            FullPath.AddLines(arcTopLeft.ToArray());
-            FullPath.AddLines(arcTopRight.ToArray());
-            FullPath.AddLines(arcBottomRight.ToArray());
-            FullPath.AddLines(arcBottomLeft.ToArray());
+            path.AddLines(arcTopLeft.ToArray());
+            path.AddLines(arcTopRight.ToArray());
+            path.AddLines(arcBottomRight.ToArray());
+            path.AddLines(arcBottomLeft.ToArray());
 
-            FullPath.CloseFigure();
-            return FullPath;
+            path.CloseFigure(); path.FillMode = FillMode.Winding;
+
+            outlinePath = (GraphicsPath)path.Clone(); outlinePath.Widen(pen);
+            path.AddPath(outlinePath, connect: false);
+
+            return path;
         }
 
         /// <summary>
@@ -136,6 +149,52 @@ namespace NhegazCustomControls
             }
             return borderPath;
         }
-       
+
+        public static GraphicsPath InnerControlBackgroundPath(InnerControl innerControl)
+        {
+            int reference = innerControl.Height;
+            int radius = reference / 2;
+
+            int locX = innerControl.Location.X;
+            int locY = innerControl.Location.Y;
+
+            int width = innerControl.Width - 1;
+            int height = innerControl.Height - 1;
+
+            int left = innerControl.Left; int top = innerControl.Top;
+            int right = innerControl.Right; int bottom = innerControl.Bottom;
+
+            GraphicsPath FullPath = new();
+            FullPath.StartFigure();
+
+            switch (innerControl.BackGroundShape)
+            {
+                case BackGroundShape.FitRectangle:
+
+                    Rectangle rect = new(innerControl.Location, innerControl.Size);
+                    FullPath.AddRectangle(rect);
+
+                    FullPath.CloseFigure();
+                    return FullPath;
+
+                case BackGroundShape.SymmetricCircle:
+                    radius = reference / 2;
+
+                    break;
+                case BackGroundShape.RoundedRectangle:
+                    radius = reference / 8;
+
+                    break;
+            }
+
+            var baseArc = GenerateArc(radius);
+
+            var arcTopLeft = baseArc.Select(p => new PointF(locX + p.X, locY + p.Y));
+            var arcTopRight = baseArc.Select(p => new PointF(locX + (width - p.X), locY + p.Y)).Reverse();
+            var arcBottomRight = baseArc.Select(p => new PointF(locX + (width - p.X), locY + (height - p.Y)));
+            var arcBottomLeft = baseArc.Select(p => new PointF(locX + p.X, locY + (height - p.Y))).Reverse();
+            FullPath.AddLines(arcTopRight.ToArray());
+            return FullPath;
+        }
     }
 }

@@ -27,26 +27,20 @@ namespace NhegazCustomControls
         /// <param name="e">define a PaintEventArgs ira realizar o DrawBackground.</param>
         /// <param name="rect">Rectangle que fornece o Size e Location para o GraphicsPath.</param>
         /// <param name="cornerRadius">int que define o arredondamento das quinas para o GraphicsPath.</param>
-        /// <param name="color">Color utilizada para o Paint do GraphicsPath.</param>     
-        public static void DrawRectangularPath(PaintEventArgs e, Rectangle rect , int cornerRadius, Color color, bool setClip = false)
+        /// <param name="color">Color utilizada para o Paint do GraphicsPath.</param>          
+        public static void DrawRectangularPath(PaintEventArgs e, Rectangle rect, int cornerRadius, Color color, bool setClip = false)
         {
-            using (GraphicsPath backgroundPath = RectangularPath(rect, cornerRadius))
-            {
-                // Preenche o fundo com a cor do controle
-                using (SolidBrush brush = new(color))
-                {
-                    e.Graphics.FillPath(brush, backgroundPath);
-                }
-                e.Graphics.DrawPath(new Pen(color, 1f), backgroundPath);
+            using var path = RectangularPath(rect, cornerRadius);
+            using (var brush = new SolidBrush(color))
+            { e.Graphics.FillPath(brush, path); } 
 
-                // Define a área de recorte (clip) para limitar os próximos desenhos, se necessário
-                if (setClip == true) 
-                {
-                    if (e.Graphics.IsClipEmpty == false) 
-                        e.Graphics.IntersectClip(new Region(backgroundPath));
-                    else 
-                        e.Graphics.SetClip(backgroundPath);
-                }                                
+            if (setClip)
+            {
+                using var region = new Region(path);
+                if (!e.Graphics.IsClipEmpty)
+                    e.Graphics.IntersectClip(region);
+                else 
+                    e.Graphics.SetClip(region, CombineMode.Replace);
             }
         }
 
@@ -75,10 +69,9 @@ namespace NhegazCustomControls
                     using (SolidBrush borderBrush = new(borderColor))
                     { e.Graphics.FillPath(borderBrush, borderPath); }
                 }
-                e.Graphics.DrawPath(new Pen(borderColor, 1f), borderPath);
+                using var pen = new Pen(borderColor, 1f);
+                e.Graphics.DrawPath(pen, borderPath);
             }
-        }
-
-
+        } 
     }
 }

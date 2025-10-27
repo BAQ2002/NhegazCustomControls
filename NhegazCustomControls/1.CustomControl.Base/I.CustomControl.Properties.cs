@@ -28,7 +28,7 @@ namespace NhegazCustomControls
         private bool layoutPending = false;
 
         /// <summary>Indica se o Controle possui visualmente uma borda.</summary>
-        private bool HasBorder => borderWidth >= 1;
+        protected bool HasBorder => borderWidth >= 1;
 
         /// <summary>
         /// Valor do deslocamento do GraphicsPath utilizado em DrawBackground baseado em
@@ -36,7 +36,7 @@ namespace NhegazCustomControls
         /// <para>(BorderWidth = 1 : BackgroundOffset = 1); </para>
         /// <para>(BorderWidth > 1 : BackgroundOffset = BorderWidth-1); </para>
         /// </summary>
-        private int BackgroundOffset=>
+        protected int BackgroundOffset=>
             BorderWidth <= 0 ? 0 :
             BorderWidth == 1 ? 1 :
             BorderWidth - 1;
@@ -46,7 +46,7 @@ namespace NhegazCustomControls
         /// <para>(X = BackgroundOffset : Width - (2 * BackgroundOffset)); </para>
         /// <para>(Y = BackgroundOffset : height = Height - (2 * BackgroundOffset)); </para>
         /// </summary>
-        private Rectangle BackgroundRectangle
+        protected Rectangle BackgroundRectangle
         {
             get
             {
@@ -61,7 +61,7 @@ namespace NhegazCustomControls
         /// <para>(BorderWidth  = 0 : BackgroundCornerRaidius = BorderRadius); </para>
         /// <para>(BorderWidth >= 1 : BackgroundCornerRaidius = BorderRadius - 1); </para>
         /// </summary>
-        private int BackgroundCornerRaidus => HasBorder ? BorderRadius - 1 : BorderRadius;
+        protected int BackgroundCornerRaidus => HasBorder ? BorderRadius - 1 : BorderRadius;
   
         /// <summary>Cor de textos secundários.</summary>
         private Color secondaryForeColor = SystemColors.ControlText;
@@ -133,6 +133,7 @@ namespace NhegazCustomControls
             get => hoverForeColor;
             set { hoverForeColor = value; Invalidate(); }
         }
+
         [Category("Cores")]
         public Color SecondaryBackgroundColor
         {
