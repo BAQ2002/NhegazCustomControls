@@ -42,11 +42,12 @@ namespace NhegazCustomControls
             e.Graphics.SmoothingMode = SmoothingMode.None;
 
             Rectangle borderRect = new(Point.Empty, Size);
-            Color borderColor = OnFocus ? OnFocusBorderColor                    : BorderColor;
-            int borderWidth   = OnFocus ? BorderWidth + OnFocusBorderExtraWidth : BorderWidth;
 
+            bool  hasFocus    = ContainsFocus; // cobre o próprio controle e filhos reais
+            int   borderWidth = hasFocus ? BorderWidth + OnFocusBorderExtraWidth : BorderWidth;
+            Color borderColor = hasFocus ? OnFocusBorderColor                    : BorderColor;
+            
             NhegazDrawingMethods.DrawBorderPath(e, borderRect, BorderRadius, borderWidth, borderColor);
-  
         }
 
         protected override void OnPaint(PaintEventArgs e)

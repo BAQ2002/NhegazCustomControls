@@ -32,10 +32,10 @@ namespace NhegazCustomControls
          
         public CustomControl()
         {
-            DoubleBuffered = true;
-            BackColor = Color.Transparent;
-            InnerControls = new InnerControls(this);
-            ControlPadding = new CustomControlPadding(this);
+            SetStyle(ControlStyles.Selectable, true); TabStop = true; //Torna o Controle selecionável.
+            DoubleBuffered = true; BackColor = Color.Transparent;     //Ajuste visual necessário.
+            InnerControls = new InnerControls(this);                  //Coleção de InnerControls.
+            ControlPadding = new CustomControlPadding(this);          //Propriedades de Padding.
         }
         
         // ctor opcional: recebe um pai e copia estilo
@@ -43,7 +43,7 @@ namespace NhegazCustomControls
         {
             if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
-
+      
             DoubleBuffered = true;
             BackColor = Color.Transparent;
             InnerControls = new InnerControls(this);
@@ -130,17 +130,28 @@ namespace NhegazCustomControls
                 destinationHeader.HoverForeColor = srcDrop.DropDownFeatures.HeaderHoverForeColor;
             }                                       
         }
-  
+
+        //public void UpdateFocus()
+        //{
+        //    OnFocus = (OnFocus == true) ? false : true;
+        //}
+
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            //UpdateFocus();
+        }
+
         /// <summary>
         /// Override do evento de clique. Encaminha o evento para os InnerControls.
         /// </summary>
         /// <param name="e">Argumentos do clique.</param>
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            base.OnMouseClick(e);
-            InnerControls.HandleClick(this, e.Location); 
-            var headerFeature = (this as IHasHeader)?.Header;
-            headerFeature?.HandleClick(e.Location);
+            base.OnMouseClick(e);                             //Método base.
+            InnerControls.HandleClick(this, e.Location);      //InnerControls verifica se a posição pertence a um InnerControl.
+            var headerFeature = (this as IHasHeader)?.Header; //Se o Controle possuir Header.
+            headerFeature?.HandleClick(e.Location);           //HeaderFeature verifica se a posição pertence ao Header.
         }
 
         /// <summary>
@@ -149,10 +160,10 @@ namespace NhegazCustomControls
         /// <param name="e">Argumentos do duplo clique.</param>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
-            base.OnMouseDoubleClick(e);
-            InnerControls.HandleDoubleClick(this, e.Location); 
-            var headerFeature = (this as IHasHeader)?.Header;
-            headerFeature?.HandleDoubleClick(e.Location);
+            base.OnMouseDoubleClick(e);                        //Método base.
+            InnerControls.HandleDoubleClick(this, e.Location); //InnerControls verifica se a posição pertence a um InnerControl.
+            var headerFeature = (this as IHasHeader)?.Header;  //Se o Controle possuir Header.
+            headerFeature?.HandleDoubleClick(e.Location);      //HeaderFeature verifica se a posição pertence ao Header.
         }
 
         /// <summary>
@@ -194,7 +205,7 @@ namespace NhegazCustomControls
             var headerFeature = (this as IHasHeader)?.Header;
             headerFeature?.HandleLostFocus(PointToClient(Cursor.Position));
         }
-        
-        
+        protected override void OnEnter(EventArgs e) { base.OnEnter(e); Invalidate(); }
+        protected override void OnLeave(EventArgs e) { base.OnLeave(e); Invalidate(); }
     }
 }

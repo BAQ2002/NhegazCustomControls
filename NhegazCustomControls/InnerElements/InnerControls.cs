@@ -48,6 +48,7 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(clickLocation))
                 {
+                    //parent.OnFocus = true;
                     element.RaiseClick(parent);
                     return true;
                 }

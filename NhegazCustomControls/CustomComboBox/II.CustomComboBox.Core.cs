@@ -34,25 +34,24 @@ namespace NhegazCustomControls
             {
                 Form parentForm = FindForm();
                 parentForm.Controls.Remove(dropDownInstance);
-                dropDownInstance = null; OnFocus = false;
+                dropDownInstance = null;
             }
             else
             {
                 dropDownInstance = new ComboBoxDropDown(this);
-                Form parentForm = this.FindForm();
+                Form parentForm = FindForm();
                 if (parentForm == null)
                 {
                     return;
                 }
 
-                Point screenLocation = this.Parent.PointToScreen(this.Location);
+                Point screenLocation = Parent.PointToScreen(this.Location);
                 Point formLocation = parentForm.PointToClient(screenLocation);
 
                 dropDownInstance.Location = new Point(formLocation.X, formLocation.Y + Height + 1);
                 dropDownInstance.BringToFront();
                 parentForm.Controls.Add(dropDownInstance);
                 parentForm.Controls.SetChildIndex(dropDownInstance, 0);
-                OnFocus = true;
                 Invalidate();
             }
         }
@@ -90,7 +89,6 @@ namespace NhegazCustomControls
 
                 form?.Controls.Remove(dropDownInstance);
                 dropDownInstance = null;
-                OnFocus = false;
             }
         }
     }  

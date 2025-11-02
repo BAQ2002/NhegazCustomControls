@@ -66,7 +66,6 @@
             customDatePicker1.MinimumSize = new Size(136, 46);
             customDatePicker1.Month = 10;
             customDatePicker1.Name = "customDatePicker1";
-            customDatePicker1.OnFocus = false;
             customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
             customDatePicker1.OnFocusBorderExtraWidth = 1;
             customDatePicker1.SecondaryBackgroundColor = SystemColors.ActiveCaption;
@@ -81,7 +80,7 @@
             customDatePicker2.BackgroundColor = SystemColors.Window;
             customDatePicker2.BorderColor = SystemColors.WindowFrame;
             customDatePicker2.BorderRadius = 7;
-            customDatePicker2.BorderWidth = 0;
+            customDatePicker2.BorderWidth = 1;
             customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
             customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.2F;
             customDatePicker2.ControlPadding.RelativePercentBorderLeft = 0.6F;
@@ -104,10 +103,9 @@
             customDatePicker2.HoverColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
             customDatePicker2.Location = new Point(575, 238);
-            customDatePicker2.MinimumSize = new Size(136, 30);
+            customDatePicker2.MinimumSize = new Size(134, 28);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";
-            customDatePicker2.OnFocus = false;
             customDatePicker2.OnFocusBorderColor = SystemColors.Highlight;
             customDatePicker2.OnFocusBorderExtraWidth = 1;
             customDatePicker2.SecondaryBackgroundColor = SystemColors.ControlLightLight;
@@ -164,7 +162,6 @@
             customDataGridView1.LinesWidth = 1;
             customDataGridView1.Location = new Point(45, 270);
             customDataGridView1.Name = "customDataGridView1";
-            customDataGridView1.OnFocus = false;
             customDataGridView1.OnFocusBorderColor = SystemColors.Highlight;
             customDataGridView1.OnFocusBorderExtraWidth = 1;
             customDataGridView1.SecondaryBackgroundColor = SystemColors.ActiveCaption;

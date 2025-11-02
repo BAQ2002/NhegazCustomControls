@@ -18,9 +18,6 @@ namespace NhegazCustomControls
         /// <summary>Espessura adicional para as bordas quando o Controle esta em foco.</summary>
         private int onFocusBorderExtraWidth = 1;
 
-        /// <summary>Indica se o Controle esta em foco.</summary>
-        private bool onFocus = false;
-
         /// <summary>Indica se a borda deve expandir quando o Controle esta em foco.</summary>
         private bool inflateBorderOnFocus = false;
 
@@ -92,13 +89,6 @@ namespace NhegazCustomControls
         [Category("ControlPadding")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CustomControlPadding ControlPadding { get; }
-
-        [Browsable(false)]
-        public bool OnFocus
-        {
-            get => onFocus;
-            set { onFocus = value; Invalidate(); }
-        }
 
         [Category("Borda")]
         public int BorderRadius

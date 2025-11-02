@@ -123,10 +123,8 @@ namespace NhegazCustomControls
                 CloseDropDownInstance();
             }
         }
-        public void UpdateFocus()
-        {
-            OnFocus = (OnFocus == true) ? false : true;
-        }
+
+        
 
         public void CloseDropDownInstance()
         {
@@ -135,7 +133,7 @@ namespace NhegazCustomControls
 
             Form parentForm = FindForm(); parentForm.Controls.Remove(dropDownInstance);
             dropDownInstance.Dispose(); dropDownInstance = null;
-            OnFocus = false;
+            //UpdateFocus();
         }
 
         protected void OpenDropDown(CustomControl dropDown)
@@ -166,7 +164,7 @@ namespace NhegazCustomControls
             dropDownInstance.BringToFront();
             parentForm.Controls.Add(dropDownInstance);
             parentForm.Controls.SetChildIndex(dropDownInstance, 0);
-            OnFocus = true;
+            //UpdateFocus();
             Invalidate();
             
         }
