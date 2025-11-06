@@ -63,7 +63,7 @@ namespace NhegazCustomControls
         {
             var item = (InnerControl)sender!;
             item.ForeColor = ownerControl.BackgroundColor;         // texto "inverso"
-            item.BackgroundColor = ownerControl.HoverColor; // highlight de fundo
+            item.BackgroundColor = ownerControl.HoverBackgroundColor; // highlight de fundo
             ownerControl.Invalidate();
         }
 

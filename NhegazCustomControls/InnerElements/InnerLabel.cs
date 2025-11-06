@@ -52,6 +52,11 @@ namespace NhegazCustomControls
             get => base.Width;
             set { SizeBasedOnText = false; base.Width = value; }// SizeBasedOnText = false; }
         }
+
+        /// <summary>
+        /// Define <see cref="TextHorizontalAlignment"/> 
+        /// 
+        /// </summary>
         public TextHorizontalAlignment TextHorizontalAlignment
         {
             get => textHorizontalAlignment;
@@ -72,7 +77,10 @@ namespace NhegazCustomControls
             get => verticalPaddingMode;
             set{ verticalPaddingMode = value; AdjustTextLocation(); }
         }
-      
+        /// <summary>
+        /// Construtor opcional para definir <see cref="SizeBasedOnText"/>.
+        /// </summary>
+        /// <param name="autoSizeBasedOnText"></param>
         public InnerLabel(bool autoSizeBasedOnText = true) : base()
         {
             SizeBasedOnText = autoSizeBasedOnText;

@@ -13,9 +13,12 @@ namespace NhegazCustomControls
             public string Cor { get; set; }
             public string Ano { get; set; }
         }
-
+     
         private void TestForm_Load(object sender, EventArgs e)
         {
+           
+            OutsideClickBlur.InstallOnce();
+
             List<Carro> CarrosList = new List<Carro>
             {
                 new Carro { Marca = "Volkswagen", Modelo = "Gol", Cor = "Branco", Ano = "2018" },

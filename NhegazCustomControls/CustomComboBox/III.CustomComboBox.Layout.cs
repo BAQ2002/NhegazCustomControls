@@ -44,7 +44,7 @@
             dropDownIcon.MouseEnter += (s, e) =>
             {
                 dropDownIcon.ForeColor = BackgroundColor;
-                dropDownIcon.BackgroundColor = HoverColor;
+                dropDownIcon.BackgroundColor = HoverBackgroundColor;
             };
 
             dropDownIcon.MouseLeave += (s, e) =>

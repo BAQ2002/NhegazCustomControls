@@ -26,10 +26,16 @@ namespace NhegazCustomControls
     }
     public class InnerButton : InnerControl
     {
+        /// <summary></summary>
         public float IconSizePercent { get; set; } = 0.4f;
+
+        /// <summary></summary>
         public int IconSize { get; set; } = 10;
 
+        /// <summary></summary>
         private IconSizeMode iconSizeMode = IconSizeMode.RelativeToFont;
+
+        /// <summary></summary>
         public IconSizeMode IconSizeMode 
         {
             get => iconSizeMode;

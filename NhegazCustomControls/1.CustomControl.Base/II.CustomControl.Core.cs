@@ -207,5 +207,17 @@ namespace NhegazCustomControls
         }
         protected override void OnEnter(EventArgs e) { base.OnEnter(e); Invalidate(); }
         protected override void OnLeave(EventArgs e) { base.OnLeave(e); Invalidate(); }
+
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            base.OnKeyPress(e);
+            if (InnerControls.DispatchKeyPress(e)) Invalidate();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (InnerControls.DispatchKeyDown(e)) Invalidate();
+        }
     }
 }

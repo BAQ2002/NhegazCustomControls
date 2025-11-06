@@ -76,7 +76,7 @@ namespace NhegazCustomControls
             dayDropDownIcon.MouseEnter += (s, e) =>
             {
                 dayDropDownIcon.ForeColor = BackgroundColor;
-                dayDropDownIcon.BackgroundColor = HoverColor;                
+                dayDropDownIcon.BackgroundColor = HoverBackgroundColor;                
             };
             dayDropDownIcon.MouseLeave += (s, e) =>
             {
@@ -86,7 +86,7 @@ namespace NhegazCustomControls
             monthDropDownIcon.MouseEnter += (s, e) =>
             {
                 monthDropDownIcon.ForeColor = BackgroundColor;
-                monthDropDownIcon.BackgroundColor = HoverColor;
+                monthDropDownIcon.BackgroundColor = HoverBackgroundColor;
             };
             monthDropDownIcon.MouseLeave += (s, e) =>
             {
@@ -96,7 +96,7 @@ namespace NhegazCustomControls
             yearDropDownIcon.MouseEnter += (s, e) =>
             {
                 yearDropDownIcon.ForeColor = BackgroundColor;
-                yearDropDownIcon.BackgroundColor = HoverColor;
+                yearDropDownIcon.BackgroundColor = HoverBackgroundColor;
             };
             yearDropDownIcon.MouseLeave += (s, e) =>
             {

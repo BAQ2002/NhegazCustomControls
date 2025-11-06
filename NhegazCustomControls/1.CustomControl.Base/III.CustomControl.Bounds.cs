@@ -108,6 +108,7 @@ namespace NhegazCustomControls
         {
             return Height - ContentBottomBound - innerControlHeight;
         }
+
         /// <summary>Y para posicionar o InnerControl encostado na EXTREMIDADE INFERIOR (respeitando padding/borda inferior).</summary>
         public int RelativeBottomY(InnerControl innerControl) => RelativeBottomY(innerControl.Height);
 

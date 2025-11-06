@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace NhegazCustomControls
 {
@@ -91,6 +93,7 @@ namespace NhegazCustomControls
         public CustomControlPadding ControlPadding { get; }
 
         [Category("Borda")]
+        [Description("Define o raio do arrendondamento das quinas da borda em pixels.")]
         public int BorderRadius
         {
             get => borderRadius;
@@ -98,6 +101,7 @@ namespace NhegazCustomControls
         }
 
         [Category("Borda")]
+        [Description("Define a largura da borda em pixels.")]
         public int BorderWidth
         {
             get => borderWidth;
@@ -105,12 +109,15 @@ namespace NhegazCustomControls
         }
 
         [Category("Borda")]
+        [Description("Define a largura adicional da borda em pixels quando o Controle está em foco.")]
         public int OnFocusBorderExtraWidth
         {
             get => onFocusBorderExtraWidth;
             set { onFocusBorderExtraWidth = value; Invalidate(); }
         }
+
         [Category("Cores")]
+        [Description("Define a cor de fundo quando um elemento do Controle está com o mouse por cima.")]
         public Color HoverBackgroundColor
         {
             get => hoverBackgroundColor;
@@ -118,6 +125,7 @@ namespace NhegazCustomControls
         }
 
         [Category("Cores")]
+        [Description("Define a cor da escrita quando um elemento do Controle está com o mouse por cima.")]
         public Color HoverForeColor
         {
             get => hoverForeColor;
@@ -125,6 +133,7 @@ namespace NhegazCustomControls
         }
 
         [Category("Cores")]
+        [Description("Define a cor secundária de fundo do Controle.")]
         public Color SecondaryBackgroundColor
         {
             get => secondaryBackgroundColor;
@@ -132,6 +141,7 @@ namespace NhegazCustomControls
         }
 
         [Category("Cores")]
+        [Description("Define a cor secundária da escrita do Controle.")]
         public Color SecondaryForeColor
         {
             get => secondaryForeColor;
@@ -139,6 +149,7 @@ namespace NhegazCustomControls
         }
 
         [Category("Cores")]
+        [Description("Define a cor padrão da borda do Controle.")]
         public Color BorderColor
         {
             get => borderColor;
@@ -146,20 +157,15 @@ namespace NhegazCustomControls
         }
 
         [Category("Cores")]
+        [Description("Define a cor da borda quando o Controle está em foco.")]
         public Color OnFocusBorderColor
         {
             get => onFocusBorderColor;
             set { onFocusBorderColor = value; Invalidate(); }
         }
-
+    
         [Category("Cores")]
-        public Color HoverColor
-        {
-            get => hoverBackgroundColor;
-            set { hoverBackgroundColor = value; Invalidate(); }
-        }
-
-        [Category("Cores")]
+        [Description("Define a cor de fundo padrão do Controle.")]
         public virtual Color BackgroundColor
         {
             get => backgroundColor;
