@@ -72,6 +72,21 @@ namespace NhegazCustomControls
                 using var pen = new Pen(borderColor, 1f);
                 e.Graphics.DrawPath(pen, borderPath);
             }
-        } 
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e">define a PaintEventArgs ira realizar o DrawCaret.</param>
+        /// <param name="rect">Rectangle que fornece o Size e Location para o GraphicsPath.</param>
+        /// <param name="color">Color utilizada para o Paint do GraphicsPath</param>
+        public static void DrawCaret(PaintEventArgs e, Rectangle rect, Color color)
+        {
+            using (GraphicsPath caretPath = new())
+            {
+                caretPath.AddRectangle(rect);
+                using var pen = new Pen(color, 1f);
+                e.Graphics.DrawPath(pen, caretPath);
+            }
+        }
     }
 }

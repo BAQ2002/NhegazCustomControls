@@ -13,7 +13,7 @@ namespace NhegazCustomControls
     public class VectorFeature
     {
         private readonly CustomControl ownerControl;
-        private readonly InnerControls target; // <- NOVO
+        private readonly InnerControlsCollection target; // <- NOVO
         private InnerControl?[] items;
 
         public InnerControl?[] Items => items;
@@ -25,7 +25,7 @@ namespace NhegazCustomControls
         /// </summary>
         private bool InDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime
                                      || (ownerControl?.Site?.DesignMode ?? false);
-        public VectorFeature(CustomControl owner, int length, InnerControls? targetCollection = null)
+        public VectorFeature(CustomControl owner, int length, InnerControlsCollection? targetCollection = null)
         {
             ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));
             if (length <= 0) throw new ArgumentOutOfRangeException(nameof(length));
@@ -42,7 +42,7 @@ namespace NhegazCustomControls
             target.Add(innerControl); // <- usa a coleção de destino
         }
 
-        /// <summary>Remove todos os itens do PropertyBag de InnerControls e esvazia o vetor.</summary>
+        /// <summary>Remove todos os itens do PropertyBag de InnerControlsCollection e esvazia o vetor.</summary>
         public void Clear()
         {
             for (int i = 0; i < items.Length; i++)
@@ -135,8 +135,8 @@ namespace NhegazCustomControls
             };
             items[index] = item;
 
-            // use a mesma coleção que você já usa para AddItem (ex.: target ou InnerControls)
-            target.Add(item); // se tiver 'target'; senão: ownerControl.InnerControls.Add(item);
+            // use a mesma coleção que você já usa para AddItem (ex.: target ou InnerControlsCollection)
+            target.Add(item); // se tiver 'target'; senão: ownerControl.InnerControlsCollection.Add(item);
 
             return item;
         }

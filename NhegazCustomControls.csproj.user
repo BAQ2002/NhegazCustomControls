@@ -7,10 +7,10 @@
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\II.CustomControl.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\1.CustomControl.Base\IV.CustomControl.Draw.cs">
+    <Compile Update="NhegazCustomControls\1.CustomControl.Base\V.CustomControl.Draw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\1.CustomControl.Base\V.CustomControl.Layout.cs">
+    <Compile Update="NhegazCustomControls\1.CustomControl.Base\IV.CustomControl.Layout.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\I.CustomControl.Properties.cs">
@@ -37,10 +37,10 @@
     <Compile Update="NhegazCustomControls\CustomDataGridView\IV.CustomDataGridView.Draw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\CustomDatePicker\III.CustomDatePicker.Core.cs">
+    <Compile Update="NhegazCustomControls\CustomDatePicker\II.CustomDatePicker.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\CustomDatePicker\II.CustomDatePicker.Layout.cs">
+    <Compile Update="NhegazCustomControls\CustomDatePicker\III.CustomDatePicker.Layout.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\CustomDatePicker\I.CustomDatePicker.Properties.cs">

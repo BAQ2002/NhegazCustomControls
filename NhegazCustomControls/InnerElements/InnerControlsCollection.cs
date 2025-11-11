@@ -5,17 +5,19 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 
 namespace NhegazCustomControls
 {
-    public class InnerControls
+    public class InnerControlsCollection
     {
         private List<InnerControl> elements = new();
-        private CustomControl? Parent;
+        private CustomControl Parent;
 
         /// <summary>Referência a um <see cref="InnerControl"/> se estiver em foco.</summary>
-        public InnerControl? FocusedInner { get; private set; }
+        public InnerControl? FocusedInnerControl { get; private set; }
 
         /// <summary>Retorna a coleção interna de <see cref="InnerControl"/>'s.</summary>
         public List<InnerControl> GetAll
@@ -27,6 +29,8 @@ namespace NhegazCustomControls
         public void Add(InnerControl innerControl)
         {
             elements.Add(innerControl);
+            if (innerControl is InnerTextBox)                      //Se for um InnerTextBox (ou outros que precisarem no futuro), 
+                innerControl.InvalidateParent = Parent.Invalidate; //devido à funcionalidades: Torna capaz de atualizar o Parent.
         }
 
         /// <summary>Remove o <see cref="InnerControl"/> da coleção interna de InnerControl's.</summary>
@@ -42,10 +46,13 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Construtor padrão de <see cref="InnerControls"/> ->
+        /// Construtor padrão de <see cref="InnerControlsCollection"/> ->
         /// Define inicialmente apenas o <see cref="Parent"/>
         /// </summary>
-        public InnerControls(CustomControl parent) { Parent = parent; }
+        public InnerControlsCollection(CustomControl parent) 
+        { 
+            Parent = parent;    
+        }
 
         /// <summary>
         /// Verifica todos os <see cref="InnerControl.Visible"/> ->
@@ -61,10 +68,12 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
+        /// Acionado em <see cref="CustomControl.OnMouseClick"/> ->
         /// Verifica se há um <see cref="InnerControl"/> 
         /// com <see cref="InnerControl.Visible"/>  
         /// e <see cref="InnerControl.HitBox"/> ->
-        /// Executa <see cref="InnerControl.RaiseClick"/>.
+        /// Executa <see cref="InnerControl.RaiseClick"/>
+        /// e <see cref="Control.Invalidate()"/>.
         /// </summary>
         public bool HandleClick(CustomControl parent, Point clickLocation)
         {
@@ -72,7 +81,14 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(clickLocation))
                 {
-                    element.RaiseClick(parent);
+                    element.RaiseClick(parent, clickLocation);                        //Aciona o Click do elementoque o ponto de click pertence.
+
+                    if (element != FocusedInnerControl)                               //Se o elemento não for o atual em foco.
+                    {
+                        FocusedInnerControl?.RaiseLostFocus(parent);                  //Se existir um elemento interno com foco: desfoca.
+                        element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
+                    }                 
+                    parent.Invalidate();                                              //Atualiza o visual a partir do CustomControl parent.
                     return true;
                 }
             }
@@ -80,10 +96,12 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
+        /// Acionado em <see cref="CustomControl.OnMouseDoubleClick"/> ->
         /// Verifica se há um <see cref="InnerControl"/> 
         /// com <see cref="InnerControl.Visible"/>  
         /// e <see cref="InnerControl.HitBox"/> ->
-        /// Executa <see cref="InnerControl.RaiseDoubleClick"/>.
+        /// Executa <see cref="InnerControl.RaiseDoubleClick"/>
+        /// e <see cref="Control.Invalidate()"/>.
         /// </summary>
         public bool HandleDoubleClick(CustomControl parent, Point clickLocation)
         {
@@ -91,7 +109,9 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(clickLocation))
                 {
-                    element.RaiseDoubleClick(parent);
+                    element.RaiseDoubleClick(parent, clickLocation);
+
+                    parent.Invalidate();
                     return true;
                 }
             }
@@ -99,6 +119,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
+        /// Acionado em <see cref="CustomControl.OnMouseMove"/> ->
         /// Verifica se há um <see cref="InnerControl"/> 
         /// com <see cref="InnerControl.Visible"/> e <see cref="InnerControl.HitBox"/> ->
         /// Verifica o estado de <see cref="InnerControl.IsHovering"/> ->
@@ -128,6 +149,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
+        /// Acionado em <see cref="CustomControl.OnGotFocus"/> ->
         /// Verifica se há um <see cref="InnerControl"/> 
         /// com <see cref="InnerControl.Visible"/>  
         /// e <see cref="InnerControl.HitBox"/> ->
@@ -139,21 +161,22 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(focusLocation))
                 {
-                    element.RaiseGotFocus(parent);
-                    FocusedInner = element;
-                    return true;
+                    element.RaiseGotFocus(parent); FocusedInnerControl = element;
+                    parent.Invalidate();
+                    return true;                    
                 }
             }
             return false;
         }
 
         /// <summary>
+        /// Acionado em <see cref="CustomControl.OnLostFocus"/> ->
         /// Verifica se há um <see cref="InnerControl"/> 
         /// com <see cref="InnerControl.Visible"/>  
         /// e <see cref="InnerControl.HitBox"/> ->
         /// Executa <see cref="InnerControl.RaiseLostFocus"/> ->
-        /// se quem perdeu foco era o atual <see cref="FocusedInner"/> ->
-        /// Define <see cref="FocusedInner"/> = null.
+        /// se quem perdeu foco era o atual <see cref="FocusedInnerControl"/> ->
+        /// Define <see cref="FocusedInnerControl"/> = null.
         /// </summary>
         public bool HandleLostFocus(CustomControl parent, Point focusLocation)
         {
@@ -161,21 +184,20 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(focusLocation))
                 {
-                    element.RaiseLostFocus(parent);
-                    // se quem perdeu foco era o atual, limpa
-                    if (FocusedInner == element) FocusedInner = null;
+                    element.RaiseLostFocus(parent);                  
+                    if (FocusedInnerControl == element) FocusedInnerControl = null; //se quem perdeu foco era o atual, limpa
                     return true;
                 }
             }
             // se o pai perdeu foco por completo, zera
-            FocusedInner = null;
+            FocusedInnerControl = null;
             return false;
         }
 
         /// <summary>Encaminha KeyPress ao Inner focado se ele aceitar teclado.</summary>
         public bool DispatchKeyPress(KeyPressEventArgs e)
         {
-            if (FocusedInner is IAcceptsKeyboard kb)
+            if (FocusedInnerControl is IAcceptsKeyboard kb)
             {
                 kb.OnParentKeyPress(e);
                 return true;
@@ -186,7 +208,7 @@ namespace NhegazCustomControls
         /// <summary>Encaminha KeyDown ao Inner focado se ele aceitar teclado.</summary>
         public bool DispatchKeyDown(KeyEventArgs e)
         {
-            if (FocusedInner is IAcceptsKeyboard kb)
+            if (FocusedInnerControl is IAcceptsKeyboard kb)
             {
                 kb.OnParentKeyDown(e);
                 return true;

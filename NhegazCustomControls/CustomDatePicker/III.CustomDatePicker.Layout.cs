@@ -52,17 +52,17 @@ namespace NhegazCustomControls
 
         protected override void SetInnerLocations()
         {
-            dayTextBox.Location = new Point(RelativeLeftX(), RelativeCenterY(dayTextBox.Height));
+            dayTextBox.SetLocation(RelativeLeftX(), RelativeCenterY(dayTextBox.Height));
             dayDropDownIcon.SetLocation(dayTextBox.Location.X + dayTextBox.Width, RelativeCenterY(dayDropDownIcon));
 
             daySlashMonth.SetLocation(dayDropDownIcon.Right, RelativeCenterY(daySlashMonth));
 
-            monthTextBox.Location = new Point(daySlashMonth.Right, RelativeCenterY(monthTextBox.Height));
+            monthTextBox.SetLocation(daySlashMonth.Right, RelativeCenterY(monthTextBox.Height));
             monthDropDownIcon.SetLocation(monthTextBox.Location.X + monthTextBox.Width, RelativeCenterY(monthDropDownIcon));
 
             monthSlashYear.SetLocation(monthDropDownIcon.Right, RelativeCenterY(monthDropDownIcon));
 
-            yearTextBox.Location = new Point(monthSlashYear.Right, RelativeCenterY(yearTextBox.Height));
+            yearTextBox.SetLocation(monthSlashYear.Right, RelativeCenterY(yearTextBox.Height));
             yearDropDownIcon.SetLocation(yearTextBox.Location.X + yearTextBox.Width, RelativeCenterY(yearDropDownIcon));
         }
     }

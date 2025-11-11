@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace NhegazCustomControls
 {
-    /// <summary>
-    /// Define qual o formato de InnerControl
-    /// </summary>
+    /// <summary>Define qual o formato do InnerControl.</summary>
     public enum BackGroundShape
     {
         SymmetricCircle,
@@ -16,9 +14,7 @@ namespace NhegazCustomControls
         RoundedRectangle
     }
 
-    /// <summary>
-    /// Define em qual posicao horizontal o texto sera alinhado 
-    /// </summary>
+    /// <summary>Define qual posição horizontal o texto deve usar como âncora para ser alinhado.</summary> 
     public enum TextHorizontalAlignment
     {
         Left,
@@ -26,9 +22,7 @@ namespace NhegazCustomControls
         Right
     }
 
-    /// <summary>
-    /// Define em qual posicao vertical o texto sera alinhado.
-    /// </summary>  
+    /// <summary>Define qual posição vertical o texto deve usar como âncora para ser alinhado.</summary>  
     public enum TextVerticalAlignment
     {
         Top,
@@ -36,9 +30,7 @@ namespace NhegazCustomControls
         Bottom,
     }
 
-    /// <summary>
-    /// Define qual tipo de padding sera adicionado em relacao a posicao horizontal do texto.
-    /// </summary>    
+    /// <summary>Define qual a escala de padding é adicionada em relação a posição horizontal do texto.</summary>    
     public enum HorizontalPaddingMode
     {
         None,
@@ -47,9 +39,7 @@ namespace NhegazCustomControls
         Absolute
     }
 
-    /// <summary>
-    /// Define qual tipo de padding sera adicionado em relacao a posicao vertical do texto.
-    /// </summary>
+    /// <summary>Define qual a escala de padding é adicionada em relação a posição vertical do texto.</summary>
     public enum VerticalPaddingMode
     {
         None,
@@ -57,4 +47,34 @@ namespace NhegazCustomControls
         OneFourthFontHeight,
         Absolute
     }
+
+    /// <summary>Define qual o ícone é usado pelo InnerButton.</summary>
+    public enum ButtonIcon
+    {
+        None,
+        DropDown,
+        Forward,
+        Backward,
+        Add,
+        Edit,
+        Delete
+    }
+
+    /// <summary>Define qual a escala do tamanho do ícone é usada pelo InnerButton.</summary>
+    public enum IconSizeMode
+    {
+        Absolute,
+        RelativeToFont
+    }
+
+    [Flags]
+    public enum ControlAdjustments
+    {
+        None,
+        Padding,
+        InnerLocation,
+        Size,
+        All = Padding | InnerLocation | Size
+    }
+
 }

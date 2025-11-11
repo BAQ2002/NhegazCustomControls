@@ -11,17 +11,17 @@ namespace NhegazCustomControls
         protected virtual void AdjustHoverColors(){}
 
         /// <summary>
-        /// Método responsavel pelo ajuste do tamanho dos InnerControls.
+        /// Método responsavel pelo ajuste do tamanho dos InnerControlsCollection.
         /// </summary>
         protected abstract void SetInnerSizes();
 
         /// <summary>
-        /// Metodo responsavel pelo ajuste das posicoes dos InnerControls.
+        /// Metodo responsavel pelo ajuste das posicoes dos InnerControlsCollection.
         /// </summary>
         protected abstract void SetInnerLocations();
   
         /// <summary>
-        /// Retorna os valores de Largura e Altura que os InnerControls ocupam
+        /// Retorna os valores de Largura e Altura que os InnerControlsCollection ocupam
         /// com base em uma política específica para cada CustomControl.
         /// </summary>
         /// <returns>Size(contentWidth, contentHeight)</returns>
@@ -47,7 +47,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Metodo responsavel por definir o MinimumSize a partir dos InnerControls.
+        /// Metodo responsavel por definir o MinimumSize a partir dos InnerControlsCollection.
         /// </summary>
         protected void SetMinimumSize()
         {

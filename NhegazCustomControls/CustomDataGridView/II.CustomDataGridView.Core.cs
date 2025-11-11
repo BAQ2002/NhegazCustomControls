@@ -101,7 +101,7 @@ namespace NhegazCustomControls
 
                     cell.Click += (s, e) => MessageBox.Show(cell.Size.ToString());
 
-                    // coloca no (r,c) e adiciona em InnerControls via MatrixFeature
+                    // coloca no (r,c) e adiciona em InnerControlsCollection via MatrixFeature
                     DataLabels.AddItem(cell, r, c);
                 }
             }

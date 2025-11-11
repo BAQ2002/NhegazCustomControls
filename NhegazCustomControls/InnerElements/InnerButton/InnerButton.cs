@@ -9,21 +9,7 @@ using System.Threading.Tasks;
 
 namespace NhegazCustomControls
 {
-    public enum ButtonIcon
-    {
-        None,
-        DropDown,
-        Forward,
-        Backward,
-        Add,
-        Edit,
-        Delete
-    }
-    public enum IconSizeMode
-    {
-        Absolute,
-        RelativeToFont
-    }
+    
     public class InnerButton : InnerControl
     {
         /// <summary></summary>

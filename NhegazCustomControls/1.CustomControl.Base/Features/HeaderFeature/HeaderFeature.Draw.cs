@@ -43,7 +43,7 @@ namespace NhegazCustomControls
 
         public void OnPaint(PaintEventArgs e)
         {
-            DrawBackground(e); DrawInnerControls(e); //Desenha o Background; Desenha os InnerControls.
+            DrawBackground(e); DrawInnerControls(e); //Desenha o Background; Desenha os InnerControlsCollection.
             if (HasBorder == true) DrawBorder(e);    //Se tiver Border: Desenha Border.
         }
     }

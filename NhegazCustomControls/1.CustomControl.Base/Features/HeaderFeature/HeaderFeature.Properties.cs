@@ -270,12 +270,12 @@ namespace NhegazCustomControls
         /// Coleção de elementos do cabeçalho.
         /// </summary>
         [Browsable(false)]
-        public InnerControls Controls { get; }
+        public InnerControlsCollection Controls { get; }
 
         public HeaderFeature(CustomControl owner)
         {
             ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));
-            Controls = new InnerControls(owner);
+            Controls = new InnerControlsCollection(owner);
         }
 
         /// <summary>

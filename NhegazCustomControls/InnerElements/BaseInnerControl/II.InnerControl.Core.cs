@@ -42,43 +42,43 @@ namespace NhegazCustomControls
         public event EventHandler? MouseLeave;
 
         /// <summary>
-        /// Acionado em <see cref="InnerControls.HandleClick"/> -> 
+        /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> -> 
         /// Aciona <see cref="Click"/>.
         /// </summary>
-        public void RaiseClick(object sender)
+        public virtual void RaiseClick(object sender, Point clickLocation)
         {
             Click?.Invoke(sender, EventArgs.Empty);
         }
 
         /// <summary>
-        /// Acionado em <see cref="InnerControls.HandleDoubleClick"/> ->
+        /// Acionado em <see cref="InnerControlsCollection.HandleDoubleClick"/> ->
         /// Aciona <see cref="DoubleClick"/>.
         /// </summary>
-        public void RaiseDoubleClick(object sender)
+        public virtual void RaiseDoubleClick(object sender, Point clickLocation)
         {
             DoubleClick?.Invoke(sender, EventArgs.Empty);
         }
-        
+
         /// <summary>
-        /// Acionado em <see cref="InnerControls.HandleGotFocus"/> -> 
-        /// Aciona <see cref="GotFocus"/>.
+        /// Acionado em <see cref="InnerControlsCollection.HandleGotFocus"/> -> 
+        /// Aciona <see cref="GotFocus"/>, <see cref="Focused"/> = true.
         /// </summary>
-        public void RaiseGotFocus(object sender)
+        public virtual void RaiseGotFocus(object sender)
         {
-            GotFocus?.Invoke(sender, EventArgs.Empty);
+            GotFocus?.Invoke(sender, EventArgs.Empty); Focused = true;
         }
 
         /// <summary>
-        /// Acionado em <see cref="InnerControls.HandleLostFocus"/> -> 
-        /// Aciona <see cref="LostFocus"/>.
+        /// Acionado em <see cref="InnerControlsCollection.HandleLostFocus"/> -> 
+        /// Aciona <see cref="LostFocus"/>, <see cref="Focused"/> = false.
         /// </summary>
-        public void RaiseLostFocus(object sender)
+        public virtual void RaiseLostFocus(object sender)
         {
-            LostFocus?.Invoke(sender, EventArgs.Empty);
+            LostFocus?.Invoke(sender, EventArgs.Empty); Focused = false;
         }
 
         /// <summary>
-        /// Acionado em <see cref="InnerControls.HandleMouseMove"/> -> 
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> -> 
         /// Verifica os estados de <see cref="AbleToHover"/> e <see cref="isHovering"/> ->
         /// Aciona <see cref="MouseEnter"/>.
         /// </summary>
@@ -91,7 +91,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Acionado em <see cref="InnerControls.HandleMouseMove"/> -> 
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> -> 
         /// Verifica os estados de <see cref="AbleToHover"/> e <see cref="isHovering"/> ->
         /// Aciona <see cref="MouseLeave"/>.
         /// </summary>
@@ -102,54 +102,6 @@ namespace NhegazCustomControls
             isHovering = false;
             MouseLeave?.Invoke(this, EventArgs.Empty);
             
-        }
-
-        /// <summary>Método responsável por acionar os ajustes de posições e tamanhos.</summary>
-        protected virtual void AdjustControlSize()
-        {
-            if (BackGroundShape == BackGroundShape.SymmetricCircle)
-            {
-                SymmetricalCircleAdjust();
-            }
-        }
-
-        /// <summary>
-        /// Método responsável por realizar ajustes se <see cref="BackgroundShape"/> 
-        /// = <see cref="SymmetricalCircle"/> ->
-        /// Define a altura e largura sempre iguais à maior entre as duas.
-        /// </summary>
-        protected virtual void SymmetricalCircleAdjust()
-        {
-            if (Size.Width == Size.Height)
-                return;
-
-            int reference = Math.Max(Width, Height); Size = new Size(reference, reference);
-        }
-
-        public virtual void Update()
-        {
-
-        }
-
-        public virtual void SetLocation(int x, int y)
-        {
-            Location = new Point(x, y);
-        }
-        public virtual void SetLocation(Point location)
-        {
-            Location = new Point(location.X, location.Y);
-        }
-
-        public virtual void SetSize(int width, int height)
-        {
-            Width = width;
-            Height = height;
-        }
-
-        public virtual void SetSize(Size size)
-        {
-            Width = size.Width; 
-            Height = size.Height;
         }      
     }
 }

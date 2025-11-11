@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// I.CustomDatePicker.Properties.cs  (substitua o conteúdo dos campos e pontos indicados)
+using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NhegazCustomControls
 {
@@ -11,17 +8,26 @@ namespace NhegazCustomControls
     {
         private DateOnly? date;
 
-        public TextBox dayTextBox = new TextBox();   //Opção atualmente selecionada de dia.
-        public TextBox monthTextBox = new TextBox(); //Opção atualmente selecionada de mês.
-        public TextBox yearTextBox = new TextBox();  //Opção atualmente selecionada de ano.
+        // SUBSTITUIR estes 3:
+        // public TextBox dayTextBox = new TextBox();
+        // public TextBox monthTextBox = new TextBox();
+        // public TextBox yearTextBox = new TextBox();
 
-        public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);   //Botão para abrir DropDown.
-        public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle); //Botão para abrir DropDown.
-        public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);  //Botão para abrir DropDown.
+        // POR estes 3:
+        public InnerTextBox dayTextBox = new InnerTextBox();
+        public InnerTextBox monthTextBox = new InnerTextBox();
+        public InnerTextBox yearTextBox = new InnerTextBox();
 
-        private InnerLabel daySlashMonth = new InnerLabel();  //Elemento visual barra "/".
-        private InnerLabel monthSlashYear = new InnerLabel(); //Elemento visual barra "/".
-        private CustomControl? dropDownInstance = null; //Referencia para o o DropDown que esta aberto.
+        // Guarda quem está “ativo” para rotear teclado/caret
+        private InnerTextBox? activeInnerTextBox = null;
+
+        public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
+        public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
+        public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
+
+        private InnerLabel daySlashMonth = new InnerLabel();
+        private InnerLabel monthSlashYear = new InnerLabel();
+        private CustomControl? dropDownInstance = null;
 
         public override Font Font
         {
@@ -42,7 +48,8 @@ namespace NhegazCustomControls
             set
             {
                 base.BackgroundColor = value;
-                dayTextBox.BackColor = value; monthTextBox.BackColor = value; yearTextBox.BackColor = value;
+                // trocou BackColor -> BackgroundColor
+                dayTextBox.BackgroundColor = value; monthTextBox.BackgroundColor = value; yearTextBox.BackgroundColor = value;
                 dayDropDownIcon.BackgroundColor = value; monthDropDownIcon.BackgroundColor = value; yearDropDownIcon.BackgroundColor = value;
                 daySlashMonth.BackgroundColor = value; monthSlashYear.BackgroundColor = value;
                 Invalidate();
@@ -115,7 +122,6 @@ namespace NhegazCustomControls
             get => Date.Year;
             set
             {
-                // Limites defensivos, ajuste se quiser aceitar qualquer ano válido do DateOnly
                 var year = Math.Max(DateOnly.MinValue.Year, Math.Min(DateOnly.MaxValue.Year, value));
                 var month = Date.Month;
                 var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));
@@ -125,16 +131,13 @@ namespace NhegazCustomControls
                 Invalidate();
             }
         }
-        /// <summary>
-        /// Sincroniza os TextBox (dayTextBox/Month/Year) a partir das propriedades.
-        /// </summary>
+
+        /// <summary>Sincroniza os InnerTextBox a partir das propriedades.</summary>
         private void SyncTextsFromProperties()
         {
-            // D2 para dia/mês, D4 para ano
             dayTextBox.Text = Day.ToString("D2");
             monthTextBox.Text = Month.ToString("D2");
             yearTextBox.Text = Year.ToString("D4");
         }
-
     }
 }

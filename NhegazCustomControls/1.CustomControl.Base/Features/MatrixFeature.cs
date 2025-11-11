@@ -8,7 +8,7 @@ namespace NhegazCustomControls
     public class MatrixFeature
     {
         private readonly CustomControl ownerControl;
-        private readonly InnerControls target;
+        private readonly InnerControlsCollection target;
         private InnerControl?[,] itemsMatrix;
 
         public InnerControl?[,] ItemsMatrix => itemsMatrix;
@@ -22,7 +22,7 @@ namespace NhegazCustomControls
         private bool InDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime
                                      || (ownerControl?.Site?.DesignMode ?? false);
 
-        public MatrixFeature(CustomControl owner, int rows, int cols, InnerControls? targetCollection = null)
+        public MatrixFeature(CustomControl owner, int rows, int cols, InnerControlsCollection? targetCollection = null)
         {
             ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));
             if (rows <= 0 || cols <= 0) throw new ArgumentOutOfRangeException("rows/cols devem ser > 0.");

@@ -5,6 +5,14 @@
         private int left, top, right, bottom;
 
         private InnerControl Owner;
+
+        /// <summary>
+        /// A ação é atribuída automaticamente 
+        /// no construtor de <see cref="InnerControl"/>
+        /// para -> <see cref="InnerControl.UpdateLayout"/>.
+        /// </summary>
+        public Action? UpdateLayoutOwner { get; set; }
+
         public int Left
         {
             get => left;
@@ -13,7 +21,7 @@
                 if (left != value)
                 {
                     left = value;
-                    Owner.Update();
+                    UpdateLayoutOwner?.Invoke();
                 }
             }
         }
@@ -26,7 +34,7 @@
                 if (top != value)
                 {
                     top = value;
-                    Owner.Update();
+                    UpdateLayoutOwner?.Invoke();
                 }
             }
         }
@@ -39,7 +47,7 @@
                 if (right != value)
                 {
                     right = value;
-                    Owner.Update();
+                    UpdateLayoutOwner?.Invoke();
                 }
             }
         }
@@ -52,7 +60,7 @@
                 if (bottom != value)
                 {
                     bottom = value;
-                    Owner.Update();
+                    UpdateLayoutOwner?.Invoke();
                 }
             }
         }

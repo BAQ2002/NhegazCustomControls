@@ -86,7 +86,7 @@ namespace NhegazCustomControls
         public Size FontUnitSize => NhegazSizeMethods.FontUnitSize(Font);
        
         [Browsable(false)]
-        public InnerControls InnerControls { get; }
+        public InnerControlsCollection InnerControls { get; }
 
         [Category("ControlPadding")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

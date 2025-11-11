@@ -26,7 +26,7 @@ namespace NhegazCustomControls
 
 
         /// <summary>
-        /// Método que realiza o desenho dos InnerControls.
+        /// Método que realiza o desenho dos InnerControlsCollection.
         /// </summary>
         protected virtual void DrawInnerControls(PaintEventArgs e)
         {
@@ -53,7 +53,7 @@ namespace NhegazCustomControls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);                             //Invoca o evento base de Windows.Forms.Control.
-            DrawBackground(e); DrawInnerControls(e);     //Desenha o Background; Desenha os InnerControls.
+            DrawBackground(e); DrawInnerControls(e);     //Desenha o Background; Desenha os InnerControlsCollection.
             (this as IHasHeader)?.Header.OnPaint(e);     //Se tiver Header: Desenha Header.
             if(HasBorder == true)DrawBorder(e);          //Se tiver Border: Desenha Border.
         }
