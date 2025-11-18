@@ -22,37 +22,36 @@ namespace NhegazCustomControls
             DropDownFeatures.Add<DropDownYear>();
 
             // ===== InnerTextBoxes (ADICIONA como InnerControlsCollection, não Controls) =====
+            dayTextBox.TextCharFilter = TextCharFilter.OnlyNumbers;
             dayTextBox.SizeBasedOnText = false;
             dayTextBox.MaxLength = 2;
-            dayTextBox.CharFilter = char.IsDigit;
             dayTextBox.UseEllipsis = false;       // sem reticências
             dayTextBox.InvalidateParent = Invalidate;
-            dayTextBox.Click += (s, e) => { activeInnerTextBox = dayTextBox; this.Focus(); OnClick(e); };
-            dayTextBox.DoubleClick += (s, e) => { activeInnerTextBox = dayTextBox; this.Focus(); OnClick(e); };
+            dayTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+            dayTextBox.Click += (s, e) => { Focus(); OnClick(e); };
+            dayTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
             //dayTextBox.GotFocus += (s, e) => dayTextBox.OnInnerGotFocus();
             //dayTextBox.LostFocus += (s, e) => dayTextBox.OnInnerLostFocus();
             InnerControls.Add(dayTextBox);
-          
+
+            monthTextBox.TextCharFilter = TextCharFilter.OnlyNumbers;
             monthTextBox.SizeBasedOnText = false;
             monthTextBox.MaxLength = 2;
-            monthTextBox.CharFilter = char.IsDigit;
             monthTextBox.UseEllipsis = false;
             monthTextBox.InvalidateParent = Invalidate;
-            monthTextBox.Click += (s, e) => { activeInnerTextBox = monthTextBox; this.Focus(); OnClick(e); };
-            monthTextBox.DoubleClick += (s, e) => { activeInnerTextBox = monthTextBox; this.Focus(); OnClick(e); };
-            //monthTextBox.GotFocus += (s, e) => monthTextBox.OnInnerGotFocus();
-            //monthTextBox.LostFocus += (s, e) => monthTextBox.OnInnerLostFocus();
+            monthTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+            monthTextBox.Click += (s, e) => { Focus(); OnClick(e); };
+            monthTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
             InnerControls.Add(monthTextBox);
 
+            yearTextBox.TextCharFilter = TextCharFilter.OnlyNumbers;
             yearTextBox.SizeBasedOnText = false;
             yearTextBox.MaxLength = 4;
-            yearTextBox.CharFilter = char.IsDigit;
             yearTextBox.UseEllipsis = false;
             yearTextBox.InvalidateParent = Invalidate;
-            yearTextBox.Click += (s, e) => { activeInnerTextBox = yearTextBox; this.Focus(); OnClick(e); };
-            yearTextBox.DoubleClick += (s, e) => { activeInnerTextBox = yearTextBox; this.Focus(); OnClick(e); };
-            //yearTextBox.GotFocus += (s, e) => yearTextBox.OnInnerGotFocus();
-            //yearTextBox.LostFocus += (s, e) => yearTextBox.OnInnerLostFocus();
+            yearTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+            yearTextBox.Click += (s, e) => { Focus(); OnClick(e); };
+            yearTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
             InnerControls.Add(yearTextBox);
 
             // ===== Barras e ícones (igual ao anterior) =====
@@ -118,19 +117,20 @@ namespace NhegazCustomControls
         protected void OnClick(EventArgs e, Type dropDownType)
         {
             base.OnClick(e);
-            if (dropDownInstance == null)
+            if (dropDownInstance == null)                          //Se não existir DropDown ativo.
             {
-                OpenDropDown((CustomControl)Activator.CreateInstance(dropDownType, this));
+                OpenDropDown((CustomControl)                       //Ativa um novo.
+                    Activator.CreateInstance(dropDownType, this));
             }
-            else if (dropDownInstance.GetType() != dropDownType)
+            else if (dropDownInstance.GetType() != dropDownType)   //Se o DropDown ativo não for do mesmo tipo do novo acionado.
             {
-                CloseDropDownInstance();
-                OpenDropDown((CustomControl)Activator.CreateInstance(dropDownType, this));
+                CloseDropDownInstance();                           //Fecha o atual.
+                OpenDropDown((CustomControl)                       //Ativa um novo.
+                    Activator.CreateInstance(dropDownType, this)); 
+
             }
-            else
-            {
-                CloseDropDownInstance();
-            }
+            else { CloseDropDownInstance(); }                      //Se existir um DropDown ativo porém do mesmo tipo do novo acionado: echa o atual.
+
         }
 
         public void CloseDropDownInstance()
@@ -196,19 +196,6 @@ namespace NhegazCustomControls
                 return (h, v);
             }
             else return (0, 0);
-        }
-
-        // Garante caret ON quando o controle ganha foco pelo teclado (sem mouse)
-        protected override void OnGotFocus(EventArgs e)
-        {
-            base.OnGotFocus(e);
-            //activeInnerTextBox?.OnInnerGotFocus();
-        }
-
-        protected override void OnLostFocus(EventArgs e)
-        {
-            base.OnLostFocus(e);
-            //activeInnerTextBox?.OnInnerLostFocus();
         }
     }
 }

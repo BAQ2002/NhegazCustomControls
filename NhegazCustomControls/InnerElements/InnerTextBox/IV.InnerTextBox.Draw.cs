@@ -29,9 +29,9 @@ namespace NhegazCustomControls
 
         public void DrawCaret(PaintEventArgs e) 
         {
-            Color foreColor = IsHovering ? HoverForeColor : ForeColor;
+            Color caretColor = IsHovering ? CaretHoverColor : CaretColor;
    
-            NhegazDrawingMethods.DrawCaret(e, CaretRectangle, foreColor);           
+            NhegazDrawingMethods.DrawCaret(e, CaretRectangle, caretColor);           
         }
 
         public override void OnPaint(PaintEventArgs e)

@@ -314,11 +314,11 @@ namespace NhegazCustomControls
             ownerControl.Invalidate();
         }
 
-        public bool HandleClick(Point p) => Controls.HandleClick(ownerControl, p);
-        public bool HandleDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
+        public void HandleClick(Point p) => Controls.HandleClick(ownerControl, p);
+        public void HandleDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
         public void HandleMouseMove(Point p) => Controls.HandleMouseMove(ownerControl, p);
-        public bool HandleGotFocus(Point p) => Controls.HandleGotFocus(ownerControl, p);
-        public bool HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);        
+        public void HandleGotFocus(Point p) => Controls.HandleGotFocus(ownerControl, p);
+        public void HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);        
 
     }
 }

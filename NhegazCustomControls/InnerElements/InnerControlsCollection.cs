@@ -16,7 +16,10 @@ namespace NhegazCustomControls
         private List<InnerControl> elements = new();
         private CustomControl Parent;
 
-        /// <summary>Referência a um <see cref="InnerControl"/> se estiver em foco.</summary>
+        /// <summary>
+        /// Referência ao <see cref="InnerControl"/> 
+        /// que estiver em foco se existir.
+        /// </summary>
         public InnerControl? FocusedInnerControl { get; private set; }
 
         /// <summary>Retorna a coleção interna de <see cref="InnerControl"/>'s.</summary>
@@ -75,7 +78,7 @@ namespace NhegazCustomControls
         /// Executa <see cref="InnerControl.RaiseClick"/>
         /// e <see cref="Control.Invalidate()"/>.
         /// </summary>
-        public bool HandleClick(CustomControl parent, Point clickLocation)
+        public void HandleClick(CustomControl parent, Point clickLocation)
         {
             foreach (var element in elements)
             {
@@ -89,10 +92,9 @@ namespace NhegazCustomControls
                         element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
                     }                 
                     parent.Invalidate();                                              //Atualiza o visual a partir do CustomControl parent.
-                    return true;
+                    
                 }
             }
-            return false;
         }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace NhegazCustomControls
         /// Executa <see cref="InnerControl.RaiseDoubleClick"/>
         /// e <see cref="Control.Invalidate()"/>.
         /// </summary>
-        public bool HandleDoubleClick(CustomControl parent, Point clickLocation)
+        public void HandleDoubleClick(CustomControl parent, Point clickLocation)
         {
             foreach (var element in elements)
             {
@@ -112,10 +114,8 @@ namespace NhegazCustomControls
                     element.RaiseDoubleClick(parent, clickLocation);
 
                     parent.Invalidate();
-                    return true;
                 }
             }
-            return false;  
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace NhegazCustomControls
         /// e <see cref="InnerControl.HitBox"/> ->
         /// Executa <see cref="InnerControl.RaiseGotFocus"/>.
         /// </summary>
-        public bool HandleGotFocus(CustomControl parent, Point focusLocation)
+        public void HandleGotFocus(CustomControl parent, Point focusLocation)
         {
             foreach (var element in elements)
             {
@@ -163,10 +163,8 @@ namespace NhegazCustomControls
                 {
                     element.RaiseGotFocus(parent); FocusedInnerControl = element;
                     parent.Invalidate();
-                    return true;                    
                 }
             }
-            return false;
         }
 
         /// <summary>
@@ -178,7 +176,7 @@ namespace NhegazCustomControls
         /// se quem perdeu foco era o atual <see cref="FocusedInnerControl"/> ->
         /// Define <see cref="FocusedInnerControl"/> = null.
         /// </summary>
-        public bool HandleLostFocus(CustomControl parent, Point focusLocation)
+        public void HandleLostFocus(CustomControl parent, Point focusLocation)
         {
             foreach (var element in elements)
             {
@@ -186,34 +184,40 @@ namespace NhegazCustomControls
                 {
                     element.RaiseLostFocus(parent);                  
                     if (FocusedInnerControl == element) FocusedInnerControl = null; //se quem perdeu foco era o atual, limpa
-                    return true;
                 }
             }
             // se o pai perdeu foco por completo, zera
             FocusedInnerControl = null;
-            return false;
         }
 
-        /// <summary>Encaminha KeyPress ao Inner focado se ele aceitar teclado.</summary>
-        public bool DispatchKeyPress(KeyPressEventArgs e)
+        /// <summary>
+        /// Acionado em <see cref="CustomControl.OnKeyDown"/> ->
+        /// Verifica se o <see cref="FocusedInnerControl"/> 
+        /// é <see cref="IAcceptsKeyboard"/> : se for ->
+        /// Executa <see cref="IAcceptsKeyboard.RaiseKeyDown"/>.
+        /// </summary>
+        public void HandleKeyDown(KeyEventArgs e)
         {
             if (FocusedInnerControl is IAcceptsKeyboard kb)
             {
-                kb.OnParentKeyPress(e);
-                return true;
+                kb.RaiseKeyDown(e);
             }
-            return false;
         }
 
-        /// <summary>Encaminha KeyDown ao Inner focado se ele aceitar teclado.</summary>
-        public bool DispatchKeyDown(KeyEventArgs e)
+        /// <summary>
+        /// Acionado em <see cref="CustomControl.OnKeyPress"/> ->
+        /// Verifica se o <see cref="FocusedInnerControl"/> 
+        /// é <see cref="IAcceptsKeyboard"/> : se for ->
+        /// Executa <see cref="IAcceptsKeyboard.RaiseKeyPress"/>.
+        /// </summary>
+        public void HandleKeyPress(KeyPressEventArgs e)
         {
             if (FocusedInnerControl is IAcceptsKeyboard kb)
             {
-                kb.OnParentKeyDown(e);
-                return true;
+                kb.RaiseKeyPress(e);
             }
-            return false;
         }
+
+        
     } 
 }

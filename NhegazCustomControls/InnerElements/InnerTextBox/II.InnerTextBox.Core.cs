@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
@@ -28,12 +29,12 @@ namespace NhegazCustomControls
 
         public void StartCaret()
         {
-            caretTimer.Start();
+            caretTimer.Start(); caretVisible = true;
         }
 
         public void StopCaret()
         {
-            caretTimer.Stop();
+            caretTimer.Stop(); caretVisible = false;
         }
 
         public override void RaiseClick(object sender, Point clickLocation)
@@ -75,29 +76,17 @@ namespace NhegazCustomControls
         public override void RaiseGotFocus(object sender)
         {
             base.RaiseGotFocus(sender);
-            StartCaret(); 
+            StartCaret();
         }
+
+
         public override void RaiseLostFocus(object sender)
         {
             base.RaiseLostFocus(sender);
             StopCaret();
         }
 
-        // A infra atual chama RaiseGotFocus/RaiseLostFocus sem payload;
-        // então conectamos aqui via inscrição no próprio construtor do controle pai (externo).
-        // Sugestão: ao instanciar, fazer:
-        // innerTextBox.GotFocus += (s,e) => innerTextBox.OnInnerGotFocus();
-        // innerTextBox.LostFocus += (s,e) => innerTextBox.OnInnerLostFocus();
-
-        // ======== Entrada de teclado (encaminhada pelo CustomControl) ========
-        public void OnParentKeyPress(KeyPressEventArgs e)
-        {
-            if (char.IsControl(e.KeyChar)) return;                //Se a tecla pressionada não for um carácter: retorna.
-
-            Text = Text.Insert(CaretIndex, e.KeyChar.ToString()); //Insere caractere na posição do caret.
-            CaretIndex++;                                         //Aumenta o índice do caret.
-            e.Handled = true;
-        }
+        
 
         /// <summary>
         /// Manipula teclas de navegação e edição (KeyDown).
@@ -106,8 +95,10 @@ namespace NhegazCustomControls
         /// - Aqui movemos o caret e removemos caracteres quando necessário.
         /// - Sempre protegemos os índices para não sair dos limites da string.
         /// </summary>
-        public void OnParentKeyDown(KeyEventArgs e)
+        public void RaiseKeyDown(KeyEventArgs e)
         {
+            
+
             switch (e.KeyCode)
             {
                 case Keys.Left:
@@ -163,6 +154,7 @@ namespace NhegazCustomControls
                     e.Handled = true;
                     break;
             }
+            KeyDown?.Invoke(this, EventArgs.Empty);                                //Chama o evento de KeyDown se não for nulo.
 
             // Observações gerais:
             // - Após qualquer alteração de texto ou movimento de caret, o controle deve ser repintado
@@ -173,5 +165,27 @@ namespace NhegazCustomControls
             //   para saltos por palavras/linhas, conforme necessidade.
         }
 
+        // A infra atual chama RaiseGotFocus/RaiseLostFocus sem payload;
+        // então conectamos aqui via inscrição no próprio construtor do controle pai (externo).
+        // Sugestão: ao instanciar, fazer:
+        // innerTextBox.GotFocus += (s,e) => innerTextBox.OnInnerGotFocus();
+        // innerTextBox.LostFocus += (s,e) => innerTextBox.OnInnerLostFocus();
+
+        // ======== Entrada de teclado (encaminhada pelo CustomControl) ========
+        public void RaiseKeyPress(KeyPressEventArgs e)
+        {
+            if (char.IsControl(e.KeyChar))                                          //Se a tecla pressionada não for um carácter: retorna.
+            { e.Handled = true; return; }
+
+            if (MaxLength > 0 && Text.Length >= MaxLength)                          //Se não tem mais espaço para carácteres: não insere nada.
+            { e.Handled = true; return; }
+
+            //Se CharFilter for nulo ou se CharFilter não for nulo e retornar verdadeiro para o key pressionado.
+            if (CharFilter == null || CharFilter(e.KeyChar))
+            {
+                Text = Text.Insert(CaretIndex, e.KeyChar.ToString()); CaretIndex++; //Insere carácter na posição do caret e aumenta o índice do caret.                                                                                .
+                e.Handled = true; KeyPress?.Invoke(this, EventArgs.Empty); return;  //Chama o evento de KeyPress se não for nulo.
+            }
+        }
     }
 }

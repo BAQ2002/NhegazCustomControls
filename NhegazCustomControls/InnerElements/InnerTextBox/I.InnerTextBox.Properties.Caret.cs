@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NhegazCustomControls
 {
@@ -13,13 +14,16 @@ namespace NhegazCustomControls
         private readonly System.Windows.Forms.Timer caretTimer;
         private bool caretVisible = true;
 
-        /// <summary>Índice do caret dentro de <see cref="Text"/> (0..Length).</summary>
+        /// <summary>
+        /// Índice do caret dentro de <see cref="Text"/>
+        /// -> Valor limitado no intervalo numérico entre 0 e Text.Length.
+        /// </summary>
         public int CaretIndex
         {
             get => caretIndex;
             set
             {
-                int maxValue = Math.Max(0, Math.Min(Text.Length, value));
+                int maxValue = Math.Max(0, Math.Min(Text.Length, value)); //Valor limitado entre 0 e Text.Length.
                 if (caretIndex != maxValue)
                 {
                     caretIndex = maxValue;
@@ -54,8 +58,8 @@ namespace NhegazCustomControls
             get => new(CaretLocation, CaretSize);
         }
 
-        public Color CaretColor{ get; set; }
+        public Color CaretColor { get; set; } = SystemColors.ControlText;
 
-        public Color CaretHoverColor { get; set; }
+        public Color CaretHoverColor { get; set; } = SystemColors.Window;
     }
 }

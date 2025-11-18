@@ -17,13 +17,49 @@ namespace NhegazCustomControls
 
         private HorizontalPaddingMode horizontalPaddingMode = HorizontalPaddingMode.None;
         private VerticalPaddingMode verticalPaddingMode = VerticalPaddingMode.None;
+        private TextCharFilter textCharFilter = TextCharFilter.None;
+        private Func<char, bool>? CharFilter { get; set; } = null;
+
+        /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
+        public event EventHandler? KeyPress;
+
+        /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
+        public event EventHandler? KeyDown;
+
+        /// <summary>
+        /// Define qual o tipo de filtro de carácteres que o elemento utiliza,
+        /// a partir do valor -> Define o valor de <see cref="CharFilter"/> ->
+        /// executa esse filtro no texto atual.
+        /// </summary>
+        public TextCharFilter TextCharFilter
+        {
+            get => textCharFilter;
+            set 
+            {
+                textCharFilter = value;
+
+                if (value == TextCharFilter.OnlyNumbers) 
+                {
+                    CharFilter = char.IsDigit;                              //Define a função CharFilter para retornar verdadeiro apenas para números.
+                    
+                    for (int i = 0; i < Text.Length; i++)
+                    { 
+                        char textChar = Text[i]; if (!CharFilter(textChar)) //Se o char Text[i] não for aceito pelo CharFilter.
+                        { Text = Text.Remove(CaretIndex - 1, 1); }          //Remova o char do texto.
+                    }
+                }
+
+                else if(value == TextCharFilter.None)                       //Define a função CharFilter como nula.
+                { CharFilter = null; }
+            }
+
+        }
 
         /// <summary>
         /// Comprimento máximo do texto.
         /// </summary>
         public int MaxLength { get; set; } = 0;                // 0 = sem limite
-        public Func<char, bool>? CharFilter { get; set; } = null;
-
+        
         /// <summary>Define se deve ser usado três pontos "..." se o texto não couber no tamanho atual.</summary>
         public bool UseEllipsis { get; set; } = false;
 

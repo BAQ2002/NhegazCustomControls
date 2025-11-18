@@ -47,6 +47,12 @@ namespace NhegazCustomControls
         OneFourthFontHeight,
         Absolute
     }
+    /// <summary>Define qual o filtro de carácteres o InnerTextBox utiliza.</summary>  
+    public enum TextCharFilter
+    {
+        None,
+        OnlyNumbers,
+    }
 
     /// <summary>Define qual o ícone é usado pelo InnerButton.</summary>
     public enum ButtonIcon

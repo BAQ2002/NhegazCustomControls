@@ -13,9 +13,27 @@ namespace NhegazCustomControls
     /// <summary>Define que o InnerControl aceita eventos de teclado do pai.</summary>
     public interface IAcceptsKeyboard
     {
-        void OnParentKeyPress(KeyPressEventArgs e);
-        void OnParentKeyDown(KeyEventArgs e);
+        /// <summary>
+        /// Implementação obrigatória de <see cref="IAcceptsKeyboard"/> : 
+        /// Acionado em <see cref="InnerControlsCollection.HandleKeyPress"/> -> 
+        /// Aciona <see cref="KeyPress"/>.
+        /// </summary>
+        public void RaiseKeyPress(KeyPressEventArgs e);
+
+        /// <summary>
+        /// Implementação obrigatória de <see cref="IAcceptsKeyboard"/> : 
+        /// Acionado em <see cref="InnerControlsCollection.HandleKeyDown"/> -> 
+        /// Aciona <see cref="KeyDown"/>.
+        /// </summary>
+        public void RaiseKeyDown(KeyEventArgs e);
+
+        /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
+        public event EventHandler? KeyPress;
+
+        /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
+        public event EventHandler? KeyDown;
     }
+
     public abstract partial class InnerControl
     {      
         public InnerControl()
@@ -102,6 +120,6 @@ namespace NhegazCustomControls
             isHovering = false;
             MouseLeave?.Invoke(this, EventArgs.Empty);
             
-        }      
+        }
     }
 }

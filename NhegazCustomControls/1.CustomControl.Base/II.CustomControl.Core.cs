@@ -212,21 +212,20 @@ namespace NhegazCustomControls
         }
         protected override void OnEnter(EventArgs e) { base.OnEnter(e); Invalidate(); }
         protected override void OnLeave(EventArgs e) { base.OnLeave(e); Invalidate(); }
+ 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            InnerControls.HandleKeyDown(e); Invalidate();
+        }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             base.OnKeyPress(e);
 
-            // EVITA DUPLA INSERÇÃO: se alguém já tratou, não redistribua
-            if (e.Handled) return;
+            if (e.Handled) return; // EVITA DUPLA INSERÇÃO: se alguém já tratou, não redistribua
 
-            if (InnerControls.DispatchKeyPress(e)) Invalidate();
-        }
-
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            if (InnerControls.DispatchKeyDown(e)) Invalidate();
+            InnerControls.HandleKeyPress(e); Invalidate();
         }
     }
 }

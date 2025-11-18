@@ -18,9 +18,6 @@ namespace NhegazCustomControls
         public InnerTextBox monthTextBox = new InnerTextBox();
         public InnerTextBox yearTextBox = new InnerTextBox();
 
-        // Guarda quem está “ativo” para rotear teclado/caret
-        private InnerTextBox? activeInnerTextBox = null;
-
         public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
         public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
         public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
@@ -48,7 +45,6 @@ namespace NhegazCustomControls
             set
             {
                 base.BackgroundColor = value;
-                // trocou BackColor -> BackgroundColor
                 dayTextBox.BackgroundColor = value; monthTextBox.BackgroundColor = value; yearTextBox.BackgroundColor = value;
                 dayDropDownIcon.BackgroundColor = value; monthDropDownIcon.BackgroundColor = value; yearDropDownIcon.BackgroundColor = value;
                 daySlashMonth.BackgroundColor = value; monthSlashYear.BackgroundColor = value;
@@ -96,8 +92,6 @@ namespace NhegazCustomControls
                 var month = Date.Month;
                 var day = Math.Max(1, Math.Min(DateTime.DaysInMonth(year, month), value));
                 Date = new DateOnly(year, month, day);
-                SyncTextsFromProperties();
-                Invalidate();
             }
         }
 
@@ -111,8 +105,6 @@ namespace NhegazCustomControls
                 var month = Math.Max(1, Math.Min(12, value));
                 var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));
                 Date = new DateOnly(year, month, day);
-                SyncTextsFromProperties();
-                Invalidate();
             }
         }
 
@@ -127,8 +119,6 @@ namespace NhegazCustomControls
                 var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));
 
                 Date = new DateOnly(year, month, day);
-                SyncTextsFromProperties();
-                Invalidate();
             }
         }
 
@@ -138,6 +128,14 @@ namespace NhegazCustomControls
             dayTextBox.Text = Day.ToString("D2");
             monthTextBox.Text = Month.ToString("D2");
             yearTextBox.Text = Year.ToString("D4");
+        }
+
+        /// <summary>Sincroniza as propriedades a partir dos textos.</summary>
+        private void SyncPropertiesFromTexts()
+        {
+            Day = int.Parse(dayTextBox.Text);
+            Month = int.Parse(monthTextBox.Text);
+            Year = int.Parse(yearTextBox.Text);
         }
     }
 }
