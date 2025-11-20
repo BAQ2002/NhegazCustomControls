@@ -133,9 +133,11 @@ namespace NhegazCustomControls
                     // - CaretIndex > 0: há algo antes do caret para apagar.
                     // - Text.Length > 0: texto não está vazio.
                     if (CaretIndex > 0 && Text.Length > 0)
-                    {
-                        // Remove 1 caractere na posição (CaretIndex - 1).
-                        Text = Text.Remove(CaretIndex - 1, 1);
+                    {                       
+                        Text = Text.Remove(CaretIndex - 1, 1);                          // Remove 1 caractere na posição (CaretIndex - 1).
+                        CaretIndex = Math.Min(Text.Length, Math.Max(1,CaretIndex - 1)); // Atualiza o CaretIndex para o menor valor entre a quantidade
+                                                                                        // de carácteres e CaretIndex - 1. Se (CaretIndex - 1) < 1 ->
+                                                                                        // define o CaretIndex = 1.
                     }
                     e.Handled = true;
                     break;

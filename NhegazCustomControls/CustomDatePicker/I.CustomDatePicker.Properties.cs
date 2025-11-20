@@ -1,6 +1,7 @@
 ﻿// I.CustomDatePicker.Properties.cs  (substitua o conteúdo dos campos e pontos indicados)
 using System;
 using System.ComponentModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace NhegazCustomControls
 {
@@ -8,12 +9,6 @@ namespace NhegazCustomControls
     {
         private DateOnly? date;
 
-        // SUBSTITUIR estes 3:
-        // public TextBox dayTextBox = new TextBox();
-        // public TextBox monthTextBox = new TextBox();
-        // public TextBox yearTextBox = new TextBox();
-
-        // POR estes 3:
         public InnerTextBox dayTextBox = new InnerTextBox();
         public InnerTextBox monthTextBox = new InnerTextBox();
         public InnerTextBox yearTextBox = new InnerTextBox();
@@ -76,66 +71,89 @@ namespace NhegazCustomControls
             get => date ?? DateOnly.FromDateTime(DateTime.Today);
             set
             {
-                date = value;
-                SyncTextsFromProperties();
-                Invalidate();
+                date = value; SyncTextsFromProperties(); Invalidate(); //Sincroniza os InnerTextBox's com a data atualizada
+                                                                       // e atualiza o visual do Controle.
             }
         }
 
+        /// <summary>
+        /// get -> Retorna o <see cref="DateOnly.Day"/> de <see cref="Date"/>.
+        /// <para>
+        /// set -> Invocado apenas por <see cref="DropDownDay.OnDayItemLabelClick"/>
+        ///  e <see cref="SyncPropertiesFromTexts"/> :<para>
+        ///  apenas modifica o <see cref="Date"/> se
+        /// <see cref="Date"/>.Day for diferente do valor passado.</para>
+        /// </para>
+        /// </summary>
         [Browsable(false)]
         public int Day
         {
             get => Date.Day;
             set
             {
-                var year = Date.Year;
-                var month = Date.Month;
-                var day = Math.Max(1, Math.Min(DateTime.DaysInMonth(year, month), value));
-                Date = new DateOnly(year, month, day);
+                if (Date.Day != value)
+                {
+                    var year = Date.Year;                                                      //Não modifica o valor atual do ano.
+                    var month = Date.Month;                                                    //Não modifica o valor atual do mês.     
+                    var day = Math.Max(1, Math.Min(DateTime.DaysInMonth(year, month), value)); //Limita o novo valor entre 1 e DateTime.DaysInMonth.
+
+                    Date = new DateOnly(year, month, day);
+                }
             }
         }
 
+        /// <summary>
+        /// get -> Retorna o <see cref="DateOnly.Month"/> de <see cref="Date"/>.
+        /// <para>
+        /// set -> Invocado apenas por <see cref="DropDownDay.OnDayItemLabelClick"/>
+        ///  e <see cref="SyncPropertiesFromTexts"/> :<para>
+        ///  apenas modifica o <see cref="Date"/> se
+        /// <see cref="Date"/>.Month for diferente do valor passado.</para>
+        /// </para>
+        /// </summary>
         [Browsable(false)]
         public int Month
         {
             get => Date.Month;
             set
             {
-                var year = Date.Year;
-                var month = Math.Max(1, Math.Min(12, value));
-                var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));
-                Date = new DateOnly(year, month, day);
+                if (Date.Month != value)
+                {
+                    var year = Date.Year;                                            //Não modifica o valor atual do ano.   
+                    var month = Math.Max(1, Math.Min(12, value));                    //Limita o novo valor entre 1 e 12.
+                    var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month)); //Define o valor do dia para o menor valor entre
+                                                                                     //o valor atual e DateTime.DaysInMonth.
+                    Date = new DateOnly(year, month, day);
+                }
             }
         }
 
+        /// <summary>
+        /// get -> Retorna o <see cref="DateOnly.Year"/> de <see cref="Date"/>.
+        /// <para>
+        /// set -> Invocado apenas por <see cref="DropDownDay.OnDayItemLabelClick"/>
+        ///  e <see cref="SyncPropertiesFromTexts"/> :<para>
+        ///  apenas modifica o <see cref="Date"/> se
+        /// <see cref="Date"/>.Year for diferente do valor passado.</para>
+        /// </para>
+        /// </summary>
         [Browsable(false)]
         public int Year
         {
             get => Date.Year;
             set
             {
-                var year = Math.Max(DateOnly.MinValue.Year, Math.Min(DateOnly.MaxValue.Year, value));
-                var month = Date.Month;
-                var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));
-
-                Date = new DateOnly(year, month, day);
+                if (Date.Year != value)
+                {
+                    var year = Math.Max(DateOnly.MinValue.Year, Math.Min(DateOnly.MaxValue.Year, value)); //Limita o novo valor de ano entre DateOnly.MinValue e DateOnly.MaxValue.
+                    var month = Date.Month;                                                               //Mês atual.
+                    var day = Math.Min(Date.Day, DateTime.DaysInMonth(year, month));                      //Menor valor entre o dia atual de Date e o
+                                                                                                          //dia máximo do mês atual do novo ano selecionado.
+                    Date = new DateOnly(year, month, day);
+                }
             }
         }
 
-        /// <summary>Sincroniza os InnerTextBox a partir das propriedades.</summary>
-        private void SyncTextsFromProperties()
-        {
-            dayTextBox.Text = Day.ToString("D2");
-            monthTextBox.Text = Month.ToString("D2");
-            yearTextBox.Text = Year.ToString("D4");
-        }
-
-        /// <summary>Sincroniza as propriedades a partir dos textos.</summary>
-        private void SyncPropertiesFromTexts()
-        {
-            Day = int.Parse(dayTextBox.Text);
-            Month = int.Parse(monthTextBox.Text);
-            Year = int.Parse(yearTextBox.Text);
-        }
+        
     }
 }

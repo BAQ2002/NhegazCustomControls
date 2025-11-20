@@ -27,11 +27,10 @@ namespace NhegazCustomControls
             dayTextBox.MaxLength = 2;
             dayTextBox.UseEllipsis = false;       // sem reticências
             dayTextBox.InvalidateParent = Invalidate;
-            dayTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+            //dayTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
             dayTextBox.Click += (s, e) => { Focus(); OnClick(e); };
             dayTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
-            //dayTextBox.GotFocus += (s, e) => dayTextBox.OnInnerGotFocus();
-            //dayTextBox.LostFocus += (s, e) => dayTextBox.OnInnerLostFocus();
+            dayTextBox.LostFocus += (s, e) => SyncPropertiesFromTexts();
             InnerControls.Add(dayTextBox);
 
             monthTextBox.TextCharFilter = TextCharFilter.OnlyNumbers;
@@ -39,9 +38,10 @@ namespace NhegazCustomControls
             monthTextBox.MaxLength = 2;
             monthTextBox.UseEllipsis = false;
             monthTextBox.InvalidateParent = Invalidate;
-            monthTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+           // monthTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
             monthTextBox.Click += (s, e) => { Focus(); OnClick(e); };
             monthTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
+            monthTextBox.LostFocus += (s, e) => SyncPropertiesFromTexts();
             InnerControls.Add(monthTextBox);
 
             yearTextBox.TextCharFilter = TextCharFilter.OnlyNumbers;
@@ -49,9 +49,10 @@ namespace NhegazCustomControls
             yearTextBox.MaxLength = 4;
             yearTextBox.UseEllipsis = false;
             yearTextBox.InvalidateParent = Invalidate;
-            yearTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+           // yearTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
             yearTextBox.Click += (s, e) => { Focus(); OnClick(e); };
             yearTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
+            yearTextBox.LostFocus += (s, e) => SyncPropertiesFromTexts();
             InnerControls.Add(yearTextBox);
 
             // ===== Barras e ícones (igual ao anterior) =====
@@ -76,7 +77,6 @@ namespace NhegazCustomControls
             UpdateLayout();
             AdjustHoverColors();
         }
-
         protected override void AdjustHoverColors()
         {
             dayDropDownIcon.MouseEnter += (s, e) =>
@@ -196,6 +196,23 @@ namespace NhegazCustomControls
                 return (h, v);
             }
             else return (0, 0);
+        }
+
+        /// <summary>Sincroniza os InnerTextBox a partir das propriedades.</summary>
+        private void SyncTextsFromProperties()
+        {
+            dayTextBox.Text = Day.ToString("D2");
+            monthTextBox.Text = Month.ToString("D2");
+            yearTextBox.Text = Year.ToString("D4");
+        }
+
+        /// <summary>Sincroniza as propriedades a partir dos textos.</summary>
+        private void SyncPropertiesFromTexts()
+        {
+
+            Day = int.Parse(dayTextBox.Text);
+            Month = int.Parse(monthTextBox.Text);
+            Year = int.Parse(yearTextBox.Text);
         }
     }
 }
