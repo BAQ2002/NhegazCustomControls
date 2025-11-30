@@ -54,6 +54,16 @@ namespace NhegazCustomControls
         OnlyNumbers,
     }
 
+    public enum TextFormatFilter
+    {
+        None,
+        D1,
+        D2,
+        D3,
+        D4,
+
+    }
+
     /// <summary>Define qual o ícone é usado pelo InnerButton.</summary>
     public enum ButtonIcon
     {

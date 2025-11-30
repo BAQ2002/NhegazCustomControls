@@ -27,7 +27,7 @@ namespace NhegazCustomControls
             dayTextBox.MaxLength = 2;
             dayTextBox.UseEllipsis = false;       // sem reticências
             dayTextBox.InvalidateParent = Invalidate;
-            //dayTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+            dayTextBox.TextFormatFilter = TextFormatFilter.D2;
             dayTextBox.Click += (s, e) => { Focus(); OnClick(e); };
             dayTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
             dayTextBox.LostFocus += (s, e) => SyncPropertiesFromTexts();
@@ -38,7 +38,7 @@ namespace NhegazCustomControls
             monthTextBox.MaxLength = 2;
             monthTextBox.UseEllipsis = false;
             monthTextBox.InvalidateParent = Invalidate;
-           // monthTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+            monthTextBox.TextFormatFilter = TextFormatFilter.D2;
             monthTextBox.Click += (s, e) => { Focus(); OnClick(e); };
             monthTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
             monthTextBox.LostFocus += (s, e) => SyncPropertiesFromTexts();
@@ -49,7 +49,7 @@ namespace NhegazCustomControls
             yearTextBox.MaxLength = 4;
             yearTextBox.UseEllipsis = false;
             yearTextBox.InvalidateParent = Invalidate;
-           // yearTextBox.KeyPress += (s, e) => { SyncPropertiesFromTexts(); };
+            yearTextBox.TextFormatFilter = TextFormatFilter.D4;
             yearTextBox.Click += (s, e) => { Focus(); OnClick(e); };
             yearTextBox.DoubleClick += (s, e) => { Focus(); OnClick(e); };
             yearTextBox.LostFocus += (s, e) => SyncPropertiesFromTexts();
@@ -198,7 +198,10 @@ namespace NhegazCustomControls
             else return (0, 0);
         }
 
-        /// <summary>Sincroniza os InnerTextBox a partir das propriedades.</summary>
+        /// <summary>
+        /// Acionado no set de <see cref="Date"/> ->
+        /// Sincroniza os textos InnerTextBox a partir das propriedades <see cref="Day"/>, <see cref="Month"/> e <see cref="Year"/>.
+        /// </summary>
         private void SyncTextsFromProperties()
         {
             dayTextBox.Text = Day.ToString("D2");
@@ -206,13 +209,21 @@ namespace NhegazCustomControls
             yearTextBox.Text = Year.ToString("D4");
         }
 
-        /// <summary>Sincroniza as propriedades a partir dos textos.</summary>
+        /// <summary>
+        /// Acionado no <see cref="InnerControl.LostFocus"/> de
+        /// <see cref="dayTextBox "/>, <see cref="monthTextBox"/> e <see cref="yearTextBox"/> ->
+        /// Sincroniza as propriedades a partir dos textos.
+        /// </summary>
         private void SyncPropertiesFromTexts()
         {
+            if (dayTextBox.Text != string.Empty) { Day = int.Parse(dayTextBox.Text); }
+            else { Day = Date.Day; }
 
-            Day = int.Parse(dayTextBox.Text);
-            Month = int.Parse(monthTextBox.Text);
-            Year = int.Parse(yearTextBox.Text);
+            if (monthTextBox.Text != string.Empty) { Month = int.Parse(monthTextBox.Text); }
+            else { Month = Date.Month; }
+
+            if (yearTextBox.Text != string.Empty) { Year = int.Parse(yearTextBox.Text); }
+            else { Year = Date.Year; }
         }
     }
 }

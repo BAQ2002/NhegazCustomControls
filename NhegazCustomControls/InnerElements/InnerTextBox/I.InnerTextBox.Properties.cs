@@ -18,13 +18,22 @@ namespace NhegazCustomControls
         private HorizontalPaddingMode horizontalPaddingMode = HorizontalPaddingMode.None;
         private VerticalPaddingMode verticalPaddingMode = VerticalPaddingMode.None;
         private TextCharFilter textCharFilter = TextCharFilter.None;
-        private Func<char, bool>? CharFilter { get; set; } = null;
+        private TextFormatFilter textFormatFilter = TextFormatFilter.None;     
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyPress;
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyDown;
+
+        /// <summary>
+        /// Recebe um <see cref="char"/> como parâmetro -> 
+        /// retorna true ou false a depender do tipo de filtro definido.
+        /// <para>Modificado exclusivamente em <see cref="TextCharFilter"/>.</para>
+        /// Acionado em <see cref="RaiseKeyPress"/> ->
+        /// Se a função retornar falso não insere o carácter.
+        /// </summary>
+        private Func<char, bool>? CharFilter { get; set; } = null;
 
         /// <summary>
         /// Define qual o tipo de filtro de carácteres que o elemento utiliza,
@@ -45,14 +54,33 @@ namespace NhegazCustomControls
                     for (int i = 0; i < Text.Length; i++)
                     { 
                         char textChar = Text[i]; if (!CharFilter(textChar)) //Se o char Text[i] não for aceito pelo CharFilter.
-                        { Text = Text.Remove(CaretIndex - 1, 1); }          //Remova o char do texto.
+                        { Text = Text.Remove(i, 1); }                       //Remova o char do texto.
                     }
                 }
-
                 else if(value == TextCharFilter.None)                       //Define a função CharFilter como nula.
                 { CharFilter = null; }
             }
+        }
 
+        /// <summary>
+        /// Define se o texto tem um formato específico ->
+        /// Aplica esse formato no texto atual ->
+        /// Define que o <see cref="InnerControl.LostFocus"/>
+        /// deve chamar <see cref="ApplyTextFormat"/>.
+        /// </summary>
+        public TextFormatFilter TextFormatFilter
+        {
+            get => textFormatFilter;
+            set
+            {
+                textFormatFilter = value;
+                if (value != TextFormatFilter.None) //Se for definido algum TextFormat diferente de None : é aplicado.
+                {
+                    ApplyTextFormat();
+                    LostFocus += (s, e) => ApplyTextFormat();
+                }
+                else { LostFocus -= (s, e) => ApplyTextFormat(); }
+            }
         }
 
         /// <summary>

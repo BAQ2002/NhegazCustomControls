@@ -84,15 +84,14 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(clickLocation))
                 {
-                    element.RaiseClick(parent, clickLocation);                        //Aciona o Click do elementoque o ponto de click pertence.
+                    element.RaiseClick(parent, clickLocation);                    //Aciona o Click do elemento que o ponto de click pertence.
 
-                    if (element != FocusedInnerControl)                               //Se o elemento não for o atual em foco.
-                    {
-                        FocusedInnerControl?.RaiseLostFocus(parent);                  //Se existir um elemento interno com foco: desfoca.
-                        element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
-                    }                 
-                    parent.Invalidate();                                              //Atualiza o visual a partir do CustomControl parent.
-                    
+                    if (element != FocusedInnerControl)                           //Se o elemento clicado não for o atual em foco.
+                    { FocusedInnerControl?.RaiseLostFocus(parent); }              //Se o elemento interno com foco existir -> desfoca.                  
+
+                    element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
+                                                                                  
+                    parent.Invalidate();                                          //Atualiza o visual a partir do CustomControl parent.                 
                 }
             }
         }
@@ -112,6 +111,11 @@ namespace NhegazCustomControls
                 if (element.Visible && element.HitBox(clickLocation))
                 {
                     element.RaiseDoubleClick(parent, clickLocation);
+
+                    if (element != FocusedInnerControl)                           //Se o elemento clicado não for o atual em foco.
+                    { FocusedInnerControl?.RaiseLostFocus(parent); }              //Se o elemento interno com foco existir -> desfoca.                  
+
+                    element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
 
                     parent.Invalidate();
                 }
@@ -161,7 +165,7 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(focusLocation))
                 {
-                    element.RaiseGotFocus(parent); FocusedInnerControl = element;
+                    //element.RaiseGotFocus(parent); FocusedInnerControl = element;
                     parent.Invalidate();
                 }
             }
@@ -169,25 +173,14 @@ namespace NhegazCustomControls
 
         /// <summary>
         /// Acionado em <see cref="CustomControl.OnLostFocus"/> ->
-        /// Verifica se há um <see cref="InnerControl"/> 
-        /// com <see cref="InnerControl.Visible"/>  
-        /// e <see cref="InnerControl.HitBox"/> ->
+        /// Se <see cref="FocusedInnerControl"/> existir ->
         /// Executa <see cref="InnerControl.RaiseLostFocus"/> ->
-        /// se quem perdeu foco era o atual <see cref="FocusedInnerControl"/> ->
         /// Define <see cref="FocusedInnerControl"/> = null.
         /// </summary>
-        public void HandleLostFocus(CustomControl parent, Point focusLocation)
+        public void HandleLostFocus(CustomControl parent)
         {
-            foreach (var element in elements)
-            {
-                if (element.Visible && element.HitBox(focusLocation))
-                {
-                    element.RaiseLostFocus(parent);                  
-                    if (FocusedInnerControl == element) FocusedInnerControl = null; //se quem perdeu foco era o atual, limpa
-                }
-            }
-            // se o pai perdeu foco por completo, zera
-            FocusedInnerControl = null;
+            if(FocusedInnerControl != null) 
+            { FocusedInnerControl.RaiseLostFocus(parent); FocusedInnerControl = null;}   
         }
 
         /// <summary>

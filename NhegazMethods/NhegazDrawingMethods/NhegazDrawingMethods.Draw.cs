@@ -81,9 +81,8 @@ namespace NhegazCustomControls
         /// <param name="color">Color utilizada para o Paint do GraphicsPath</param>
         public static void DrawCaret(PaintEventArgs e, Rectangle rect, Color color)
         {
-            using (GraphicsPath caretPath = new())
+            using (GraphicsPath caretPath = CaretPath(rect))
             {
-                caretPath.AddRectangle(rect);
                 using var pen = new Pen(color, 1f);
                 e.Graphics.DrawPath(pen, caretPath);
             }

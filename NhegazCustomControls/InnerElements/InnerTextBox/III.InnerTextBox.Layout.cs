@@ -12,7 +12,7 @@ namespace NhegazCustomControls
         {
             base.UpdateLayout();
 
-            if (SizeBasedOnText)
+            if (SizeBasedOnText) //Se SizeBasedOnText for verdadeiro -> define o tamanho exatamente igual o texto.
             {
                 Size = NhegazSizeMethods.TextExactSize(
                     string.IsNullOrEmpty(Text) ? " " : Text, Font);

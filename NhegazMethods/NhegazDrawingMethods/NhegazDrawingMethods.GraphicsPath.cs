@@ -193,8 +193,27 @@ namespace NhegazCustomControls
             var arcTopRight = baseArc.Select(p => new PointF(locX + (width - p.X), locY + p.Y)).Reverse();
             var arcBottomRight = baseArc.Select(p => new PointF(locX + (width - p.X), locY + (height - p.Y)));
             var arcBottomLeft = baseArc.Select(p => new PointF(locX + p.X, locY + (height - p.Y))).Reverse();
+
             FullPath.AddLines(arcTopRight.ToArray());
             return FullPath;
         }
+
+        /// <summary>
+        /// <see cref="GraphicsPath"/> que 
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public static GraphicsPath CaretPath(Rectangle rect)
+        {
+            GraphicsPath caretPath = new();
+
+            PointF top = new(rect.Left, rect.Top);
+            PointF bottom = new(rect.Left, rect.Bottom);
+
+            caretPath.AddLine(top, bottom);
+
+            return caretPath;
+        }
+
     }
 }

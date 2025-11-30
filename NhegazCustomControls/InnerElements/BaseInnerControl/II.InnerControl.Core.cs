@@ -78,7 +78,8 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Acionado em <see cref="InnerControlsCollection.HandleGotFocus"/> -> 
+        /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
+        /// ou <see cref="InnerControlsCollection.HandleGotFocus"/> -> 
         /// Aciona <see cref="GotFocus"/>, <see cref="Focused"/> = true.
         /// </summary>
         public virtual void RaiseGotFocus(object sender)
@@ -87,7 +88,8 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Acionado em <see cref="InnerControlsCollection.HandleLostFocus"/> -> 
+        /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
+        /// ou <see cref="InnerControlsCollection.HandleLostFocus"/> -> 
         /// Aciona <see cref="LostFocus"/>, <see cref="Focused"/> = false.
         /// </summary>
         public virtual void RaiseLostFocus(object sender)

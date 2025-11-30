@@ -27,11 +27,14 @@ namespace NhegazCustomControls
             InvalidateParent?.Invoke();                 //Atualiza o visual a partir de CustomControl.Invalidate().
         }
 
+        /// <summary>Inicia o temporizador do Caret e o torna visível. </summary>
         public void StartCaret()
         {
             caretTimer.Start(); caretVisible = true;
         }
 
+
+        /// <summary>Encerra o temporizador do Caret e o torna invisível. </summary>
         public void StopCaret()
         {
             caretTimer.Stop(); caretVisible = false;
@@ -67,6 +70,42 @@ namespace NhegazCustomControls
                 }              
             }
         }
+        /// <summary>
+        /// Acionado se o <see cref="TextFormatFilter"/> for definido
+        /// diferente de <see cref="TextFormatFilter.None"/> e
+        /// em <see cref="InnerControl.LostFocus"/> ->
+        /// Aplica o formato de texto definido em 
+        /// <see cref="TextFormatFilter"/>.
+        /// </summary>
+        private void ApplyTextFormat()
+        {
+            if (TextFormatFilter == TextFormatFilter.D2)
+            {
+                if (Text == string.Empty)
+                    return;
+
+                int textValue = int.Parse(Text); //Valor numérico do texto.
+                Text = textValue.ToString("D2"); //Formatado para "D2".
+            }
+
+            else if (TextFormatFilter == TextFormatFilter.D4)
+            {
+                if (Text == string.Empty)
+                    return;
+
+                int textValue = int.Parse(Text); //Valor numérico do texto.
+                Text = textValue.ToString("D4"); //Formatado para "D2".
+            }
+        }
+
+        private void ApllyCharFilter()
+        {
+            for (int i = 0; i < Text.Length; i++)
+            {
+                char textChar = Text[i]; if (!CharFilter(textChar)) //Se o char Text[i] não for aceito pelo CharFilter.
+                { Text = Text.Remove(CaretIndex - 1, 1); }          //Remova o char do texto.
+            }
+        }
 
         // ======== Ciclo de foco (para caret) ========
         public override void RaiseMouseEnter() { base.RaiseMouseEnter(); }
@@ -83,6 +122,7 @@ namespace NhegazCustomControls
         public override void RaiseLostFocus(object sender)
         {
             base.RaiseLostFocus(sender);
+            
             StopCaret();
         }
 
@@ -134,10 +174,10 @@ namespace NhegazCustomControls
                     // - Text.Length > 0: texto não está vazio.
                     if (CaretIndex > 0 && Text.Length > 0)
                     {                       
-                        Text = Text.Remove(CaretIndex - 1, 1);                          // Remove 1 caractere na posição (CaretIndex - 1).
-                        CaretIndex = Math.Min(Text.Length, Math.Max(1,CaretIndex - 1)); // Atualiza o CaretIndex para o menor valor entre a quantidade
-                                                                                        // de carácteres e CaretIndex - 1. Se (CaretIndex - 1) < 1 ->
-                                                                                        // define o CaretIndex = 1.
+                        Text = Text.Remove(CaretIndex - 1, 1);                           // Remove 1 caractere na posição (CaretIndex - 1).
+                        CaretIndex = Math.Min(Text.Length, Math.Max(0, CaretIndex - 1)); // Atualiza o CaretIndex para o menor valor entre a quantidade
+                                                                                         // de carácteres e CaretIndex - 1. Se (CaretIndex - 1) < 0 ->
+                                                                                         // define o CaretIndex = 0.
                     }
                     e.Handled = true;
                     break;

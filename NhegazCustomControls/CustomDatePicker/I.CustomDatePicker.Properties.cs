@@ -80,9 +80,11 @@ namespace NhegazCustomControls
         /// get -> Retorna o <see cref="DateOnly.Day"/> de <see cref="Date"/>.
         /// <para>
         /// set -> Invocado apenas por <see cref="DropDownDay.OnDayItemLabelClick"/>
-        ///  e <see cref="SyncPropertiesFromTexts"/> :<para>
-        ///  apenas modifica o <see cref="Date"/> se
+        /// e <see cref="SyncPropertiesFromTexts"/> :<para>
+        /// apenas modifica o <see cref="Date"/> se
         /// <see cref="Date"/>.Day for diferente do valor passado.</para>
+        /// Realiza a limitação dos valores da data considerando 
+        /// os limites de calendário.
         /// </para>
         /// </summary>
         [Browsable(false)]
@@ -106,9 +108,11 @@ namespace NhegazCustomControls
         /// get -> Retorna o <see cref="DateOnly.Month"/> de <see cref="Date"/>.
         /// <para>
         /// set -> Invocado apenas por <see cref="DropDownDay.OnDayItemLabelClick"/>
-        ///  e <see cref="SyncPropertiesFromTexts"/> :<para>
-        ///  apenas modifica o <see cref="Date"/> se
+        /// e <see cref="SyncPropertiesFromTexts"/> :<para>
+        /// apenas modifica o <see cref="Date"/> se
         /// <see cref="Date"/>.Month for diferente do valor passado.</para>
+        /// Realiza a limitação dos valores da data considerando 
+        /// os limites de calendário.
         /// </para>
         /// </summary>
         [Browsable(false)]
@@ -132,9 +136,11 @@ namespace NhegazCustomControls
         /// get -> Retorna o <see cref="DateOnly.Year"/> de <see cref="Date"/>.
         /// <para>
         /// set -> Invocado apenas por <see cref="DropDownDay.OnDayItemLabelClick"/>
-        ///  e <see cref="SyncPropertiesFromTexts"/> :<para>
-        ///  apenas modifica o <see cref="Date"/> se
+        /// e <see cref="SyncPropertiesFromTexts"/> :<para>
+        /// apenas modifica o <see cref="Date"/> se
         /// <see cref="Date"/>.Year for diferente do valor passado.</para>
+        /// Realiza a limitação dos valores da data considerando 
+        /// os limites de calendário.
         /// </para>
         /// </summary>
         [Browsable(false)]

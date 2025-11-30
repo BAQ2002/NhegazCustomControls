@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 namespace NhegazCustomControls
 {
     public partial class CustomDatePicker : CustomControl
-    {
-        public override void UpdateLayout()
-        {
-            SetInnerSizes(); SetInnerLocations(); SetMinimumSize();
-        }
-        
+    {     
         public override Size GetPaddingSize()
         {
             int paddingWidth = BorderHorizontalBoundsSum;
@@ -40,13 +35,13 @@ namespace NhegazCustomControls
              
         protected override void SetInnerSizes()
         {
-            dayTextBox.Size = NhegazSizeMethods.TextExactSize("00", Font);
+            dayTextBox.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
             dayDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
 
-            monthTextBox.Size = NhegazSizeMethods.TextExactSize("00", Font);
+            monthTextBox.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
             monthDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
 
-            yearTextBox.Size = NhegazSizeMethods.TextExactSize("0000", Font);
+            yearTextBox.SetSize(NhegazSizeMethods.TextExactSize("0000", Font));
             yearDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
         }
 

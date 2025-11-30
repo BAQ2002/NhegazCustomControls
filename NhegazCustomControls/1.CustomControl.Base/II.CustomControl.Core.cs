@@ -206,9 +206,9 @@ namespace NhegazCustomControls
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
-            InnerControls.HandleLostFocus(this, PointToClient(Cursor.Position)); //Executa o foco do elemento interno se coincidir com a localização.
-            var headerFeature = (this as IHasHeader)?.Header;                    //Verifica se o Controle possui um cabeçalho.
-            headerFeature?.HandleLostFocus(PointToClient(Cursor.Position));
+            InnerControls.HandleLostFocus(this);              //Executa o foco do elemento interno se coincidir com a localização.
+            var headerFeature = (this as IHasHeader)?.Header; //Verifica se o Controle possui um cabeçalho.
+            headerFeature?.HandleLostFocus();
         }
         protected override void OnEnter(EventArgs e) { base.OnEnter(e); Invalidate(); }
         protected override void OnLeave(EventArgs e) { base.OnLeave(e); Invalidate(); }

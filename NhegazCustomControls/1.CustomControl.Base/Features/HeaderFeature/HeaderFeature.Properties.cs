@@ -314,11 +314,35 @@ namespace NhegazCustomControls
             ownerControl.Invalidate();
         }
 
+        /// <summary>
+        /// Aponta para -> <see cref="InnerControlsCollection.HandleClick"/>
+        /// da instância <see cref="InnerControlsCollection"/> <see cref="Controls"/>.
+        /// </summary>
         public void HandleClick(Point p) => Controls.HandleClick(ownerControl, p);
+
+        /// <summary>
+        /// Aponta para -> <see cref="InnerControlsCollection.HandleDoubleClick"/>
+        /// da instância <see cref="InnerControlsCollection"/> <see cref="Controls"/>.
+        /// </summary>
         public void HandleDoubleClick(Point p) => Controls.HandleDoubleClick(ownerControl, p);
+
+        /// <summary>
+        /// Aponta para -> <see cref="InnerControlsCollection.HandleMouseMove"/>
+        /// da instância <see cref="InnerControlsCollection"/> <see cref="Controls"/>.
+        /// </summary>
         public void HandleMouseMove(Point p) => Controls.HandleMouseMove(ownerControl, p);
+
+        /// <summary>
+        /// Aponta para -> <see cref="InnerControlsCollection.HandleGotFocus"/>
+        /// da instância <see cref="InnerControlsCollection"/> <see cref="Controls"/>.
+        /// </summary>
         public void HandleGotFocus(Point p) => Controls.HandleGotFocus(ownerControl, p);
-        public void HandleLostFocus(Point p) => Controls.HandleLostFocus(ownerControl, p);        
+
+        /// <summary>
+        /// Aponta para -> <see cref="InnerControlsCollection.HandleLostFocus"/>
+        /// da instância <see cref="InnerControlsCollection"/> <see cref="Controls"/>.
+        /// </summary>
+        public void HandleLostFocus() => Controls.HandleLostFocus(ownerControl);        
 
     }
 }
