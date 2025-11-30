@@ -98,36 +98,54 @@ namespace NhegazCustomControls
             }
         }
 
-        private void ApllyCharFilter()
-        {
-            for (int i = 0; i < Text.Length; i++)
-            {
-                char textChar = Text[i]; if (!CharFilter(textChar)) //Se o char Text[i] não for aceito pelo CharFilter.
-                { Text = Text.Remove(CaretIndex - 1, 1); }          //Remova o char do texto.
-            }
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> -> 
+        /// Verifica os estados de <see cref="InnerControl.AbleToHover"/> e <see cref="InnerControl.isHovering"/> ->
+        /// Aciona <see cref="InnerControl.MouseEnter"/>, 
+        /// torna <see cref="InnerControl.IsHovering"/> = true e aciona <see cref="InnerControl.UpdateParentCursor"/>.
+        /// </summary>
+        public override void RaiseMouseEnter() 
+        { 
+            base.RaiseMouseEnter();
+            UpdateParentCursor?.Invoke(Cursors.IBeam);
         }
 
-        // ======== Ciclo de foco (para caret) ========
-        public override void RaiseMouseEnter() { base.RaiseMouseEnter(); }
-        public override void RaiseMouseLeave() { base.RaiseMouseLeave(); }
-    
-        // Esses eventos já são disparados pela infra (InnerControlsCollection.HandleGotFocus/LostFocus)
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> -> 
+        /// Verifica os estados de <see cref="InnerControl.AbleToHover"/> e <see cref="InnerControl.isHovering"/> ->
+        /// Aciona <see cref="InnerControl.MouseLeave"/>, 
+        /// torna <see cref="InnerControl.IsHovering"/> = false e aciona <see cref="InnerControl.UpdateParentCursor"/>.
+        /// </summary>
+        public override void RaiseMouseLeave() 
+        { 
+            base.RaiseMouseLeave();
+            UpdateParentCursor?.Invoke(Cursors.Default);
+        }
+
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
+        /// ou <see cref="InnerControlsCollection.HandleGotFocus"/> -> 
+        /// Aciona <see cref="InnerControl.GotFocus"/>, 
+        /// <see cref="InnerControl.Focused"/> = true e <see cref="StartCaret"/>.
+        /// </summary>
         public override void RaiseGotFocus(object sender)
         {
             base.RaiseGotFocus(sender);
             StartCaret();
         }
 
-
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
+        /// ou <see cref="InnerControlsCollection.HandleLostFocus"/> -> 
+        /// Aciona <see cref="InnerControl.LostFocus"/>, 
+        /// <see cref="InnerControl.Focused"/> = false e <see cref="StopCaret"/>.
+        /// </summary>
         public override void RaiseLostFocus(object sender)
         {
-            base.RaiseLostFocus(sender);
-            
+            base.RaiseLostFocus(sender);       
             StopCaret();
         }
-
         
-
         /// <summary>
         /// Manipula teclas de navegação e edição (KeyDown).
         /// Observações:

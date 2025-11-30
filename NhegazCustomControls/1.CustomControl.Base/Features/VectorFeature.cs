@@ -15,7 +15,10 @@ namespace NhegazCustomControls
         private readonly CustomControl ownerControl;
         private readonly InnerControlsCollection target; // <- NOVO
         private InnerControl?[] items;
-
+        
+        /// <summary>
+        /// Vetor de <see cref="InnerControl"/>'s 
+        /// </summary>
         public InnerControl?[] Items => items;
         public int Length => items.Length;
 

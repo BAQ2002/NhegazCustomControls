@@ -32,8 +32,12 @@ namespace NhegazCustomControls
         public void Add(InnerControl innerControl)
         {
             elements.Add(innerControl);
-            if (innerControl is InnerTextBox)                      //Se for um InnerTextBox (ou outros que precisarem no futuro), 
+            if (innerControl is InnerTextBox)                 //Se for um InnerTextBox (ou outros que precisarem no futuro), 
+            {
                 innerControl.InvalidateParent = Parent.Invalidate; //devido à funcionalidades: Torna capaz de atualizar o Parent.
+                innerControl.UpdateParentCursor = cursor =>
+                {Parent.Cursor = cursor;};
+            }          
         }
 
         /// <summary>Remove o <see cref="InnerControl"/> da coleção interna de InnerControl's.</summary>
@@ -117,7 +121,7 @@ namespace NhegazCustomControls
 
                     element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
 
-                    parent.Invalidate();
+                    parent.Invalidate();                                          //Atualiza o visual a partir do CustomControl parent.
                 }
             }
         }
@@ -136,17 +140,17 @@ namespace NhegazCustomControls
             {
                 if (element.Visible)
                 {
-                    bool contains = element.HitBox(mouseLocation);
+                    bool contains = element.HitBox(mouseLocation); //Se o elemento contém a posição atual do mouse.
 
-                    if (contains && !element.IsHovering)
+                    if (contains && !element.IsHovering)           //Se o elemento contém a posição atual do mouse e NÃO estava em hover.
                     {
                         element.RaiseMouseEnter();
-                        parent.Invalidate();  // força repaint do controle pai para refletir a mudança
+                        parent.Invalidate();                       //Atualiza o visual a partir do CustomControl parent.
                     }
-                    else if (!contains && element.IsHovering)
+                    else if (!contains && element.IsHovering)      //Se o elemento NÃO contém a posição atual do mouse e estava em hover.
                     {
-                        element.RaiseMouseLeave();
-                        parent.Invalidate();
+                        element.RaiseMouseLeave();                  
+                        parent.Invalidate();                       //Atualiza o visual a partir do CustomControl parent.
                     }
                 }
             }

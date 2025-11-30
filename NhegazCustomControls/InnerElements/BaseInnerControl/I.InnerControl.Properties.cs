@@ -45,9 +45,17 @@ namespace NhegazCustomControls
         /// A ação é atribuída automaticamente  
         /// em <see cref="InnerControlsCollection.Add(InnerControl)"/> 
         /// para todos os derivados de <see cref="InnerControl"/>
-        /// que forem especificados.
+        /// que forem especificados posteriormente.
         /// </summary>
         public Action? InvalidateParent { get; set; }
+
+        /// <summary>
+        /// A ação é atribuída automaticamente  
+        /// em <see cref="InnerControlsCollection.Add(InnerControl)"/> 
+        /// para todos os derivados de <see cref="InnerControl"/>
+        /// que forem especificados posteriormente.
+        /// </summary>
+        public Action<Cursor>? UpdateParentCursor { get; set; }
 
         /// <summary>
         /// Indica se o elemento esta em foco

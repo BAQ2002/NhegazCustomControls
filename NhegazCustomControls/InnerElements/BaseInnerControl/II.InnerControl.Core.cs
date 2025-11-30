@@ -100,7 +100,7 @@ namespace NhegazCustomControls
         /// <summary>
         /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> -> 
         /// Verifica os estados de <see cref="AbleToHover"/> e <see cref="isHovering"/> ->
-        /// Aciona <see cref="MouseEnter"/>.
+        /// Aciona <see cref="MouseEnter"/> e torna <see cref="IsHovering"/> = true.
         /// </summary>
         public virtual void RaiseMouseEnter()
         {
@@ -113,7 +113,7 @@ namespace NhegazCustomControls
         /// <summary>
         /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> -> 
         /// Verifica os estados de <see cref="AbleToHover"/> e <see cref="isHovering"/> ->
-        /// Aciona <see cref="MouseLeave"/>.
+        /// Aciona <see cref="MouseLeave"/> e torna <see cref="IsHovering"/> = false.
         /// </summary>
         public virtual void RaiseMouseLeave()
         {

@@ -71,10 +71,10 @@ namespace NhegazCustomControls
         /// <summary>Cor de fundo secundária do Controle.</summary>
         private Color secondaryBackgroundColor = SystemColors.ControlLightLight;
 
-        /// <summary>Cor de texto quando o cursor está sobre.</summary>
+        /// <summary>Cor de texto quando o cursor do mouse está sobre o <see cref="CustomControl"/>.</summary>
         private Color hoverBackgroundColor = SystemColors.Highlight;
 
-        /// <summary>Cor de texto quando o cursor está sobre.</summary>
+        /// <summary>Cor de texto quando o cursor do mouse está sobre o <see cref="CustomControl"/>.</summary>
         private Color hoverForeColor = SystemColors.Window;
 
         /// <summary>Cor da Borda do Controle.</summary>

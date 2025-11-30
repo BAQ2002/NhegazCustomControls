@@ -29,7 +29,7 @@ namespace NhegazCustomControls
         /// <summary>
         /// Recebe um <see cref="char"/> como parâmetro -> 
         /// retorna true ou false a depender do tipo de filtro definido.
-        /// <para>Modificado exclusivamente em <see cref="TextCharFilter"/>.</para>
+        /// <para>Valor modificado exclusivamente em <see cref="TextCharFilter"/>.</para>
         /// Acionado em <see cref="RaiseKeyPress"/> ->
         /// Se a função retornar falso não insere o carácter.
         /// </summary>
@@ -119,6 +119,7 @@ namespace NhegazCustomControls
             }
         }
 
+        /// <summary>Tamanho do texto atual -> totalmente dependende de <see cref="Text"/>.Length e <see cref="Font"/>.</summary>
         public Size TextSize
         {
             get 
@@ -129,6 +130,10 @@ namespace NhegazCustomControls
             }             
         }
 
+        /// <summary>
+        /// Retângulo correspondente a <see cref="TextLocation"/>
+        /// e <see cref="TextSize"/> -> utilizado exclusivamente em <see cref="SetCaretLocation"/>.
+        /// </summary>
         public Rectangle TextRectangle
         {
             get => new(TextLocation, TextSize);      
