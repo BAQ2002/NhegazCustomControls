@@ -125,6 +125,19 @@ namespace NhegazCustomControls
                 }
             }
         }
+        public void HandleMouseDown(CustomControl parent, Point location)
+        {
+            foreach (var element in elements)
+                if (element.Visible && element.HitBox(location))
+                    element.RaiseMouseDown(parent, location);
+        }
+
+        public void HandleMouseUp(CustomControl parent, Point location)
+        {
+            foreach (var element in elements)
+                if (element.Visible)
+                    element.RaiseMouseUp(parent, location);
+        }
 
         /// <summary>
         /// Acionado em <see cref="CustomControl.OnMouseMove"/> ->
@@ -141,6 +154,9 @@ namespace NhegazCustomControls
                 if (element.Visible)
                 {
                     bool contains = element.HitBox(mouseLocation); //Se o elemento contém a posição atual do mouse.
+
+                    if (contains && element.IsFocused)
+                        element.RaiseMouseMove(parent, mouseLocation);
 
                     if (contains && !element.IsHovering)           //Se o elemento contém a posição atual do mouse e NÃO estava em hover.
                     {

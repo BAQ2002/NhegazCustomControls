@@ -30,7 +30,8 @@ namespace NhegazCustomControls
         protected bool HasBorder => borderWidth >= 1;
 
         /// <summary>
-        /// Valor do deslocamento do GraphicsPath utilizado em DrawBackground baseado em
+        /// Valor do deslocamento necessário do GraphicsPath 
+        /// utilizado em <see cref="DrawBackground"/> baseado em
         /// <para>(BorderWidth = 0 : BackgroundOffset = 0); </para>
         /// <para>(BorderWidth = 1 : BackgroundOffset = 1); </para>
         /// <para>(BorderWidth > 1 : BackgroundOffset = BorderWidth-1); </para>
@@ -41,9 +42,9 @@ namespace NhegazCustomControls
             BorderWidth - 1;
 
         /// <summary>
-        /// Retangulo que fornece o Size e Location para o Fundo do Controle
-        /// <para>(X = BackgroundOffset : Width - (2 * BackgroundOffset)); </para>
-        /// <para>(Y = BackgroundOffset : height = Height - (2 * BackgroundOffset)); </para>
+        /// Retângulo calculado com base em <see cref="Control.Size"/> 
+        /// e <see cref="BackgroundOffset"/> -> 
+        /// utilizado exclusivamente em <see cref="DrawBackground"/>.
         /// </summary>
         protected Rectangle BackgroundRectangle
         {
@@ -55,10 +56,11 @@ namespace NhegazCustomControls
                 return new(locY, locX, width, height);
             }
         }
+
         /// <summary>
         /// Raio do arrendondamento das quinas do fundo do Controle baseado em
-        /// <para>(BorderWidth  = 0 : BackgroundCornerRaidius = BorderRadius); </para>
-        /// <para>(BorderWidth >= 1 : BackgroundCornerRaidius = BorderRadius - 1); </para>
+        /// <para>(BorderWidth == 0 -> BackgroundCornerRaidius = BorderRadius); </para>
+        /// <para>(BorderWidth >= 1 -> BackgroundCornerRaidius = BorderRadius - 1); </para>
         /// </summary>
         protected int BackgroundCornerRaidus => HasBorder ? BorderRadius - 1 : BorderRadius;
   
@@ -83,6 +85,7 @@ namespace NhegazCustomControls
         /// <summary>Cor da Borda do Controle quando em Foco.</summary>
         private Color onFocusBorderColor = SystemColors.Highlight;
 
+        /// <summary>Tamanho unitário da fonte.</summary>
         public Size FontUnitSize => NhegazSizeMethods.FontUnitSize(Font);
        
         [Browsable(false)]

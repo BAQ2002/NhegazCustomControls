@@ -4,9 +4,6 @@ using System.Windows.Forms;
 
 namespace NhegazCustomControls
 {
-    /// <summary>
-    /// Inner "textbox" com mesmos ajustes de posição do InnerLabel e caret funcional.
-    /// </summary>
     public partial class InnerTextBox : InnerControl, IAcceptsKeyboard
     {
         private string text = string.Empty;
@@ -17,8 +14,44 @@ namespace NhegazCustomControls
 
         private HorizontalPaddingMode horizontalPaddingMode = HorizontalPaddingMode.None;
         private VerticalPaddingMode verticalPaddingMode = VerticalPaddingMode.None;
+
         private TextCharFilter textCharFilter = TextCharFilter.None;
-        private TextFormatFilter textFormatFilter = TextFormatFilter.None;     
+        private TextFormatFilter textFormatFilter = TextFormatFilter.None;
+
+        private bool isSelecting = false;     //true enquanto o mouse estiver pressionado.
+        private int selectionStartIndex = -1; //Índice inicial da seleção.
+        private int selectionEndIndex = -1;   //Índice atual (acompanha o mouse enquanto estiver pressionado).
+        private bool HasSelection =>
+            selectionStartIndex >= 0 && selectionEndIndex >= 0 && selectionStartIndex != selectionEndIndex;
+
+        /// <summary>Cor de fundo quando está sendo realizada a seleção de carácteres com o mouse.</summary>
+        public Color SelectionBackgroundColor { get; set; } = SystemColors.Highlight;
+
+        /// <summary>Cor do texto quando está sendo realizada a seleção de carácteres com o mouse.</summary>
+        public Color SelectionForeColor { get; set; } = SystemColors.Window;
+
+        /// <summary>
+        /// Retorna o índice de um carácter do texto 
+        /// se houver um no ponto do mouse.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        private int GetCaretIndexFromPoint(Point p)
+        {
+            int charWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
+
+
+            for (int i = 0; i < Text.Length; i++) //De 0 até Text.Length - 1 (para cada carácter do texto).
+            {
+                //Gera um retângulo correspondente ao carácter de índice "i".
+                Rectangle charRect = new(TextLocation.X + i * charWidth,TextLocation.Y,charWidth,TextSize.Height);
+
+                if (charRect.Contains(p))         //Se o retângulo contem o ponto atual do mouse.
+                    return i;                     //retorna o índice do carácter.
+            }
+
+            return Text.Length; // se clicou após o texto
+        }
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyPress;
@@ -26,6 +59,8 @@ namespace NhegazCustomControls
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyDown;
 
+        public override Color HoverBackgroundColor { get; set; } = SystemColors.Window;
+        public override Color HoverForeColor { get; set; } = SystemColors.ControlText;
         /// <summary>
         /// Recebe um <see cref="char"/> como parâmetro -> 
         /// retorna true ou false a depender do tipo de filtro definido.
@@ -132,7 +167,7 @@ namespace NhegazCustomControls
 
         /// <summary>
         /// Retângulo correspondente a <see cref="TextLocation"/>
-        /// e <see cref="TextSize"/> -> utilizado exclusivamente em <see cref="SetCaretLocation"/>.
+        /// e <see cref="TextSize"/> -> utilizado exclusivamente em <see cref="RaiseClick"/>.
         /// </summary>
         public Rectangle TextRectangle
         {

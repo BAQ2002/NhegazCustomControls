@@ -48,6 +48,15 @@ namespace NhegazCustomControls
         public event EventHandler? DoubleClick;
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
+        public event EventHandler<Point>? MouseDown;
+
+        /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
+        public event EventHandler<Point>? MouseUp;
+
+        /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
+        public event EventHandler<Point>? MouseMove;
+
+        /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? GotFocus;
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
@@ -78,23 +87,49 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseDown"/> ->
+        /// Aciona <see cref="MouseDown"/>.
+        /// </summary>
+        public virtual void RaiseMouseDown(object sender, Point p)
+        {
+            MouseDown?.Invoke(sender, p);
+        }
+
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseUp"/> ->
+        /// Aciona <see cref="MouseUp"/>.
+        /// </summary>
+        public virtual void RaiseMouseUp(object sender, Point p)
+        {
+            MouseUp?.Invoke(sender, p);
+        }
+
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> ->
+        /// Aciona <see cref="MouseMove"/>.
+        /// </summary>
+        public virtual void RaiseMouseMove(object sender, Point p)
+        {
+            MouseMove?.Invoke(sender, p);
+        }
+        /// <summary>
         /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
         /// ou <see cref="InnerControlsCollection.HandleGotFocus"/> -> 
-        /// Aciona <see cref="GotFocus"/>, <see cref="Focused"/> = true.
+        /// Aciona <see cref="GotFocus"/>, <see cref="IsFocused"/> = true.
         /// </summary>
         public virtual void RaiseGotFocus(object sender)
         {
-            GotFocus?.Invoke(sender, EventArgs.Empty); Focused = true;
+            GotFocus?.Invoke(sender, EventArgs.Empty); IsFocused = true;
         }
 
         /// <summary>
         /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
         /// ou <see cref="InnerControlsCollection.HandleLostFocus"/> -> 
-        /// Aciona <see cref="LostFocus"/>, <see cref="Focused"/> = false.
+        /// Aciona <see cref="LostFocus"/>, <see cref="IsFocused"/> = false.
         /// </summary>
         public virtual void RaiseLostFocus(object sender)
         {
-            LostFocus?.Invoke(sender, EventArgs.Empty); Focused = false;
+            LostFocus?.Invoke(sender, EventArgs.Empty); IsFocused = false;
         }
 
         /// <summary>

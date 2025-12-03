@@ -12,7 +12,7 @@ namespace NhegazCustomControls
         private BackGroundShape backGroundShape = BackGroundShape.FitRectangle;
         private int cornerRadius = 0; 
         private bool isHovering = false; public bool IsHovering => AbleToHover ? isHovering : false;
-        private bool focused = false;     
+        private bool isFocused = false;     
 
         /// <summary>Define se o elemento é visível.</summary>
         public bool Visible { get; set; } = true;
@@ -27,13 +27,13 @@ namespace NhegazCustomControls
         public Color ForeColor { get; set; } = SystemColors.ControlText;
 
         /// <summary>Define qual a cor do texto quando o mouse estiver por cima.</summary>
-        public Color HoverForeColor { get; set; } = SystemColors.Window;
+        public virtual Color HoverForeColor { get; set; } = SystemColors.Window;
 
         /// <summary>Define qual a cor padrão do fundo.</summary>
         public Color BackgroundColor { get; set; } = SystemColors.Window;
 
         /// <summary>Define qual a cor do fundo quando o mouse estiver por cima.</summary>
-        public Color HoverBackgroundColor { get; set; } = SystemColors.Highlight;
+        public virtual Color HoverBackgroundColor { get; set; } = SystemColors.Highlight;
 
         /// <summary>Instância das propriedades de padding do elemento.</summary>
         public InnerControlPadding Padding { get; }
@@ -45,7 +45,7 @@ namespace NhegazCustomControls
         /// A ação é atribuída automaticamente  
         /// em <see cref="InnerControlsCollection.Add(InnerControl)"/> 
         /// para todos os derivados de <see cref="InnerControl"/>
-        /// que forem especificados posteriormente.
+        /// que forem especificados dentro do método citado.
         /// </summary>
         public Action? InvalidateParent { get; set; }
 
@@ -53,18 +53,18 @@ namespace NhegazCustomControls
         /// A ação é atribuída automaticamente  
         /// em <see cref="InnerControlsCollection.Add(InnerControl)"/> 
         /// para todos os derivados de <see cref="InnerControl"/>
-        /// que forem especificados posteriormente.
+        /// que forem especificados dentro do método citado.
         /// </summary>
         public Action<Cursor>? UpdateParentCursor { get; set; }
 
         /// <summary>
-        /// Indica se o elemento esta em foco
+        /// Indica se o elemento está em foco
         /// (é o que está em interação no momento).
         /// </summary>
-        public bool Focused 
+        public bool IsFocused 
         {
-            get => focused;
-            set { focused = value; } 
+            get => isFocused;
+            set { isFocused = value; } 
         }
 
         /// <summary>Retângulo delimitiador do elemento.</summary>

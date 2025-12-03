@@ -3,17 +3,25 @@ using System.Drawing.Drawing2D;
 
 namespace NhegazCustomControls
 {
+
+    /// <summary>
+    /// Define que esse <see cref="CustomControl"/> implementa um <see cref="HeaderFeature"/>.
+    /// </summary>
     public interface IHasHeader
     {
         HeaderFeature Header { get; set; }
     }
+
+    /// <summary>
+    /// Define que esse <see cref="CustomControl"/> implementa um <see cref="DropDownFeature"/>.
+    /// </summary>
     public interface IHasDropDown
     {
         DropDownFeature DropDownFeatures { get; }
     }
 
     /// <summary>
-    /// Define que esse CustomControl deve implementar uma MatrixFeature
+    /// Define que esse <see cref="CustomControl"/> implementa um <see cref="MatrixFeature"/>.
     /// </summary>
     public interface IHasMatrix
     {
@@ -21,7 +29,7 @@ namespace NhegazCustomControls
     }
 
     /// <summary>
-    /// Define que esse CustomControl deve implementar um VectorFeature
+    /// Define que esse <see cref="CustomControl"/> implementa um <see cref="VectorFeature"/>.
     /// </summary>
     public interface IHasVector
     {
@@ -40,7 +48,7 @@ namespace NhegazCustomControls
 
         /// <summary>
         /// Construtor opcional que pode receber um
-        /// <see cref="CustomControl"/> com pai
+        /// <see cref="CustomControl"/> como "pai"
         /// para executar <see cref="CopyVisualFrom"/>.
         /// </summary>
         /// <param name="parent">CustomControl passado como pai.</param>
@@ -118,37 +126,31 @@ namespace NhegazCustomControls
                 destinationHeader.BorderRadius = sourceHeader.BorderRadius;
             }
 
-            // Copia de IHasDropDown -> IHasHeader (cores “padrão” do header dos dropdowns)
-            if (parentControl is IHasDropDown srcDrop &&
-                srcDrop.DropDownFeatures.AnyIsHasHeader)
+            //Se paretControl tiver DropDowns que possuem Header 
+            if (parentControl is IHasDropDown sourceHasDropDown &&
+                sourceHasDropDown.DropDownFeatures.AnyIsHasHeader)
             {
-                destinationHeader.BorderRadius = srcDrop.DropDownFeatures.HeaderBorderRadius;
-                destinationHeader.BorderWidth = srcDrop.DropDownFeatures.HeaderBorderWidth;
+                destinationHeader.BorderRadius = sourceHasDropDown.DropDownFeatures.HeaderBorderRadius;
+                destinationHeader.BorderWidth = sourceHasDropDown.DropDownFeatures.HeaderBorderWidth;
 
-                destinationHeader.BackgroundColor = srcDrop.DropDownFeatures.HeaderBackgroundColor;
-                destinationHeader.ForeColor = srcDrop.DropDownFeatures.HeaderForeColor;
+                destinationHeader.BackgroundColor = sourceHasDropDown.DropDownFeatures.HeaderBackgroundColor;
+                destinationHeader.ForeColor = sourceHasDropDown.DropDownFeatures.HeaderForeColor;
 
-                destinationHeader.BorderColor = srcDrop.DropDownFeatures.HeaderBorderColor;
-                destinationHeader.OnFocusBorderColor = srcDrop.DropDownFeatures.HeaderOnFocusBorderColor;
+                destinationHeader.BorderColor = sourceHasDropDown.DropDownFeatures.HeaderBorderColor;
+                destinationHeader.OnFocusBorderColor = sourceHasDropDown.DropDownFeatures.HeaderOnFocusBorderColor;
 
-                destinationHeader.HoverBackgroundColor = srcDrop.DropDownFeatures.HeaderHoverBackgroundColor;
-                destinationHeader.HoverForeColor = srcDrop.DropDownFeatures.HeaderHoverForeColor;
+                destinationHeader.HoverBackgroundColor = sourceHasDropDown.DropDownFeatures.HeaderHoverBackgroundColor;
+                destinationHeader.HoverForeColor = sourceHasDropDown.DropDownFeatures.HeaderHoverForeColor;
             }                                       
         }
-
-        //public void UpdateFocus()
-        //{
-        //    OnFocus = (OnFocus == true) ? false : true;
-        //}
 
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
-            //UpdateFocus();
         }
 
         /// <summary>
-        /// Override do evento de clique. Encaminha o evento para os InnerControlsCollection.
+        /// Override do evento de clique. Propaga o evento para os <see cref="InnerControlsCollection"/>.
         /// </summary>
         /// <param name="e">Argumentos do clique.</param>
         protected override void OnMouseClick(MouseEventArgs e)
@@ -160,7 +162,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Override do evento de duplo clique. Encaminha o evento para os InnerControlsCollection.
+        /// Override do evento de duplo clique. Propaga o evento para os <see cref="InnerControlsCollection"/>.
         /// </summary>
         /// <param name="e">Argumentos do duplo clique.</param>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
@@ -172,7 +174,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Override do evento de movimento do mouse. Propaga o evento para os InnerControlsCollection.
+        /// Override do evento de movimento do mouse. Propaga o evento para os <see cref="InnerControlsCollection"/>.
         /// </summary>
         /// <param name="e">Argumentos do movimento do mouse.</param>
         protected override void OnMouseMove(MouseEventArgs e)
@@ -184,7 +186,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Override do evento quando o controle ganha foco.
+        /// Override do evento quando o controle ganha foco. Propaga o evento para os <see cref="InnerControlsCollection"/>.
         /// </summary>
         /// <param name="e">Argumentos do foco.</param>
         protected override void OnGotFocus(EventArgs e)
@@ -200,7 +202,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Override do evento quando o controle perde o foco.
+        /// Override do evento quando o controle perde o foco. Propaga o evento para os <see cref="InnerControlsCollection"/>.
         /// </summary>
         /// <param name="e">Argumentos do evento de perda de foco.</param>
         protected override void OnLostFocus(EventArgs e)
@@ -210,6 +212,19 @@ namespace NhegazCustomControls
             var headerFeature = (this as IHasHeader)?.Header; //Verifica se o Controle possui um cabeçalho.
             headerFeature?.HandleLostFocus();
         }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            InnerControls.HandleMouseDown(this, e.Location);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            InnerControls.HandleMouseUp(this, e.Location);
+        }
+
         protected override void OnEnter(EventArgs e) { base.OnEnter(e); Invalidate(); }
         protected override void OnLeave(EventArgs e) { base.OnLeave(e); Invalidate(); }
  

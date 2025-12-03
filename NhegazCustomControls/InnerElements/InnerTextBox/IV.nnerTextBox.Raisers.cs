@@ -1,101 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace NhegazCustomControls
 {
     public partial class InnerTextBox
     {
-        public InnerTextBox(bool autoSizeBasedOnText = false) : base()
-        {
-            SizeBasedOnText = autoSizeBasedOnText;
-
-            caretTimer = new System.Windows.Forms.Timer { Interval = CaretBlinkIntervalMs };
-            caretTimer.Tick += (s, e) => RestartCaretBlink();
-        }
-
         /// <summary>
-        /// Método que é resposável por atualizar o visual do caret.
+        /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> -> 
+        /// Aciona <see cref="InnerControl.Click"/> e define o 
+        /// <see cref="CaretIndex"/> para o valor de <see cref="GetTextIndexFromPoint"/>.
         /// </summary>
-        private void RestartCaretBlink()
-        {
-            caretVisible = caretVisible ? false : true; //Inverte o estado visual do caret.
-            InvalidateParent?.Invoke();                 //Atualiza o visual a partir de CustomControl.Invalidate().
-        }
-
-        /// <summary>Inicia o temporizador do Caret e o torna visível. </summary>
-        public void StartCaret()
-        {
-            caretTimer.Start(); caretVisible = true;
-        }
-
-
-        /// <summary>Encerra o temporizador do Caret e o torna invisível. </summary>
-        public void StopCaret()
-        {
-            caretTimer.Stop(); caretVisible = false;
-        }
-
         public override void RaiseClick(object sender, Point clickLocation)
         {
-            base.RaiseClick(sender, clickLocation); 
-            SetCaretLocation(clickLocation);
+            base.RaiseClick(sender, clickLocation);
+
+            if(GetCaretIndexFromPoint(clickLocation) != -1)
+                CaretIndex = GetTextIndexFromPoint(clickLocation);
         }
 
-        /// <summary>     
-        /// Se o <see cref="Point"/> clickLocation 
-        /// pertence a algum carácter do texto ->
-        /// Atualiza o <see cref="CaretIndex"/> : consequentimente -> 
-        /// Atualiza o <see cref="CaretLocation"/>.
-        /// </summary>
-        public void SetCaretLocation(Point clickLocation)
-        {            
-            Rectangle[] charHalfRects = new Rectangle[Text.Length * 2]; //Retângulos das metades de cada carácter do texto.
-
-            for(int i = 0; i < charHalfRects.Length; i++) 
-            {
-                int x = TextRectangle.X + i * (NhegazSizeMethods.FontUnitSize(Font).Width / 2); //Posição X acumulativa a partir do índice.
-                int y = TextRectangle.Y;                                                        //Posição Y igual Y(0) do texto.
-                int width = NhegazSizeMethods.FontUnitSize(Font).Width / 2;                     //Largura igual a metade da fonte.
-                int height = Height;                                                            //Altura igual do InnerTextBox.
-                    
-                charHalfRects[i] = new Rectangle(x, y, width, height);                          //Instância do retângulo.
-                if (charHalfRects[i].Contains(clickLocation))                                   //Se o ponto de click pertece ao retângulo.
-                {
-                    CaretIndex = (int)Math.Ceiling(i / 2.0); return;                            //Ajuste de valor.       
-                }              
-            }
-        }
-        /// <summary>
-        /// Acionado se o <see cref="TextFormatFilter"/> for definido
-        /// diferente de <see cref="TextFormatFilter.None"/> e
-        /// em <see cref="InnerControl.LostFocus"/> ->
-        /// Aplica o formato de texto definido em 
-        /// <see cref="TextFormatFilter"/>.
-        /// </summary>
-        private void ApplyTextFormat()
+        public override void RaiseMouseDown(object sender, Point p)
         {
-            if (TextFormatFilter == TextFormatFilter.D2)
-            {
-                if (Text == string.Empty)
-                    return;
+            base.RaiseMouseDown(sender, p);
 
-                int textValue = int.Parse(Text); //Valor numérico do texto.
-                Text = textValue.ToString("D2"); //Formatado para "D2".
-            }
+            StartSelection(p);
 
-            else if (TextFormatFilter == TextFormatFilter.D4)
-            {
-                if (Text == string.Empty)
-                    return;
+            CaretIndex = selectionStartIndex;
 
-                int textValue = int.Parse(Text); //Valor numérico do texto.
-                Text = textValue.ToString("D4"); //Formatado para "D2".
-            }
+            InvalidateParent?.Invoke();
+        }
+
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> ->
+        /// Aciona <see cref="InnerControl.MouseMove"/>.
+        /// </summary>
+        public override void RaiseMouseMove(object sender, Point p)
+        {
+            base.RaiseMouseMove(sender, p);
+
+            if (!isSelecting) return;
+
+            int index = GetTextIndexFromPoint(p);
+            if (index < 0) return;
+
+            selectionEndIndex = index;     //Índice da seleção que acompanha o mouse.
+            CaretIndex        = index;     //Atualiza o CaretIndex para acompanhar a seleção.
+        }
+
+
+
+        private void StartSelection(Point p)
+        {
+            isSelecting = true;                   //Define que estamos realizando a seleção no texto.
+
+            int index = GetTextIndexFromPoint(p); //Retorna um índice a partir do Point.
+            if (index < 0) return;                //Se o índice retornado não existir(<0).
+
+            selectionStartIndex = index;          //Âncora da seleção.
+            selectionEndIndex = index;            //ativo começa igual.
+            CaretIndex = index;                   //
+        }
+
+        
+        private void ClearSelection()
+        {
+            isSelecting = false;
+            selectionStartIndex = -1;
+            selectionEndIndex = -1;          
+        }
+
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseUp"/> ->
+        /// Aciona <see cref="InnerControl.MouseUp"/> e 
+        /// define <see cref="isSelecting"/> = false.
+        /// </summary>
+        public override void RaiseMouseUp(object sender, Point p)
+        {
+            base.RaiseMouseUp(sender, p);
+            isSelecting = false;
         }
 
         /// <summary>
@@ -104,8 +88,8 @@ namespace NhegazCustomControls
         /// Aciona <see cref="InnerControl.MouseEnter"/>, 
         /// torna <see cref="InnerControl.IsHovering"/> = true e aciona <see cref="InnerControl.UpdateParentCursor"/>.
         /// </summary>
-        public override void RaiseMouseEnter() 
-        { 
+        public override void RaiseMouseEnter()
+        {
             base.RaiseMouseEnter();
             UpdateParentCursor?.Invoke(Cursors.IBeam);
         }
@@ -116,8 +100,8 @@ namespace NhegazCustomControls
         /// Aciona <see cref="InnerControl.MouseLeave"/>, 
         /// torna <see cref="InnerControl.IsHovering"/> = false e aciona <see cref="InnerControl.UpdateParentCursor"/>.
         /// </summary>
-        public override void RaiseMouseLeave() 
-        { 
+        public override void RaiseMouseLeave()
+        {
             base.RaiseMouseLeave();
             UpdateParentCursor?.Invoke(Cursors.Default);
         }
@@ -126,7 +110,7 @@ namespace NhegazCustomControls
         /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
         /// ou <see cref="InnerControlsCollection.HandleGotFocus"/> -> 
         /// Aciona <see cref="InnerControl.GotFocus"/>, 
-        /// <see cref="InnerControl.Focused"/> = true e <see cref="StartCaret"/>.
+        /// <see cref="InnerControl.IsFocused"/> = true e <see cref="StartCaret"/>.
         /// </summary>
         public override void RaiseGotFocus(object sender)
         {
@@ -138,14 +122,14 @@ namespace NhegazCustomControls
         /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> 
         /// ou <see cref="InnerControlsCollection.HandleLostFocus"/> -> 
         /// Aciona <see cref="InnerControl.LostFocus"/>, 
-        /// <see cref="InnerControl.Focused"/> = false e <see cref="StopCaret"/>.
+        /// <see cref="InnerControl.IsFocused"/> = false e <see cref="StopCaret"/>.
         /// </summary>
         public override void RaiseLostFocus(object sender)
         {
-            base.RaiseLostFocus(sender);       
+            base.RaiseLostFocus(sender);
             StopCaret();
         }
-        
+
         /// <summary>
         /// Manipula teclas de navegação e edição (KeyDown).
         /// Observações:
@@ -155,7 +139,7 @@ namespace NhegazCustomControls
         /// </summary>
         public void RaiseKeyDown(KeyEventArgs e)
         {
-            
+
 
             switch (e.KeyCode)
             {
@@ -186,15 +170,15 @@ namespace NhegazCustomControls
                     break;
 
                 case Keys.Back:
-                    // BACKSPACE: remove o caractere ANTERIOR ao caret (se existir) e recua o caret.
-                    // Condições:
+                    if (HasSelection) { DeleteSelection(); }                             //remove todos os caracteres que estão na seleção ativa.
+
+                    //remove o caractere ANTERIOR ao caret (se existir) e recua o caret.               
                     // - CaretIndex > 0: há algo antes do caret para apagar.
                     // - Text.Length > 0: texto não está vazio.
-                    if (CaretIndex > 0 && Text.Length > 0)
-                    {                       
+                    else if (CaretIndex > 0 && Text.Length > 0)
+                    {
                         Text = Text.Remove(CaretIndex - 1, 1);                           // Remove 1 caractere na posição (CaretIndex - 1).
-                        CaretIndex = Math.Min(Text.Length, Math.Max(0, CaretIndex - 1)); // Atualiza o CaretIndex para o menor valor entre a quantidade
-                                                                                         // de carácteres e CaretIndex - 1. Se (CaretIndex - 1) < 0 ->
+                        CaretIndex = Math.Min(Text.Length, Math.Max(0, CaretIndex - 1)); // de carácteres e CaretIndex - 1. Se (CaretIndex - 1) < 0 ->
                                                                                          // define o CaretIndex = 0.
                     }
                     e.Handled = true;
