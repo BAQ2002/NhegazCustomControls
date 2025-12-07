@@ -21,7 +21,6 @@ namespace NhegazCustomControls
             e.Graphics.SmoothingMode = SmoothingMode.None;
 
             NhegazDrawingMethods.DrawRectangularPath(e, BackgroundRectangle, BackgroundCornerRaidus, BackgroundColor, true);
-
         }
 
 

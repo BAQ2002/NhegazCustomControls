@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="NhegazCustomControls\1.CustomControl.Base\III.CustomControl.Bounds.cs">
+    <Compile Update="NhegazCustomControls\1.CustomControl.Base\III.CustomControl.Core.Events.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="NhegazCustomControls\1.CustomControl.Base\IV.CustomControl.Bounds.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\II.CustomControl.Core.cs">
@@ -10,7 +13,7 @@
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\V.CustomControl.Draw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="NhegazCustomControls\1.CustomControl.Base\IV.CustomControl.Layout.cs">
+    <Compile Update="NhegazCustomControls\1.CustomControl.Base\VI.CustomControl.Layout.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="NhegazCustomControls\1.CustomControl.Base\I.CustomControl.Properties.cs">

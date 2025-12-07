@@ -15,62 +15,50 @@ namespace NhegazCustomControls
         /// </summary>
         public override void RaiseClick(object sender, Point clickLocation)
         {
-            base.RaiseClick(sender, clickLocation);
+            base.RaiseClick(sender, clickLocation);   //Método da classe base.
 
-            if(GetCaretIndexFromPoint(clickLocation) != -1)
-                CaretIndex = GetTextIndexFromPoint(clickLocation);
+            int index = GetTextIndexFromPoint         //Retorna um índice a partir do ponto de Click.
+            (clickLocation, RectangleCharWidth.Half); //Usa a metade da largura dos carácteres para maior precisão.
+
+            if (index != -1) { CaretIndex = index; }  //Se existir texto no ponto de Click: CaretIndex = Índice.
         }
 
         public override void RaiseMouseDown(object sender, Point p)
         {
-            base.RaiseMouseDown(sender, p);
+            base.RaiseMouseDown(sender, p);   //Método da classe base.
 
-            StartSelection(p);
-
-            CaretIndex = selectionStartIndex;
+            int index = GetTextIndexFromPoint //Retorna um índice a partir do ponto de MouseDown.
+            (p, RectangleCharWidth.Full);     //Usa a metade da largura dos carácteres para maior precisão.
+                         
+            if (index != -1)                  //Se existir texto no ponto de MouseDown  ->
+            { StartSelection(index); }        //Inicia seleção de texto a partir do índice.
 
             InvalidateParent?.Invoke();
         }
 
         /// <summary>
         /// Acionado em <see cref="InnerControlsCollection.HandleMouseMove"/> ->
-        /// Aciona <see cref="InnerControl.MouseMove"/>.
+        /// Aciona <see cref="InnerControl.MouseMove"/> ->
+        /// Faz indexFromPoint seleção de texto e o Careta
+        /// companharem o ponto do mouse.
         /// </summary>
         public override void RaiseMouseMove(object sender, Point p)
         {
-            base.RaiseMouseMove(sender, p);
+            base.RaiseMouseMove(sender, p);   //Método da classe base.
 
-            if (!isSelecting) return;
+            if (!isSelecting) return;         //Se não estiver fazendo seleção: retorna e interrompe o restante.
 
-            int index = GetTextIndexFromPoint(p);
-            if (index < 0) return;
+            int index = GetTextIndexFromPoint //Retorna um índice a partir do ponto de MouseMove.
+            (p, RectangleCharWidth.Half);     //Usa a metade da largura dos carácteres para maior precisão
+  
+            if (index == -1) return;          //Se não existe texto no ponto do mouse(índice = -1): retorna e interrompe o restante.
 
-            selectionEndIndex = index;     //Índice da seleção que acompanha o mouse.
-            CaretIndex        = index;     //Atualiza o CaretIndex para acompanhar a seleção.
+            selectionEndIndex = index;        //Índice da seleção que acompanha o mouse.
+            CaretIndex        = index;        //Atualiza o CaretIndex para acompanhar indexFromPoint seleção.
         }
 
-
-
-        private void StartSelection(Point p)
-        {
-            isSelecting = true;                   //Define que estamos realizando a seleção no texto.
-
-            int index = GetTextIndexFromPoint(p); //Retorna um índice a partir do Point.
-            if (index < 0) return;                //Se o índice retornado não existir(<0).
-
-            selectionStartIndex = index;          //Âncora da seleção.
-            selectionEndIndex = index;            //ativo começa igual.
-            CaretIndex = index;                   //
-        }
 
         
-        private void ClearSelection()
-        {
-            isSelecting = false;
-            selectionStartIndex = -1;
-            selectionEndIndex = -1;          
-        }
-
         /// <summary>
         /// Acionado em <see cref="InnerControlsCollection.HandleMouseUp"/> ->
         /// Aciona <see cref="InnerControl.MouseUp"/> e 
@@ -131,27 +119,45 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Manipula teclas de navegação e edição (KeyDown).
-        /// Observações:
-        /// - KeyDown trabalha com "teclas" (Left, Right, Home, End, Back, Delete), não com caracteres.
-        /// - Aqui movemos o caret e removemos caracteres quando necessário.
-        /// - Sempre protegemos os índices para não sair dos limites da string.
+        /// Acionado exclusivamente por <see cref="InnerControlsCollection.HandleKeyDown"/> ->
+        /// Executa ações apenas com "teclas" (Left, Right, Home, End, Back, Delete), 
+        /// não com caracteres -> modifica indexFromPoint posição do caret <see cref="CaretIndex"/> ->
+        /// Sempre protegemos os índices para não sair dos limites da string <see cref="Text"/>.
         /// </summary>
         public void RaiseKeyDown(KeyEventArgs e)
         {
+            // Atalhos com Ctrl primeiro
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                SelectAllText();
+                e.Handled = true;
 
+                // Notifica assinantes de KeyDown (mantém o padrão do resto do método)
+                KeyDown?.Invoke(this, EventArgs.Empty);
+                return;
+            }
+
+            if (e.Control && e.KeyCode == Keys.Z)
+            {
+                UndoLastChange();
+                e.Handled = true;
+
+                // Se você quiser manter indexFromPoint notificação de KeyDown:
+                KeyDown?.Invoke(this, EventArgs.Empty);
+                return;
+            }
 
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    // Move o caret uma posição para a esquerda,
+                    // Move o caret uma posição para indexFromPoint esquerda,
                     // mas nunca abaixo de 0 (início do texto).
                     CaretIndex = Math.Max(0, CaretIndex - 1);
                     e.Handled = true;
                     break;
 
                 case Keys.Right:
-                    // Move o caret uma posição para a direita,
+                    // Move o caret uma posição para indexFromPoint direita,
                     // mas nunca além do fim do texto (Text.Length).
                     CaretIndex = Math.Min(Text.Length, CaretIndex + 1);
                     e.Handled = true;
@@ -177,6 +183,7 @@ namespace NhegazCustomControls
                     // - Text.Length > 0: texto não está vazio.
                     else if (CaretIndex > 0 && Text.Length > 0)
                     {
+                        PushUndoState();                                                 //Salva estado ANTES de alterar o texto.  
                         Text = Text.Remove(CaretIndex - 1, 1);                           // Remove 1 caractere na posição (CaretIndex - 1).
                         CaretIndex = Math.Min(Text.Length, Math.Max(0, CaretIndex - 1)); // de carácteres e CaretIndex - 1. Se (CaretIndex - 1) < 0 ->
                                                                                          // define o CaretIndex = 0.
@@ -185,14 +192,14 @@ namespace NhegazCustomControls
                     break;
 
                 case Keys.Delete:
+                    if (HasSelection) { DeleteSelection(); }
                     // DELETE: remove o caractere NA posição do caret (se existir).
-                    // Condições:
                     // - CaretIndex < Text.Length: há caractere na posição atual para apagar.
                     // - Text.Length > 0: texto não está vazio.
-                    if (CaretIndex < Text.Length && Text.Length > 0)
+                    else if (CaretIndex < Text.Length && Text.Length > 0)
                     {
-                        // Remove 1 caractere exatamente na posição do caret.
-                        Text = Text.Remove(CaretIndex, 1);
+                        PushUndoState();                   //Salva estado ANTES de alterar o texto.       
+                        Text = Text.Remove(CaretIndex, 1); // Remove 1 caractere exatamente na posição do caret.
                         // Observação: aqui o caret NÃO se move, pois o caractere "da frente" é que foi removido.
                     }
                     e.Handled = true;
@@ -209,16 +216,16 @@ namespace NhegazCustomControls
             //   para saltos por palavras/linhas, conforme necessidade.
         }
 
-        // A infra atual chama RaiseGotFocus/RaiseLostFocus sem payload;
-        // então conectamos aqui via inscrição no próprio construtor do controle pai (externo).
-        // Sugestão: ao instanciar, fazer:
-        // innerTextBox.GotFocus += (s,e) => innerTextBox.OnInnerGotFocus();
-        // innerTextBox.LostFocus += (s,e) => innerTextBox.OnInnerLostFocus();
 
-        // ======== Entrada de teclado (encaminhada pelo CustomControl) ========
+        /// <summary>
+        /// Acionado exclusivamente por <see cref="InnerControlsCollection.HandleKeyPress(KeyPressEventArgs)"/> ->
+        /// Verifica se indexFromPoint tecla pressionada é um carácter -> verifica se indexFromPoint posição onde está sendo inserido
+        /// é permitida dentro de <see cref="MaxLength"/> -> vericica se o carácter é aceito pelo filtro 
+        /// definido em <see cref="CharFilter"/> -> se todas as verificações estiverem "ok" insere o carácter.
+        /// </summary>
         public void RaiseKeyPress(KeyPressEventArgs e)
         {
-            if (char.IsControl(e.KeyChar))                                          //Se a tecla pressionada não for um carácter: retorna.
+            if (char.IsControl(e.KeyChar))                                          //Se indexFromPoint tecla pressionada não for um carácter: retorna.
             { e.Handled = true; return; }
 
             if (MaxLength > 0 && Text.Length >= MaxLength)                          //Se não tem mais espaço para carácteres: não insere nada.
@@ -227,6 +234,8 @@ namespace NhegazCustomControls
             //Se CharFilter for nulo ou se CharFilter não for nulo e retornar verdadeiro para o key pressionado.
             if (CharFilter == null || CharFilter(e.KeyChar))
             {
+                PushUndoState();                                                    //Salva estado ANTES de alterar o texto.
+
                 Text = Text.Insert(CaretIndex, e.KeyChar.ToString()); CaretIndex++; //Insere carácter na posição do caret e aumenta o índice do caret.                                                                                .
                 e.Handled = true; KeyPress?.Invoke(this, EventArgs.Empty); return;  //Chama o evento de KeyPress se não for nulo.
             }

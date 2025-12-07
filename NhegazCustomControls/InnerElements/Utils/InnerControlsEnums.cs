@@ -54,6 +54,17 @@ namespace NhegazCustomControls
         OnlyNumbers,
     }
 
+    /// <summary>
+    /// Define qual a largura utilizada como referência para o HitBox dos carácteres.
+    /// <para>Full -> Largura completa do carácter.</para>
+    /// <para>Half -> metade da largura do carácter.</para>
+    /// </summary>  
+    public enum RectangleCharWidth
+    {
+        Full,
+        Half,
+    }
+
     public enum TextFormatFilter
     {
         None,

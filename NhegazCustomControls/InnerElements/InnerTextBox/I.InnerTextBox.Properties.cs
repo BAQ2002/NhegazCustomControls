@@ -24,6 +24,11 @@ namespace NhegazCustomControls
         private bool HasSelection =>
             selectionStartIndex >= 0 && selectionEndIndex >= 0 && selectionStartIndex != selectionEndIndex;
 
+        private EventHandler? applyTextFormatHandler;
+
+        /// <summary>Pilha de estados para Ctrl+Z.</summary>
+        private readonly Stack<UndoState> undoStack = new();
+
         /// <summary>Cor de fundo quando está sendo realizada a seleção de carácteres com o mouse.</summary>
         public Color SelectionBackgroundColor { get; set; } = SystemColors.Highlight;
 
@@ -31,27 +36,17 @@ namespace NhegazCustomControls
         public Color SelectionForeColor { get; set; } = SystemColors.Window;
 
         /// <summary>
-        /// Retorna o índice de um carácter do texto 
-        /// se houver um no ponto do mouse.
+        /// Estado para desfazer (Undo): guarda texto, posição do caret e seleção.
         /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        private int GetCaretIndexFromPoint(Point p)
+        private struct UndoState
         {
-            int charWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
-
-
-            for (int i = 0; i < Text.Length; i++) //De 0 até Text.Length - 1 (para cada carácter do texto).
-            {
-                //Gera um retângulo correspondente ao carácter de índice "i".
-                Rectangle charRect = new(TextLocation.X + i * charWidth,TextLocation.Y,charWidth,TextSize.Height);
-
-                if (charRect.Contains(p))         //Se o retângulo contem o ponto atual do mouse.
-                    return i;                     //retorna o índice do carácter.
-            }
-
-            return Text.Length; // se clicou após o texto
+            public string Text;
+            public int CaretIndex;
+            public int SelectionStartIndex;
+            public int SelectionEndIndex;
         }
+
+        
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyPress;
@@ -109,12 +104,14 @@ namespace NhegazCustomControls
             set
             {
                 textFormatFilter = value;
-                if (value != TextFormatFilter.None) //Se for definido algum TextFormat diferente de None : é aplicado.
+                applyTextFormatHandler ??= (s, e) => ApplyTextFormat();
+                if (value != TextFormatFilter.None)
                 {
                     ApplyTextFormat();
-                    LostFocus += (s, e) => ApplyTextFormat();
+                    LostFocus += applyTextFormatHandler;
                 }
-                else { LostFocus -= (s, e) => ApplyTextFormat(); }
+                else
+                { LostFocus -= applyTextFormatHandler; }
             }
         }
 
