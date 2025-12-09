@@ -60,7 +60,6 @@
             customDatePicker1.DropDownFeatures.HeaderOnFocusBorderColor = SystemColors.Highlight;
             customDatePicker1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customDatePicker1.HoverBackgroundColor = SystemColors.Highlight;
-            customDatePicker1.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker1.HoverForeColor = SystemColors.Window;
             customDatePicker1.Location = new Point(315, 107);
             customDatePicker1.MinimumSize = new Size(136, 46);
@@ -79,7 +78,7 @@
             customDatePicker2.BackColor = Color.Transparent;
             customDatePicker2.BackgroundColor = SystemColors.Window;
             customDatePicker2.BorderColor = SystemColors.WindowFrame;
-            customDatePicker2.BorderRadius = 7;
+            customDatePicker2.BorderRadius = 6;
             customDatePicker2.BorderWidth = 1;
             customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
             customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.2F;
@@ -100,10 +99,9 @@
             customDatePicker2.DropDownFeatures.HeaderOnFocusBorderColor = SystemColors.Highlight;
             customDatePicker2.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
-            customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
             customDatePicker2.Location = new Point(575, 238);
-            customDatePicker2.MinimumSize = new Size(134, 28);
+            customDatePicker2.MinimumSize = new Size(136, 30);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";
             customDatePicker2.OnFocusBorderColor = SystemColors.Highlight;
@@ -154,7 +152,6 @@
             customDataGridView1.Header.Location = new Point(1, 1);
             customDataGridView1.Header.OnFocusBorderColor = SystemColors.Highlight;
             customDataGridView1.Header.Size = new Size(8, 24);
-            customDataGridView1.HoverBackgroundColor = SystemColors.Highlight;
             customDataGridView1.HoverBackgroundColor = SystemColors.Highlight;
             customDataGridView1.HoverForeColor = SystemColors.Window;
             customDataGridView1.LinesBetweenColumns = true;

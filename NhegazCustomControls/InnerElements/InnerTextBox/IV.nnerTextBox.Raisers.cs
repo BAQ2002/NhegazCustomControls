@@ -15,12 +15,7 @@ namespace NhegazCustomControls
         /// </summary>
         public override void RaiseClick(object sender, Point clickLocation)
         {
-            base.RaiseClick(sender, clickLocation);   //Método da classe base.
-
-            int index = GetTextIndexFromPoint         //Retorna um índice a partir do ponto de Click.
-            (clickLocation, RectangleCharWidth.Half); //Usa a metade da largura dos carácteres para maior precisão.
-
-            if (index != -1) { CaretIndex = index; }  //Se existir texto no ponto de Click: CaretIndex = Índice.
+            base.RaiseClick(sender, clickLocation);   //Método da classe base.   
         }
 
         public override void RaiseMouseDown(object sender, Point p)
@@ -28,10 +23,11 @@ namespace NhegazCustomControls
             base.RaiseMouseDown(sender, p);   //Método da classe base.
 
             int index = GetTextIndexFromPoint //Retorna um índice a partir do ponto de MouseDown.
-            (p, RectangleCharWidth.Full);     //Usa a metade da largura dos carácteres para maior precisão.
+            (p, RectangleCharWidth.Half);     //Usa a metade da largura dos carácteres para maior precisão.
                          
             if (index != -1)                  //Se existir texto no ponto de MouseDown  ->
-            { StartSelection(index); }        //Inicia seleção de texto a partir do índice.
+            { CaretIndex = index;             //Define CaretIndex = índice.
+                StartSelection(index); }      //Inicia seleção de texto a partir do índice.
 
             InvalidateParent?.Invoke();
         }
@@ -230,11 +226,11 @@ namespace NhegazCustomControls
 
             if (MaxLength > 0 && Text.Length >= MaxLength)                          //Se não tem mais espaço para carácteres: não insere nada.
             { e.Handled = true; return; }
-
-            //Se CharFilter for nulo ou se CharFilter não for nulo e retornar verdadeiro para o key pressionado.
-            if (CharFilter == null || CharFilter(e.KeyChar))
+            
+            if (CharFilter == null || CharFilter(e.KeyChar))                        //Se CharFilter for nulo(não tem filtro) ou se retornar true para o key pressionado.
             {
-                PushUndoState();                                                    //Salva estado ANTES de alterar o texto.
+                if (HasSelection) { DeleteSelection(); }                            //Se existe seleção ativa -> remove a seleção.
+                else { PushUndoState(); }                                           //Se não existe -> apenas salva estado ANTES de alterar o texto.
 
                 Text = Text.Insert(CaretIndex, e.KeyChar.ToString()); CaretIndex++; //Insere carácter na posição do caret e aumenta o índice do caret.                                                                                .
                 e.Handled = true; KeyPress?.Invoke(this, EventArgs.Empty); return;  //Chama o evento de KeyPress se não for nulo.

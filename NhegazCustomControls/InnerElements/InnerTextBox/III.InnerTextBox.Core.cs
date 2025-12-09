@@ -41,25 +41,29 @@ namespace NhegazCustomControls
         }
 
         /// <summary>    
+        /// Retorna um índice de texto a 
+        /// partir de um <see cref="Point"/>.
         /// <para>
-        /// Valor utilizado em <see cref="StartSelection"/>,
-        /// <see cref="RaiseClick"/> e <see cref="RaiseMouseMove"/>.
+        /// Valor utilizado em <see cref="RaiseClick"/>,
+        /// <see cref="RaiseMouseDown"/> e <see cref="RaiseMouseMove"/>.
         /// </para> 
-        /// Se o <see cref="Point"/> Location 
-        /// pertence a algum carácter do texto ->
-        /// Retorna o índice do cáracter.
+        /// Se não houver texto -> Índice = 0.
         /// <para>
         /// Se o <see cref="Point"/> Location 
         /// estiver mais a direita do que o fim do texto ->
         /// Retorna o índice do fim do texto. 
         /// </para>
-        /// <para>Se não houver texto -> Índice = 0.</para>
+        /// <para>
+        /// Se o <see cref="Point"/> Location 
+        /// pertence a algum carácter do texto ->
+        /// Retorna o índice do cáracter.
+        /// </para>
         /// se não pertencer a nenhum -> Retorna -1.
         /// </summary>
         public int GetTextIndexFromPoint(Point location, RectangleCharWidth rectangleCharWidth)
         {
             if (Text.Length == 0){ return 0; }                          //Se não houver texto -> Índice obrigatório ser no início(= 0).
-            if (TextRectangle.Right <= location.X){return Text.Length;} //Se o ponto for depois do texto -> Índice do fim do texto.
+            if (location.X >= TextRectangle.Right){return Text.Length;} //Se o ponto for depois do texto -> Índice no fim do texto.
 
             bool useHalfWidth =                                         //Se rectangleCharWidth == RectangleCharWidth.Half = true.                                                  
             rectangleCharWidth == RectangleCharWidth.Half;                     
@@ -77,9 +81,8 @@ namespace NhegazCustomControls
                 int height = Height;                                    //Altura igual do InnerTextBox.
 
                 Rectangle charRect = new(x, y, width, height);          //Instância do retângulo.
-                if (charRect.Contains(location))                        //Se o ponto de click pertence ao retângulo.
+                if (charRect.Contains(location))                        //Se o ponto do mouse pertence ao retângulo.
                 {
-
                     if (useHalfWidth)                                   //Modo "meia largura" (metade esquerda/direita).
                     { return (int)Math.Ceiling(i / 2.0); }              //Mapeia o índice do retângulo para índice de caret.              
                     else { return i; }                                  //Modo "largura inteira", retorna o índice do carácter.
@@ -203,7 +206,9 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Exclui todos os carácteres da seleção atual do texto.
+        /// Aciona <see cref="PushUndoState"/> ->
+        /// Exclui todos os carácteres da seleção atual do texto ->
+        /// Atualiza o <see cref="CaretIndex"/> após a exclusão dos carácteres.
         /// </summary>
         private void DeleteSelection()
         {

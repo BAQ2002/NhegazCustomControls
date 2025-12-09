@@ -39,7 +39,7 @@ namespace NhegazCustomControls
                 
                 int caretX = TextLocation.X                                           //Localização X(0) do Texto.
                            + CaretIndex * NhegazSizeMethods.FontUnitSize(Font).Width; //Incremento de deslocamento por tamanho dos caracteres.
-                if (Text.Length > 1 && CaretIndex >= Text.Length - 1)                 //Se o CaretIndex estiver na posição após o último carácter Escrito:
+                if (Text.Length > 0 && CaretIndex == Text.Length )                    //Se o CaretIndex estiver na posição após o último carácter Escrito:
                     caretX -= CaretSize.Width;                                        //Subtrai a largura do caret para caber na "caixa" do texto.
                                                                                       
                 int caretY = TextLocation.Y;                                          //Localização Y(0) do Texto.

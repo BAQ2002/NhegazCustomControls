@@ -77,18 +77,18 @@ namespace NhegazCustomControls
             {
                 textCharFilter = value;
 
-                if (value == TextCharFilter.OnlyNumbers) 
+                if (value == TextCharFilter.OnlyNumbers)                    //Se TextCharFilter for OnlyNumbers -> 
                 {
                     CharFilter = char.IsDigit;                              //Define a função CharFilter para retornar verdadeiro apenas para números.
                     
-                    for (int i = 0; i < Text.Length; i++)
+                    for (int i = Text.Length - 1; i >= 0; i--)              //Percorre do c ao primeiro carácter do texto.
                     { 
-                        char textChar = Text[i]; if (!CharFilter(textChar)) //Se o char Text[i] não for aceito pelo CharFilter.
+                        char textChar = Text[i]; if (!CharFilter(textChar)) //Se o char Text[i] não for aceito pelo CharFilter ->
                         { Text = Text.Remove(i, 1); }                       //Remova o char do texto.
                     }
                 }
-                else if(value == TextCharFilter.None)                       //Define a função CharFilter como nula.
-                { CharFilter = null; }
+                else if(value == TextCharFilter.None)                       //Se TextCharFilter for None ->               
+                { CharFilter = null; }                                      //Define a função CharFilter como nula.
             }
         }
 
@@ -96,7 +96,8 @@ namespace NhegazCustomControls
         /// Define se o texto tem um formato específico ->
         /// Aplica esse formato no texto atual ->
         /// Define que o <see cref="InnerControl.LostFocus"/>
-        /// deve chamar <see cref="ApplyTextFormat"/>.
+        /// deve chamar <see cref="applyTextFormatHandler"/> ->
+        /// <see cref="ApplyTextFormat"/>.
         /// </summary>
         public TextFormatFilter TextFormatFilter
         {
@@ -104,7 +105,8 @@ namespace NhegazCustomControls
             set
             {
                 textFormatFilter = value;
-                applyTextFormatHandler ??= (s, e) => ApplyTextFormat();
+
+                applyTextFormatHandler ??= (s, e) => ApplyTextFormat(); //Se o applyTextFormatHandler
                 if (value != TextFormatFilter.None)
                 {
                     ApplyTextFormat();
