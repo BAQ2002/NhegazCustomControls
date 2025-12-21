@@ -39,7 +39,7 @@ namespace NhegazCustomControls
     {              
          
         public CustomControl()
-        {
+        {  
             SetStyle(ControlStyles.Selectable, true); TabStop = true; //Torna o Controle selecionável.
             DoubleBuffered = true; BackColor = Color.Transparent;     //Ajuste visual necessário.
             InnerControls = new InnerControlsCollection(this);        //Coleção de InnerControlsCollection.
@@ -144,6 +144,22 @@ namespace NhegazCustomControls
             }                                       
         }
 
-        
+        protected override bool IsInputKey(Keys keyData)
+        {
+            switch (keyData & Keys.KeyCode)
+            {
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Home:
+                case Keys.End:
+                case Keys.PageUp:
+                case Keys.PageDown:
+                    return true;
+            }
+            return base.IsInputKey(keyData);
+        }
+
     }
 }

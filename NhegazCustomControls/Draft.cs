@@ -18,6 +18,9 @@ namespace NhegazCustomControls
     /// </summary>
     public static class OutsideClickBlur
     {
+        /// <summary>Define se a funcionalidade está habilitada.</summary>
+        public static bool Enabled { get; set; } = true;
+
         /// <summary>Marca se o filtro global já foi instalado para evitar múltiplas inscrições.</summary>
         private static bool installed;
 
@@ -122,6 +125,10 @@ namespace NhegazCustomControls
             /// </returns>
             public bool PreFilterMessage(ref Message m)
             {
+                // Se estiver desabilitado, não faz nada.
+                if (!OutsideClickBlur.Enabled)
+                    return false;
+
                 if (m.Msg == WM_LBUTTONDOWN || m.Msg == WM_RBUTTONDOWN || m.Msg == WM_MBUTTONDOWN)
                 {
                     // Control.FromHandle(m.HWnd) retorna o controle mais interno (child) que recebeu a mensagem.
@@ -133,10 +140,10 @@ namespace NhegazCustomControls
                         _clearFocused();
                     }
                 }
-
                 // Não consome a mensagem; deixa seguir o processamento normal do WinForms.
                 return false;
             }
+           
         }
     }
 }

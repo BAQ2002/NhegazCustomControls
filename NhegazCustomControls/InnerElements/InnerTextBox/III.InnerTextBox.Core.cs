@@ -15,29 +15,25 @@ namespace NhegazCustomControls
             SizeBasedOnText = autoSizeBasedOnText;
 
             caretTimer = new System.Windows.Forms.Timer { Interval = CaretBlinkIntervalMs };
-            caretTimer.Tick += (s, e) => RestartCaretBlink();
+            caretTimer.Tick += (s, e) => CaretBlink();
+        }
+
+        /// <summary>Inverte o estado do <see cref="caretBlinkState"/> criando o efeito do Caret "piscar".</summary>
+        private void CaretBlink()
+        {
+            caretBlinkState = !caretBlinkState; //Inverte o estado visual do caret.
+            InvalidateParent?.Invoke();         //Atualiza o visual a partir de CustomControl.Invalidate().
         }
 
         /// <summary>
-        /// Método que é resposável por atualizar o visual do caret.
+        /// Reinicia o intervalo de tempo do <see cref="caretTimer"/>.
         /// </summary>
         private void RestartCaretBlink()
         {
-            caretVisible = caretVisible ? false : true; //Inverte o estado visual do caret.
-            InvalidateParent?.Invoke();                 //Atualiza o visual a partir de CustomControl.Invalidate().
-        }
-
-        /// <summary>Inicia o temporizador do Caret e o torna visível. </summary>
-        public void StartCaret()
-        {
-            caretTimer.Start(); caretVisible = true;
-        }
-
-
-        /// <summary>Encerra o temporizador do Caret e o torna invisível. </summary>
-        public void StopCaret()
-        {
-            caretTimer.Stop(); caretVisible = false;
+            caretTimer.Stop();               //Desliga o timer.
+            caretBlinkState = true;          //Força o estado do Caret para visível.
+            InvalidateParent?.Invoke();      //Atualiza o visual a partir de CustomControl.Invalidate().
+            caretTimer.Start();              //Inicia novamente o timer.
         }
 
         /// <summary>    
@@ -120,30 +116,7 @@ namespace NhegazCustomControls
             }
         }
 
-        /// <summary>
-        /// Seleciona todo o texto do InnerTextBox.
-        /// Usado, por exemplo, em Ctrl + A.
-        /// </summary>
-        private void SelectAllText()
-        {
-            if (string.IsNullOrEmpty(Text))
-            {
-                // Se não tem texto, não faz sentido manter seleção
-                ClearSelection();
-                return;
-            }
-            
-            isSelecting = false;             //Seleção feita via teclado não aciona o estado isSelecting.
-
-            selectionStartIndex = 0;         //Índice mínimo do texto.
-            selectionEndIndex = Text.Length; //Índice máximo do texto.
-
-            
-            CaretIndex = Text.Length;        //Caret vai para o final do texto.
-
-            // Redesenha para mostrar o highlight da seleção
-            InvalidateParent?.Invoke();
-        }
+        
 
         /// <summary>Salva o estado atual na pilha de Undo.</summary>
         private void PushUndoState()
@@ -173,58 +146,9 @@ namespace NhegazCustomControls
             selectionEndIndex = state.SelectionEndIndex;
 
             // Garante que o caret volte a piscar e o layout seja atualizado
-            RestartCaretBlink();
+            CaretBlink();
             UpdateLayout();
             InvalidateParent?.Invoke();
-        }
-
-        /// <summary>
-        /// Acionado exclusivamente em <see cref="RaiseMouseDown"/> ->
-        /// Inicia a seleção de carácteres do texto a partir do índice do texto
-        /// passado como parâmetro.
-        /// </summary>
-        private void StartSelection(int index)
-        {
-            isSelecting = true;               //Define que estamos realizando a seleção no texto.
-            
-            if (index == -1) return;          //Se o índice retornado não existir(== -1).
-
-            selectionStartIndex = index;      //Âncora da seleção.
-            selectionEndIndex = index;        //Índice ativo (que acompanha o mouse) começa igual o índice âncora.
-            CaretIndex = index;               //Faz com que o caret acompanhe o índice.
-        }
-
-        /// <summary>
-        /// Acionado exclusivamente em <see cref="DeleteSelection"/> ->
-        /// Limpa a seleção atual.
-        /// </summary>
-        private void ClearSelection()
-        {
-            isSelecting = false;
-            selectionStartIndex = -1;
-            selectionEndIndex = -1;
-        }
-
-        /// <summary>
-        /// Aciona <see cref="PushUndoState"/> ->
-        /// Exclui todos os carácteres da seleção atual do texto ->
-        /// Atualiza o <see cref="CaretIndex"/> após a exclusão dos carácteres.
-        /// </summary>
-        private void DeleteSelection()
-        {
-            if (!HasSelection)                                             //Se não existir seleção -> retorna.
-                return;
-
-            PushUndoState();                                               //Salva estado ANTES de alterar o texto.
-
-            int start  = Math.Min(selectionStartIndex, selectionEndIndex); //Define o índice inicial da seleção.
-            int end    = Math.Max(selectionStartIndex, selectionEndIndex); //Define o índice que acompanha o mouse.
-            int length = end - start;                                      //Define o comprimento da seleção.
-           
-            Text = Text.Remove(start, length);                             //Remove o trecho selecionado.
-            CaretIndex = start; ClearSelection();                          //Caret vai para o início da seleção, limpa os índices de seleção.      
-        }
-
-
+        }      
     }
 }

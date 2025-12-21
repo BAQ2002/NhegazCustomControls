@@ -12,7 +12,29 @@ namespace NhegazCustomControls
         private int caretIndex = 0; 
         private const int CaretBlinkIntervalMs = 500; 
         private readonly System.Windows.Forms.Timer caretTimer;
-        private bool caretVisible = true;
+
+        // Estado do "piscar" do caret (controlado pelo timer).
+        // A regra de quando o caret pode aparecer (foco/seleção) fica no Draw.
+        private bool caretBlinkState = true;
+
+        /// <summary>
+        /// Define se o Caret PODE ser visível -> apenas se 
+        /// <para><see cref="HasSelection"/> for "false" e
+        /// </para><see cref="InnerControl.IsFocused"/> for "true".
+        /// </summary>
+        private bool CanShowCaret => IsFocused && !HasSelection;
+
+        /// <summary>
+        /// Define se o Caret está visível ->
+        /// Valor utilizado apenas em <see cref="OnPaint"/>
+        /// 
+        /// é obrigatoriamente "false" se
+        /// pelo menos uma das variáveis tiver o valor ->
+        /// <para><see cref="CanShowCaret"/> for "true",</para>
+        /// <see cref="caretBlinkState"/> for "true".
+        /// </summary>
+        public bool CaretVisible => CanShowCaret && caretBlinkState;
+
 
         /// <summary>
         /// Índice do caret dentro de <see cref="Text"/>
@@ -24,19 +46,20 @@ namespace NhegazCustomControls
             set
             {
                 int maxValue = Math.Max(0, Math.Min(Text.Length, value)); //Valor limitado entre 0 e Text.Length.
-                if (caretIndex != maxValue)
-                {
-                    caretIndex = maxValue;
-                }
+                if (caretIndex != maxValue) caretIndex = maxValue;        
+                RestartCaretBlink();
             }
         }
 
-        /// <summary>Localização calculada do Caret -> Pode ser modificada apenas por <see cref="CaretIndex"/>.</summary>
+        /// <summary>Localização calculada do Caret -> 
+        /// Valor totalmente dependente de ->
+        /// <see cref="TextLocation"/> e 
+        /// <see cref="CaretIndex"/>.
+        /// </summary>
         public Point CaretLocation
         {
             get
-            {
-                
+            {            
                 int caretX = TextLocation.X                                           //Localização X(0) do Texto.
                            + CaretIndex * NhegazSizeMethods.FontUnitSize(Font).Width; //Incremento de deslocamento por tamanho dos caracteres.
                 if (Text.Length > 0 && CaretIndex == Text.Length )                    //Se o CaretIndex estiver na posição após o último carácter Escrito:

@@ -16,8 +16,8 @@ namespace NhegazCustomControls
      
         private void TestForm_Load(object sender, EventArgs e)
         {
-           
-            OutsideClickBlur.InstallOnce();
+
+            OutsideClickBlur.InstallOnce(); 
 
             List<Carro> CarrosList = new List<Carro>
             {

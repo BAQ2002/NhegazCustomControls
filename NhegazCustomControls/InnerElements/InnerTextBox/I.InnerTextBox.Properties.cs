@@ -7,20 +7,72 @@ namespace NhegazCustomControls
     public partial class InnerTextBox : InnerControl, IAcceptsKeyboard
     {
         private string text = string.Empty;
+
+        /// <summary>
+        /// Posição do texto relativa à posição do elemento.
+        /// </summary>
         private Point textRelativeLocation = Point.Empty;
 
+        /// <summary>
+        /// Define qual posição vertical o texto deve usar como âncora para ser alinhado ->
+        /// <para>Top,</para>
+        /// <para>Center,</para>
+        /// <para>Bottom.</para>
+        /// </summary>
         private TextVerticalAlignment textVerticalAlignment = TextVerticalAlignment.Center;
+
+        /// <summary>
+        /// Define qual posição vertical o texto 
+        /// deve usar como âncora para ser alinhado.
+        /// <para>Left,</para>
+        /// <para>Center,</para>
+        /// <para>Right.</para>
+        /// </summary>
         private TextHorizontalAlignment textHorizontalAlignment = TextHorizontalAlignment.Left;
 
+        /// <summary>
+        /// Define qual a escala de padding é utilizada 
+        /// em relação a posição horizontal do texto.
+        /// <para>None (fixa o padding no valor 0),</para> 
+        /// HalfFontWidth (fixa o padding no valor 1/2 da Font),
+        /// <para>OneFourthFontWidth (fixa o padding no valor 1/4 da Font),</para> 
+        /// Absolute(não fixa o padding em nenhum valor).
+        /// </summary>
         private HorizontalPaddingMode horizontalPaddingMode = HorizontalPaddingMode.None;
+
+        /// <summary>
+        /// Define qual a escala de padding é utilizada 
+        /// em relação a posição vertical do texto.
+        /// <para>None (fixa o padding no valor 0),</para> 
+        /// HalfFontHeight (fixa o padding no valor 1/2 da Font),
+        /// <para>OneFourthFontHeight (fixa o padding no valor 1/4 da Font),</para> 
+        /// Absolute(não fixa o padding em nenhum valor).
+        /// </summary>
         private VerticalPaddingMode verticalPaddingMode = VerticalPaddingMode.None;
 
         private TextCharFilter textCharFilter = TextCharFilter.None;
+
+        /// <summary></summary>
         private TextFormatFilter textFormatFilter = TextFormatFilter.None;
 
-        private bool isSelecting = false;     //true enquanto o mouse estiver pressionado.
-        private int selectionStartIndex = -1; //Índice inicial da seleção.
-        private int selectionEndIndex = -1;   //Índice atual (acompanha o mouse enquanto estiver pressionado).
+        /// <summary>Representa se está selecionando ativamente com o mouse.</summary>      
+        private bool isSelecting = false;
+
+        /// <summary>Representa o índice inicial(âncora) da seleção.</summary>    
+        private int selectionStartIndex = -1;
+
+        /// <summary>
+        /// Representao índice atual(ativo) da seleção ->
+        /// acompanha o mouse enquanto estiver pressionado ou
+        /// os atalhos com teclas.
+        /// </summary>    
+        private int selectionEndIndex = -1;
+
+        /// <summary>
+        /// Representa se há uma seleção válida de texto. Condicão para "true" ->
+        /// <para><see cref="selectionStartIndex"/> >= 0</para> <see cref="selectionEndIndex"/> >= 0 
+        /// <para><see cref="selectionEndIndex"/> != <see cref="selectionStartIndex"/>.</para>
+        /// </summary>
         private bool HasSelection =>
             selectionStartIndex >= 0 && selectionEndIndex >= 0 && selectionStartIndex != selectionEndIndex;
 
@@ -36,7 +88,7 @@ namespace NhegazCustomControls
         public Color SelectionForeColor { get; set; } = SystemColors.Window;
 
         /// <summary>
-        /// Estado para desfazer (Undo): guarda texto, posição do caret e seleção.
+        /// Esttrutura de estado para desfazer (Undo): guarda texto, posição do caret e seleção.
         /// </summary>
         private struct UndoState
         {
@@ -46,20 +98,18 @@ namespace NhegazCustomControls
             public int SelectionEndIndex;
         }
 
-        
-
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyPress;
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyDown;
-
         public override Color HoverBackgroundColor { get; set; } = SystemColors.Window;
         public override Color HoverForeColor { get; set; } = SystemColors.ControlText;
+
         /// <summary>
         /// Recebe um <see cref="char"/> como parâmetro -> 
         /// retorna true ou false a depender do tipo de filtro definido.
-        /// <para>Valor modificado exclusivamente em <see cref="TextCharFilter"/>.</para>
+        /// <para>Valor modificado exclusivamente por <see cref="TextCharFilter"/>.</para>
         /// Acionado em <see cref="RaiseKeyPress"/> ->
         /// Se a função retornar falso não insere o carácter.
         /// </summary>
@@ -143,15 +193,8 @@ namespace NhegazCustomControls
         public bool SizeBasedOnText { get; set; } = false;
 
         /// <summary>Coordenada(x,y) absoluta do texto.</summary>
-        public Point TextLocation
-        {
-            get
-            {
-                int x = Location.X + textRelativeLocation.X;
-                int y = Location.Y + textRelativeLocation.Y;
-                return new(x, y);
-            }
-        }
+        public Point TextLocation => new(Location.X + textRelativeLocation.X, Location.Y + textRelativeLocation.Y);
+       
 
         /// <summary>Tamanho do texto atual -> totalmente dependende de <see cref="Text"/>.Length e <see cref="Font"/>.</summary>
         public Size TextSize
@@ -231,10 +274,12 @@ namespace NhegazCustomControls
             int fontWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
             return HorizontalPaddingMode switch
             {
-                HorizontalPaddingMode.None => 0,
-                HorizontalPaddingMode.HalfFontWidth => fontWidth / 2,
-                HorizontalPaddingMode.OneFourthFontWidth => fontWidth / 4,
-                HorizontalPaddingMode.Absolute => TextHorizontalAlignment == TextHorizontalAlignment.Left ? Padding.Left : Padding.Right,
+                HorizontalPaddingMode.None => 0,                           //Se HorizontalPaddingMode for None -> retorna 0
+                HorizontalPaddingMode.HalfFontWidth => fontWidth / 2,      //Se HorizontalPaddingMode for None -> retorna metade da largura da Font.
+                HorizontalPaddingMode.OneFourthFontWidth => fontWidth / 4, //Se HorizontalPaddingMode for None -> retorna 1/4 da largura da Font.
+                HorizontalPaddingMode.Absolute =>                          //Se HorizontalPaddingMode for None -> retorna 0
+                TextHorizontalAlignment == TextHorizontalAlignment.Left ? 
+                Padding.Left : Padding.Right,
                 _ => 0
             };
         }

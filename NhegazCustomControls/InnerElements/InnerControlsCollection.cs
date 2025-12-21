@@ -88,13 +88,7 @@ namespace NhegazCustomControls
             {
                 if (element.Visible && element.HitBox(clickLocation))
                 {
-                    element.RaiseClick(parent, clickLocation);                    //Aciona o Click do elemento que o ponto de click pertence.
-
-                    if (element != FocusedInnerControl)                           //Se o elemento clicado não for o atual em foco.
-                    { FocusedInnerControl?.RaiseLostFocus(parent); }              //Se o elemento interno com foco existir -> desfoca.                  
-
-                    element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
-                                                                                  
+                    element.RaiseClick(parent, clickLocation);                    //Aciona o Click do elemento que o ponto de click pertence.                                                                     
                     parent.Invalidate();                                          //Atualiza o visual a partir do CustomControl parent.                 
                 }
             }
@@ -113,23 +107,40 @@ namespace NhegazCustomControls
             foreach (var element in elements)
             {
                 if (element.Visible && element.HitBox(clickLocation))
-                {
+                {                   
+                    if (element != FocusedInnerControl)                               //Se o elemento clicado não for o atual em foco.
+                    { 
+                        FocusedInnerControl?.RaiseLostFocus(parent);                  //Se o elemento interno com foco existir -> desfoca. 
+                        element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
+                    }
+
                     element.RaiseDoubleClick(parent, clickLocation);
-
-                    if (element != FocusedInnerControl)                           //Se o elemento clicado não for o atual em foco.
-                    { FocusedInnerControl?.RaiseLostFocus(parent); }              //Se o elemento interno com foco existir -> desfoca.                  
-
-                    element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
-
-                    parent.Invalidate();                                          //Atualiza o visual a partir do CustomControl parent.
+                    parent.Invalidate();                                              //Atualiza o visual a partir do CustomControl parent.
                 }
             }
         }
+
+        /// <summary>
+        /// Acionado em <see cref="CustomControl.OnMouseDown"/> ->
+        /// Verifica se há um <see cref="InnerControl"/> 
+        /// com <see cref="InnerControl.Visible"/>  
+        /// e <see cref="InnerControl.HitBox"/> ->
+        /// Executa <see cref="InnerControl.RaiseMouseDown"/>
+        /// e <see cref="Control.Invalidate()"/>.
+        /// </summary>
         public void HandleMouseDown(CustomControl parent, Point location)
         {
             foreach (var element in elements)
                 if (element.Visible && element.HitBox(location))
+                {
+                    if (element != FocusedInnerControl)                               //Se o elemento clicado não for o atual em foco.
+                    {
+                        FocusedInnerControl?.RaiseLostFocus(parent);                  //Se o elemento interno com foco existir -> desfoca. 
+                        element.RaiseGotFocus(parent); FocusedInnerControl = element; //Atualiza para o elemento que o ponto de click pertence.
+                    }
+
                     element.RaiseMouseDown(parent, location);
+                }                   
         }
 
         public void HandleMouseUp(CustomControl parent, Point location)

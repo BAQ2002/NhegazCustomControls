@@ -8,6 +8,9 @@ namespace NhegazCustomControls
 {
     public partial class InnerTextBox
     {     
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void UpdateLayout()
         {
             base.UpdateLayout();
@@ -21,6 +24,9 @@ namespace NhegazCustomControls
             AdjustTextLocation();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void SymmetricalCircleAdjust()
         {
             base.SymmetricalCircleAdjust();
@@ -28,6 +34,9 @@ namespace NhegazCustomControls
             TextVerticalAlignment = TextVerticalAlignment.Center;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void AdjustTextLocation()
         {
             Size textSize = NhegazSizeMethods.TextExactSize(string.IsNullOrEmpty(Text) ? " " : Text, Font);
@@ -35,7 +44,7 @@ namespace NhegazCustomControls
             int textX = 0, horizontalPadding = GetHorizontalPadding();
             int textY = 0, verticalPadding = GetVerticalPadding();
 
-            switch (TextHorizontalAlignment)
+            switch (TextHorizontalAlignment) 
             {
                 case TextHorizontalAlignment.Left:
                     textX = horizontalPadding;

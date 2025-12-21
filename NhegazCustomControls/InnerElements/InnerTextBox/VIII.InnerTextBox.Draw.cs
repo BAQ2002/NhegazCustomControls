@@ -108,7 +108,9 @@ namespace NhegazCustomControls
         public override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            DrawSelection(e); DrawText(e); if (IsFocused && caretVisible) { DrawCaret(e); }
+
+            DrawSelection(e); DrawText(e);
+            if (CaretVisible) { DrawCaret(e); }
         }
     }
 }
