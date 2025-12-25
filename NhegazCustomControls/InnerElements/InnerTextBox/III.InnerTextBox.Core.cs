@@ -13,7 +13,7 @@ namespace NhegazCustomControls
         public InnerTextBox(bool autoSizeBasedOnText = false) : base()
         {
             SizeBasedOnText = autoSizeBasedOnText;
-
+            TextFeatures = new TextFeature(this, () => Text);
             caretTimer = new System.Windows.Forms.Timer { Interval = CaretBlinkIntervalMs };
             caretTimer.Tick += (s, e) => CaretBlink();
         }

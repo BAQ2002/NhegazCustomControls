@@ -18,7 +18,7 @@ namespace NhegazCustomControls
                 e.Graphics,
                 Text,
                 Font,
-                new Rectangle(TextLocation.X, TextLocation.Y, Width - textRelativeLocation.X, Height - textRelativeLocation.Y),
+                new Rectangle(TextLocation.X, TextLocation.Y, Width - TextFeatures.TextLocation.X, Height - TextFeatures.TextLocation.Y),
                 foreColor,
                 TextFormatFlags.NoPadding | TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis
             );

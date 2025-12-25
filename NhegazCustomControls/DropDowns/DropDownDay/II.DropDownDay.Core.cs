@@ -77,9 +77,12 @@ namespace NhegazCustomControls
                     AbleToHover = false,
                     ForeColor = ForeColor,
                     SizeBasedOnText = false,
-                    TextHorizontalAlignment = TextHorizontalAlignment.Center,
-                    TextVerticalAlignment = TextVerticalAlignment.Center,
+
                 };
+
+                lbl.TextFeatures.TextHorizontalAlignment = TextHorizontalAlignment.Center;
+                lbl.TextFeatures.TextVerticalAlignment = TextVerticalAlignment.Center;
+
                 WeekDays.AddItem(lbl, i);
             }
         }

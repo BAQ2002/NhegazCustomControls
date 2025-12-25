@@ -4,52 +4,12 @@ using System.Windows.Forms;
 
 namespace NhegazCustomControls
 {
-    public partial class InnerTextBox : InnerControl, IAcceptsKeyboard
+    public partial class InnerTextBox : InnerControl, IHasText, IAcceptsKeyboard
     {
+        public TextFeature TextFeatures { get; }
+
         private string text = string.Empty;
-
-        /// <summary>
-        /// Posição do texto relativa à posição do elemento.
-        /// </summary>
-        private Point textRelativeLocation = Point.Empty;
-
-        /// <summary>
-        /// Define qual posição vertical o texto deve usar como âncora para ser alinhado ->
-        /// <para>Top,</para>
-        /// <para>Center,</para>
-        /// <para>Bottom.</para>
-        /// </summary>
-        private TextVerticalAlignment textVerticalAlignment = TextVerticalAlignment.Center;
-
-        /// <summary>
-        /// Define qual posição vertical o texto 
-        /// deve usar como âncora para ser alinhado.
-        /// <para>Left,</para>
-        /// <para>Center,</para>
-        /// <para>Right.</para>
-        /// </summary>
-        private TextHorizontalAlignment textHorizontalAlignment = TextHorizontalAlignment.Left;
-
-        /// <summary>
-        /// Define qual a escala de padding é utilizada 
-        /// em relação a posição horizontal do texto.
-        /// <para>None (fixa o padding no valor 0),</para> 
-        /// HalfFontWidth (fixa o padding no valor 1/2 da Font),
-        /// <para>OneFourthFontWidth (fixa o padding no valor 1/4 da Font),</para> 
-        /// Absolute(não fixa o padding em nenhum valor).
-        /// </summary>
-        private HorizontalPaddingMode horizontalPaddingMode = HorizontalPaddingMode.None;
-
-        /// <summary>
-        /// Define qual a escala de padding é utilizada 
-        /// em relação a posição vertical do texto.
-        /// <para>None (fixa o padding no valor 0),</para> 
-        /// HalfFontHeight (fixa o padding no valor 1/2 da Font),
-        /// <para>OneFourthFontHeight (fixa o padding no valor 1/4 da Font),</para> 
-        /// Absolute(não fixa o padding em nenhum valor).
-        /// </summary>
-        private VerticalPaddingMode verticalPaddingMode = VerticalPaddingMode.None;
-
+      
         private TextCharFilter textCharFilter = TextCharFilter.None;
 
         /// <summary></summary>
@@ -193,7 +153,7 @@ namespace NhegazCustomControls
         public bool SizeBasedOnText { get; set; } = false;
 
         /// <summary>Coordenada(x,y) absoluta do texto.</summary>
-        public Point TextLocation => new(Location.X + textRelativeLocation.X, Location.Y + textRelativeLocation.Y);
+        public Point TextLocation => new(Location.X + TextFeatures.TextLocation.X, Location.Y + TextFeatures.TextLocation.Y);
        
 
         /// <summary>Tamanho do texto atual -> totalmente dependende de <see cref="Text"/>.Length e <see cref="Font"/>.</summary>
@@ -244,57 +204,6 @@ namespace NhegazCustomControls
         {
             get => base.Width;
             set { SizeBasedOnText = false; base.Width = value; }
-        }
-
-        public TextHorizontalAlignment TextHorizontalAlignment
-        {
-            get => textHorizontalAlignment;
-            set { textHorizontalAlignment = value; AdjustTextLocation(); }
-        }
-
-        public TextVerticalAlignment TextVerticalAlignment
-        {
-            get => textVerticalAlignment;
-            set { textVerticalAlignment = value; AdjustTextLocation(); }
-        }
-
-        public HorizontalPaddingMode HorizontalPaddingMode
-        {
-            get => horizontalPaddingMode;
-            set { horizontalPaddingMode = value; AdjustTextLocation(); }
-        }
-
-        public VerticalPaddingMode VerticalPaddingMode
-        {
-            get => verticalPaddingMode;
-            set { verticalPaddingMode = value; AdjustTextLocation(); }
-        }
-        private int GetHorizontalPadding()
-        {
-            int fontWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
-            return HorizontalPaddingMode switch
-            {
-                HorizontalPaddingMode.None => 0,                           //Se HorizontalPaddingMode for None -> retorna 0
-                HorizontalPaddingMode.HalfFontWidth => fontWidth / 2,      //Se HorizontalPaddingMode for None -> retorna metade da largura da Font.
-                HorizontalPaddingMode.OneFourthFontWidth => fontWidth / 4, //Se HorizontalPaddingMode for None -> retorna 1/4 da largura da Font.
-                HorizontalPaddingMode.Absolute =>                          //Se HorizontalPaddingMode for None -> retorna 0
-                TextHorizontalAlignment == TextHorizontalAlignment.Left ? 
-                Padding.Left : Padding.Right,
-                _ => 0
-            };
-        }
-
-        private int GetVerticalPadding()
-        {
-            int fontHeight = NhegazSizeMethods.FontUnitSize(Font).Height;
-            return VerticalPaddingMode switch
-            {
-                VerticalPaddingMode.None => 0,
-                VerticalPaddingMode.HalfFontHeight => fontHeight / 2,
-                VerticalPaddingMode.OneFourthFontHeight => fontHeight / 4,
-                VerticalPaddingMode.Absolute => TextVerticalAlignment == TextVerticalAlignment.Top ? Padding.Top : Padding.Bottom,
-                _ => 0
-            };
-        }            
+        }                  
     }
 }

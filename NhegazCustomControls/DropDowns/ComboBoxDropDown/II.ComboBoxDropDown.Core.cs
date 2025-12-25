@@ -39,8 +39,8 @@ namespace NhegazCustomControls
                     Font = Font,
                     ForeColor = ForeColor,
                     BackgroundColor = BackgroundColor,
-                    TextVerticalAlignment = TextVerticalAlignment.Center,
-                    HorizontalPaddingMode = HorizontalPaddingMode.Absolute,
+                    //TextVerticalAlignment = TextVerticalAlignment.Center,
+                    //HorizontalPaddingMode = HorizontalPaddingMode.Absolute,
                 };
 
 
