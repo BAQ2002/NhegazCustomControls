@@ -13,8 +13,8 @@ namespace NhegazCustomControls
         {
             if (!HasSelection) return;
 
-            int start = Math.Min(selectionStartIndex, selectionEndIndex);
-            int end = Math.Max(selectionStartIndex, selectionEndIndex);
+            int start = Math.Min(SelectionStartIndex, SelectionEndIndex);
+            int end = Math.Max(SelectionStartIndex, SelectionEndIndex);
 
             int charWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
 
@@ -39,8 +39,8 @@ namespace NhegazCustomControls
 
             int charWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
 
-            int start = HasSelection ? Math.Min(selectionStartIndex, selectionEndIndex) : -1;
-            int end = HasSelection ? Math.Max(selectionStartIndex, selectionEndIndex) : -1;
+            int start = HasSelection ? Math.Min(SelectionStartIndex, SelectionEndIndex) : -1;
+            int end = HasSelection ? Math.Max(SelectionStartIndex, SelectionEndIndex) : -1;
 
             // Definição das três partes
             string left = (HasSelection && start > 0) ? Text.Substring(0, start) : (!HasSelection ? Text : "");

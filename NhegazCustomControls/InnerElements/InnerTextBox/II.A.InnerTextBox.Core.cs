@@ -125,8 +125,8 @@ namespace NhegazCustomControls
             {
                 Text = Text,
                 CaretIndex = CaretIndex,
-                SelectionStartIndex = selectionStartIndex,
-                SelectionEndIndex = selectionEndIndex
+                SelectionStartIndex = SelectionStartIndex,
+                SelectionEndIndex = SelectionEndIndex
             });
         }
 
@@ -142,8 +142,8 @@ namespace NhegazCustomControls
             text = state.Text ?? string.Empty;
             caretIndex = Math.Max(0, Math.Min(text.Length, state.CaretIndex));
 
-            selectionStartIndex = state.SelectionStartIndex;
-            selectionEndIndex = state.SelectionEndIndex;
+            SelectionStartIndex = state.SelectionStartIndex;
+            SelectionEndIndex = state.SelectionEndIndex;
 
             // Garante que o caret volte a piscar e o layout seja atualizado
             CaretBlink();

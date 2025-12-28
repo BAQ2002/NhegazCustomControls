@@ -9,12 +9,15 @@ namespace NhegazCustomControls
 {
     public partial class InnerTextBox
     {
+        /// <summary>
+        /// Copia o texto que estiver selecionado.
+        /// </summary>
         private void CopyText()
         {
             if (HasSelection)
             {
-                int start = Math.Min(selectionStartIndex, selectionEndIndex);
-                int length = Math.Max(selectionStartIndex, selectionEndIndex) - start;
+                int start = SelectionMinIndex;
+                int length = SelectionMaxIndex - start;
                 if (length > 0)
                 {
                     string selectedText = Text.Substring(start, length);
@@ -27,8 +30,8 @@ namespace NhegazCustomControls
         {
             if (HasSelection)
             {
-                int start = Math.Min(selectionStartIndex, selectionEndIndex);
-                int length = Math.Max(selectionStartIndex, selectionEndIndex) - start;
+                int start = SelectionMinIndex;
+                int length = SelectionMaxIndex - start;
                 if (length > 0)
                 {
                     string selectedText = Text.Substring(start, length);
@@ -54,7 +57,7 @@ namespace NhegazCustomControls
 
                 if (clipText.Length > 0)
                 {
-                    int selLen = HasSelection ? Math.Abs(selectionEndIndex - selectionStartIndex) : 0;
+                    int selLen = HasSelection ? Math.Abs(SelectionEndIndex - SelectionStartIndex) : 0;
                     int currentLen = Text.Length;
                     int remaining = MaxLength > 0 ? MaxLength - (currentLen - selLen) : int.MaxValue;
 

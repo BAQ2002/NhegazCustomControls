@@ -137,7 +137,7 @@ namespace NhegazCustomControls
         }
         public DropDownFeature( )
         {            
-            //ownerControl = owner ?? throw new ArgumentNullException(nameof(owner));
+            //ownerInnerControl = owner ?? throw new ArgumentNullException(nameof(owner));
             //DropDownControls = dropDowns ?? throw new ArgumentNullException(nameof(dropDowns));
         }
     }

@@ -139,7 +139,7 @@ namespace NhegazCustomControls
             items[index] = item;
 
             // use a mesma coleção que você já usa para AddItem (ex.: target ou InnerControlsCollection)
-            target.Add(item); // se tiver 'target'; senão: ownerControl.InnerControlsCollection.Add(item);
+            target.Add(item); // se tiver 'target'; senão: ownerInnerControl.InnerControlsCollection.Add(item);
 
             return item;
         }

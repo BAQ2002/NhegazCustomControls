@@ -64,8 +64,21 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Construtor secundário
+        /// </summary>
+        /// <param name="owner"></param>
         public InnerControlPadding(InnerControl owner) : this(owner, 0, 0, 0, 0) { }
+
+        /// <summary>
+        /// Construtor secundário -> passa um único valor para todos os Padding's.
+        /// </summary>
         public InnerControlPadding(InnerControl owner, int all) : this(owner, all, all, all, all) { }
+
+        /// <summary>
+        /// Construtor secundário -> passa um valor especifico para cada Padding.
+        /// </summary>
         public InnerControlPadding(InnerControl owner, int left, int top, int right, int bottom)
         {
             Owner = owner;

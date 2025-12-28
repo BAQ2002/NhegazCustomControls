@@ -22,10 +22,10 @@ namespace NhegazCustomControls
                 return;
             }
 
-            isSelecting = false;             //Seleção feita via teclado não aciona o estado isSelecting.
+            isMouseSelecting = false;             //Seleção feita via teclado não aciona o estado isMouseSelecting.
 
-            selectionStartIndex = 0;         //Índice mínimo do texto.
-            selectionEndIndex = Text.Length; //Índice máximo do texto.
+            SelectionStartIndex = 0;         //Índice mínimo do texto.
+            SelectionEndIndex = Text.Length; //Índice máximo do texto.
 
             // Redesenha para mostrar o highlight da seleção
             InvalidateParent?.Invoke();
@@ -41,8 +41,8 @@ namespace NhegazCustomControls
         {
             if (index == -1) return;          //Se o índice retornado não existir(== -1).
 
-            selectionStartIndex = index;      //Âncora da seleção.
-            selectionEndIndex = index;        //Índice ativo (que acompanha o mouse) começa igual o índice âncora.
+            SelectionStartIndex = index;      //Âncora da seleção.
+            SelectionEndIndex = index;        //Índice ativo (que acompanha o mouse) começa igual o índice âncora.
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace NhegazCustomControls
         /// </summary>
         private void ClearSelection()
         {
-            isSelecting = false;
-            selectionStartIndex = -1;
-            selectionEndIndex = -1;
+            isMouseSelecting = false;
+            SelectionStartIndex = -1;
+            SelectionEndIndex = -1;
         }
 
         /// <summary>
@@ -68,8 +68,8 @@ namespace NhegazCustomControls
 
             PushUndoState();                                               //Salva estado ANTES de alterar o texto.
 
-            int start = Math.Min(selectionStartIndex, selectionEndIndex); //Define o índice inicial da seleção.
-            int end = Math.Max(selectionStartIndex, selectionEndIndex); //Define o índice que acompanha o mouse.
+            int start = Math.Min(SelectionStartIndex, SelectionEndIndex); //Define o índice inicial da seleção.
+            int end = Math.Max(SelectionStartIndex, SelectionEndIndex); //Define o índice que acompanha o mouse.
             int length = end - start;                                      //Define o comprimento da seleção.
 
             Text = Text.Remove(start, length);                             //Remove o trecho selecionado.

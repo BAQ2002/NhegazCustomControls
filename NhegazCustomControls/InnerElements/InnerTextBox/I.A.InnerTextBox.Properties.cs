@@ -14,38 +14,11 @@ namespace NhegazCustomControls
 
         /// <summary></summary>
         private TextFormatFilter textFormatFilter = TextFormatFilter.None;
-
-        /// <summary>Representa se está selecionando ativamente com o mouse.</summary>      
-        private bool isSelecting = false;
-
-        /// <summary>Representa o índice inicial(âncora) da seleção.</summary>    
-        private int selectionStartIndex = -1;
-
-        /// <summary>
-        /// Representao índice atual(ativo) da seleção ->
-        /// acompanha o mouse enquanto estiver pressionado ou
-        /// os atalhos com teclas.
-        /// </summary>    
-        private int selectionEndIndex = -1;
-
-        /// <summary>
-        /// Representa se há uma seleção válida de texto. Condicão para "true" ->
-        /// <para><see cref="selectionStartIndex"/> >= 0</para> <see cref="selectionEndIndex"/> >= 0 
-        /// <para><see cref="selectionEndIndex"/> != <see cref="selectionStartIndex"/>.</para>
-        /// </summary>
-        private bool HasSelection =>
-            selectionStartIndex >= 0 && selectionEndIndex >= 0 && selectionStartIndex != selectionEndIndex;
-
+      
         private EventHandler? applyTextFormatHandler;
 
         /// <summary>Pilha de estados para Ctrl+Z.</summary>
         private readonly Stack<UndoState> undoStack = new();
-
-        /// <summary>Cor de fundo quando está sendo realizada a seleção de carácteres com o mouse.</summary>
-        public Color SelectionBackgroundColor { get; set; } = SystemColors.Highlight;
-
-        /// <summary>Cor do texto quando está sendo realizada a seleção de carácteres com o mouse.</summary>
-        public Color SelectionForeColor { get; set; } = SystemColors.Window;
 
         /// <summary>
         /// Esttrutura de estado para desfazer (Undo): guarda texto, posição do caret e seleção.
@@ -57,6 +30,7 @@ namespace NhegazCustomControls
             public int SelectionStartIndex;
             public int SelectionEndIndex;
         }
+        
 
         /// <summary>Evento que pode invocar métodos e funções ao ser acionado.</summary> 
         public event EventHandler? KeyPress;
@@ -135,19 +109,6 @@ namespace NhegazCustomControls
         /// <summary>Define se deve ser usado três pontos "..." se o texto não couber no tamanho atual.</summary>
         public bool UseEllipsis { get; set; } = false;
 
-        /// <summary>
-        /// Define se o padding horizontal deve ser aplicado
-        /// quando a posição de alinhamento horizontal for 
-        /// <see cref="TextHorizontalAlignment.Center"/>.
-        /// </summary>
-        public bool ApplyHorizontalPaddingWhenCentered { get; set; } = false;
-
-        /// <summary>
-        /// Define se o padding vertical deve ser aplicado
-        /// quando a posição de alinhamento vertical for 
-        /// <see cref="TextVerticalAlignment.Center"/>.
-        /// </summary>
-        public bool ApplyVerticalPaddingWhenCentered { get; set; } = false;
 
         /// <summary>Define se o tamanho deve ser baseado no texto.</summary>
         public bool SizeBasedOnText { get; set; } = false;

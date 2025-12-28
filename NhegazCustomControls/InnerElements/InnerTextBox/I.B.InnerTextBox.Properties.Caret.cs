@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -45,9 +46,9 @@ namespace NhegazCustomControls
             get => caretIndex;
             set
             {
-                int maxValue = Math.Max(0, Math.Min(Text.Length, value)); //Valor limitado entre 0 e Text.Length.
-                if (caretIndex != maxValue) caretIndex = maxValue;        
-                RestartCaretBlink();
+                int limitedValue = NhegazMathMethods.Clamp(value, 0, Text.Length); //Valor limitado entre 0 e Text.Length.
+                if (caretIndex != limitedValue)                                    //Se o valor atual for diferente do novo.
+                { caretIndex = limitedValue; RestartCaretBlink(); }                //Atualiza o valor e reinicia o Blink.
             }
         }
 
