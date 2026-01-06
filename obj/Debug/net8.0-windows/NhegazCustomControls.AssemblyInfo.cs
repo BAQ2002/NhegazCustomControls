@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NhegazCustomControls")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfac424a29fac2c1f418013ffb53fe85b4eb2a9f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+587f508abfeb3675e06747b6f7d8e6a6966772aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("NhegazCustomControls")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NhegazCustomControls")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

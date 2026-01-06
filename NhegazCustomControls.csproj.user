@@ -49,6 +49,9 @@
     <Compile Update="NhegazCustomControls\CustomDatePicker\I.CustomDatePicker.Properties.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="NhegazCustomControls\CustomTextBox\CustomTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="NhegazCustomControls\DropDowns\ComboBoxDropDown\II.ComboBoxDropDown.Core.cs">
       <SubType>UserControl</SubType>
     </Compile>

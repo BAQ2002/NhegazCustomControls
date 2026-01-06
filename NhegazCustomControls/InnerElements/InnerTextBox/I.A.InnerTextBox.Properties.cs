@@ -113,7 +113,7 @@ namespace NhegazCustomControls
         /// <summary>Define se o tamanho deve ser baseado no texto.</summary>
         public bool SizeBasedOnText { get; set; } = false;
 
-        /// <summary>Coordenada(x,y) absoluta do texto.</summary>
+        /// <summary>Coordenada(positionX,y) absoluta do texto.</summary>
         public Point TextLocation => new(Location.X + TextFeatures.TextLocation.X, Location.Y + TextFeatures.TextLocation.Y);
        
 

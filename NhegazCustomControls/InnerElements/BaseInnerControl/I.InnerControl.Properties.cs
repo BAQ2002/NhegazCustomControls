@@ -38,7 +38,7 @@ namespace NhegazCustomControls
         /// <summary>Instância das propriedades de padding do elemento.</summary>
         public InnerControlPadding Padding { get; }
 
-        /// <summary>Confirma se determinado ponto(x,y) pertence ao elemento.</summary>
+        /// <summary>Confirma se determinado ponto(positionX,y) pertence ao elemento.</summary>
         public bool HitBox(Point point) => Bounds.Contains(point);
 
         /// <summary>

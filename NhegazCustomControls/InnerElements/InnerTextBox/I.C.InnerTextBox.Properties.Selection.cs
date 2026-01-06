@@ -33,7 +33,7 @@ namespace NhegazCustomControls
             get => selectionStartIndex;
             private set
             {
-                int limitedValue = NhegazMathMethods.Clamp(value, 0, Text.Length); //Valor limitado entre -1 e Text.Length.
+                int limitedValue = NhegazMathMethods.Clamp(value, 0, Text.Length); //Valor limitado entre 0 e Text.Length.
                 selectionStartIndex = limitedValue;
             }
         }
@@ -43,7 +43,7 @@ namespace NhegazCustomControls
             get => selectionEndIndex;
             private set
             {
-                int limitedValue = NhegazMathMethods.Clamp(value, 0, Text.Length); //Valor limitado entre -1 e Text.Length.
+                int limitedValue = NhegazMathMethods.Clamp(value, 0, Text.Length); //Valor limitado entre 0 e Text.Length.
                 selectionEndIndex = limitedValue;
             }
         }

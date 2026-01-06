@@ -100,7 +100,7 @@ namespace NhegazCustomControls
         private void EnsureInside(int row, int col)
         {
             if (row < 0 || col < 0 || row >= GetRowsLenght || col >= GetColsLenght)
-                throw new ArgumentOutOfRangeException($"Índices [{row},{col}] fora dos limites ({GetRowsLenght}x{GetColsLenght}).");
+                throw new ArgumentOutOfRangeException($"Índices [{row},{col}] fora dos limites ({GetRowsLenght}positionX{GetColsLenght}).");
         }
 
         /// <summary>

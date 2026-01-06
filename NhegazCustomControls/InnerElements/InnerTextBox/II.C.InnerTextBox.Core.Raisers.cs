@@ -10,14 +10,36 @@ namespace NhegazCustomControls
     {
         /// <summary>
         /// Acionado em <see cref="InnerControlsCollection.HandleClick"/> -> 
-        /// Aciona <see cref="InnerControl.Click"/> e define o 
-        /// <see cref="CaretIndex"/> para o valor de <see cref="GetTextIndexFromPoint"/>.
+        /// Aciona <see cref="InnerControl.Click"/>.
         /// </summary>
         public override void RaiseClick(object sender, Point clickLocation)
         {
             base.RaiseClick(sender, clickLocation);   //Método da classe base.   
         }
 
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleDoubleClick"/> ->
+        /// Aciona <see cref="InnerControl.DoubleClick"/>.
+        /// </summary>
+        public override void RaiseDoubleClick(object sender, Point clickLocation)
+        {
+            base.RaiseDoubleClick(sender, clickLocation);   //Método da classe base.
+                                                            
+            int index = GetTextIndexFromPoint //Retorna um índice a partir do ponto de MouseDown.
+            (clickLocation, RectangleCharWidth.Half);     //Usa a metade da largura dos carácteres para maior precisão.
+
+            if (index != -1)                  //Se existir texto no ponto de MouseDown  ->
+            {
+                SelectWordAtIndex(index);
+            }
+        }
+
+        /// <summary>
+        /// Acionado em <see cref="InnerControlsCollection.HandleMouseDown"/> -> 
+        /// Aciona <see cref="MouseDown"/>, define o <see cref="CaretIndex"/>  
+        /// para o valor de <see cref="GetTextIndexFromPoint"/> => (<paramref name="p"/>) e
+        /// Aciona <see cref="InnerControl.InvalidateParent"/> . 
+        /// </summary>
         public override void RaiseMouseDown(object sender, Point p)
         {
             base.RaiseMouseDown(sender, p);   //Método da classe base.

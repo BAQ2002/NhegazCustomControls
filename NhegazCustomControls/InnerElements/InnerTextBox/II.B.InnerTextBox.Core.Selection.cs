@@ -30,6 +30,41 @@ namespace NhegazCustomControls
             // Redesenha para mostrar o highlight da seleção
             InvalidateParent?.Invoke();
         }
+        /// <summary>
+        /// Determina se um carácter deve ser tratado como parte de uma palavra.
+        /// Utilizado principalmente por seleções automáticas (ex.: DoubleClick).
+        /// </summary>
+        private static bool IsWordChar(char c)
+        {
+            return char.IsLetterOrDigit(c) || c == '_';
+        }
+
+        /// <summary>
+        /// Seleciona a palavra que contém o índice informado.
+        /// Usado, por exemplo, em DoubleClick.
+        /// </summary>
+        private void SelectWordAtIndex(int index)
+        {
+            if (string.IsNullOrEmpty(Text))
+            {
+                ClearSelection();
+                return;
+            }
+
+            index = NhegazMathMethods.Clamp(index, 0, Text.Length - 1); //Garante que o índice esteja dentro dos limites válidos.
+
+            int start = index;
+            while (start > 0 && IsWordChar(Text[start])) 
+            { SelectionStartIndex = start; start--; }
+       
+
+            int end = index + 1;
+            while (end < Text.Length && IsWordChar(Text[end]))
+            { SelectionEndIndex = end; end++; } 
+
+            RestartCaretBlink();
+            InvalidateParent?.Invoke();
+        }
 
         /// <summary>
         /// Acionado exclusivamente em <see cref="RaiseMouseDown"/> 
@@ -52,8 +87,8 @@ namespace NhegazCustomControls
         private void ClearSelection()
         {
             isMouseSelecting = false;
-            SelectionStartIndex = -1;
-            SelectionEndIndex = -1;
+            SelectionStartIndex = CaretIndex;
+            SelectionEndIndex = CaretIndex;
         }
 
         /// <summary>

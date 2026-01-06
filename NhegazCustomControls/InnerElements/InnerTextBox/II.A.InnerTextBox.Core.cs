@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +57,7 @@ namespace NhegazCustomControls
         /// </para>
         /// se não pertencer a nenhum -> Retorna -1.
         /// </summary>
-        public int GetTextIndexFromPoint(Point location, RectangleCharWidth rectangleCharWidth)
+        public int OLD(Point location, RectangleCharWidth rectangleCharWidth)
         {
             if (Text.Length == 0){ return 0; }                          //Se não houver texto -> Índice obrigatório ser no início(= 0).
             if (location.X >= TextRectangle.Right){return Text.Length;} //Se o ponto for depois do texto -> Índice no fim do texto.
@@ -87,7 +88,39 @@ namespace NhegazCustomControls
 
             return -1;                                                  //Se não existir carácter para aquele ponto retorna -1.
         }
-    
+  
+        public int GetTextIndexFromPoint(Point location, RectangleCharWidth rectangleCharWidth)
+        {
+            int amountOfRects = Text.Length * 2;
+            
+
+            for (int i = 0; i < amountOfRects; i++)   //Para cada retângulo calculado.
+            {
+                int textIndex = i / 2;
+
+                int width = NhegazSizeMethods.
+                TextCharWidth(Text, textIndex, Font) / 2;
+
+                int height = NhegazSizeMethods.
+                TextExactSize(Text, Font).Height;
+
+                int x = TextLocation.X 
+                      + NhegazSizeMethods.
+                        TextCharLocX(Text, textIndex, Font)
+                      + (width * (i % 2));
+                int y = TextRectangle.Y;
+
+       
+                Rectangle charRect = new( x, y, width, height);
+
+                if (charRect.Contains(location))                        //Se o ponto do mouse pertence ao retângulo.
+                {
+                   return (int)Math.Ceiling(i / 2.0);
+                }
+            }
+            return -1;
+        }
+
         /// <summary>
         /// Acionado se o <see cref="TextFormatFilter"/> for definido
         /// diferente de <see cref="TextFormatFilter.None"/> e

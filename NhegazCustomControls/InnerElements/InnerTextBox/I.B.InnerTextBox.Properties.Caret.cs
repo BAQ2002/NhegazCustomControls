@@ -60,13 +60,13 @@ namespace NhegazCustomControls
         public Point CaretLocation
         {
             get
-            {            
-                int caretX = TextLocation.X                                           //Localização X(0) do Texto.
-                           + CaretIndex * NhegazSizeMethods.FontUnitSize(Font).Width; //Incremento de deslocamento por tamanho dos caracteres.
-                if (Text.Length > 0 && CaretIndex == Text.Length )                    //Se o CaretIndex estiver na posição após o último carácter Escrito:
-                    caretX -= CaretSize.Width;                                        //Subtrai a largura do caret para caber na "caixa" do texto.
+            {
+                int caretX = TextLocation.X                                          //Localização X(0) do Texto.
+                           + NhegazSizeMethods.TextCharLocX(Text, CaretIndex, Font); //Incremento de deslocamento por tamanho dos caracteres.
+                if (Text.Length > 0 && CaretIndex == Text.Length )                   //Se o CaretIndex estiver na posição após o último carácter Escrito:
+                    caretX -= CaretSize.Width;                                       //Subtrai a largura do caret para caber na "caixa" do texto.
                                                                                       
-                int caretY = TextLocation.Y;                                          //Localização Y(0) do Texto.
+                int caretY = TextLocation.Y;                                         //Localização Y(0) do Texto.
                 return new(caretX, caretY);
             }
         }
