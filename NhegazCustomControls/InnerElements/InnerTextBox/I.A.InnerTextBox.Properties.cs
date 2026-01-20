@@ -21,7 +21,7 @@ namespace NhegazCustomControls
         private readonly Stack<UndoState> undoStack = new();
 
         /// <summary>
-        /// Esttrutura de estado para desfazer (Undo): guarda texto, posição do caret e seleção.
+        /// Estrutura de estado para desfazer (Undo): guarda texto, posição do caret e seleção.
         /// </summary>
         private struct UndoState
         {

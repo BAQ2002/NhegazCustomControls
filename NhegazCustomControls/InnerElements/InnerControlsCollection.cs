@@ -156,7 +156,10 @@ namespace NhegazCustomControls
         /// com <see cref="InnerControl.Visible"/> e <see cref="InnerControl.HitBox"/> ->
         /// Verifica o estado de <see cref="InnerControl.IsHovering"/> ->
         /// Executa <see cref="InnerControl.RaiseMouseEnter"/>
-        /// ou <see cref="InnerControl.RaiseMouseLeave"/>.
+        /// ou <see cref="InnerControl.RaiseMouseLeave"/> ->
+        /// Ambos os métodos são chamados aqui pois o ponto do mouse
+        /// pode ainda estar no <see cref="CustomControl"/> <paramref name="parent"/>
+        /// mas não em um <see cref="InnerControl"/>.
         /// </summary>
         public void HandleMouseMove(CustomControl parent, Point mouseLocation)
         {

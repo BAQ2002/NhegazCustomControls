@@ -38,7 +38,7 @@ namespace NhegazCustomControls
             }
             else
             {
-                dropDownInstance = new ComboBoxDropDown(this);
+                dropDownInstance = new DropDownCBox(this);
                 Form parentForm = FindForm();
                 if (parentForm == null)
                 {

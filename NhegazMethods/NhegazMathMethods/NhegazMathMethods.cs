@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NhegazCustomControls
+namespace Nhegaz
 {
-    public class NhegazMathMethods
+    public class MathMethods
     {
         /// <summary>
         /// Garante que um valor inteiro não seja menor que um mínimo nem maior que um máximo.
@@ -23,5 +23,17 @@ namespace NhegazCustomControls
         {
             return Math.Max(minValue, Math.Min(maxValue, value));
         }
+
+        /// <summary> 
+        /// Arrendonda o valor para o 
+        /// Múltiplo de 10 mais próximo. 
+        /// MOT = Multiple Of Ten.
+        /// </summary>
+        public static int RoundToMOT(int value)
+        {
+            return (int)(MathF.Round(value / 10f, MidpointRounding.AwayFromZero) * 10f);
+        }
+
+
     }
 }

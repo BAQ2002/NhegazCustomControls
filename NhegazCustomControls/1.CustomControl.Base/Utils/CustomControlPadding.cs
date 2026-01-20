@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-
 namespace NhegazCustomControls
 {
     [TypeConverter(typeof(CustomControlPaddingTypeConverter))]
@@ -12,10 +11,11 @@ namespace NhegazCustomControls
         private int borderLeft, borderTop, borderRight, borderBottom;
 
         // --------- Relativos (percentuais) ---------
-        private float relInnerH = 0.60f, relInnerV = 0.60f;
-        private float relBorderLeft, relBorderTop, relBorderRight, relBorderBottom;
+        private int relInnerH = 60,      relInnerV = 60;
+        private int relBorderLeft = 60,  relBorderTop = 60;
+        private int relBorderRight = 60, relBorderBottom = 60;
 
-        private PaddingMode mode = PaddingMode.RelativeToFont;
+        private PaddingMode paddingMode = PaddingMode.RelativeToFont;
         private readonly CustomControl Owner;
 
         public event EventHandler? Changed;
@@ -25,7 +25,7 @@ namespace NhegazCustomControls
             Owner = owner ?? throw new ArgumentNullException(nameof(owner));
             Owner.FontChanged += (_, __) =>
             {
-                if (Mode == PaddingMode.RelativeToFont)
+                if (PaddingMode == PaddingMode.RelativeToFont)
                 {
                     NotifyOwner(); // força re-layout; valores efetivos mudaram
                     TypeDescriptor.Refresh(this); // atualiza grid se aberto
@@ -36,13 +36,13 @@ namespace NhegazCustomControls
         // ============= MODO =============
         [Category("ControlPadding")]
         [RefreshProperties(RefreshProperties.All)]
-        public PaddingMode Mode
+        public PaddingMode PaddingMode
         {
-            get => mode;
-            set
+            get => paddingMode;
+            set// => paddingMode = paddingMode != value?  value: ;
             {
-                if (mode == value) return;
-                mode = value;
+                if (paddingMode == value) return;
+                paddingMode = value;
                 NotifyOwner();           // layout passa a usar Effective*
                 TypeDescriptor.Refresh(this); // grid reconsulta ReadOnly
             }
@@ -51,61 +51,84 @@ namespace NhegazCustomControls
         // ============= REL (%) =============
         [Category("ControlPadding (Relative % )")]
         [RefreshProperties(RefreshProperties.All)]
-        public float RelativePercentInnerHorizontal
+        public int RelativePercentInnerHorizontal
         {
             get => relInnerH;
-            set { if (SetFloat(ref relInnerH, Clamp02(value))) { OnRelativeChanged(); } }
-        }
-
-        [Category("ControlPadding (Relative % )")]
-        [RefreshProperties(RefreshProperties.All)]
-        public float RelativePercentInnerVertical
-        {
-            get => relInnerV;
-            set { if (SetFloat(ref relInnerV, Clamp02(value))) { OnRelativeChanged(); } }
-        }
-
-        [Category("ControlPadding (Relative % )")]
-        [RefreshProperties(RefreshProperties.All)]
-        public float RelativePercentBorderLeft
-        {
-            get => relBorderLeft;
-            set { if (SetFloat(ref relBorderLeft, Clamp02(value))) { OnRelativeChanged(); } }
-        }
-
-        [Category("ControlPadding (Relative % )")]
-        [RefreshProperties(RefreshProperties.All)]
-        public float RelativePercentBorderTop
-        {
-            get => relBorderTop;
-            set { if (SetFloat(ref relBorderTop, Clamp02(value))) { OnRelativeChanged(); } }
-        }
-
-        [Category("ControlPadding (Relative % )")]
-        [RefreshProperties(RefreshProperties.All)]
-        public float RelativePercentBorderRight
-        {
-            get => relBorderRight;
-            set { if (SetFloat(ref relBorderRight, Clamp02(value))) { OnRelativeChanged(); } }
-        }
-
-        [Category("ControlPadding (Relative % )")]
-        [RefreshProperties(RefreshProperties.All)]
-        public float RelativePercentBorderBottom
-        {
-            get => relBorderBottom;
-            set { if (SetFloat(ref relBorderBottom, Clamp02(value))) { OnRelativeChanged(); } }
-        }
-
-        private void OnRelativeChanged()
-        {
-            if (Mode == PaddingMode.RelativeToFont)
+            set
             {
-                NotifyOwner();           // efetivos mudaram
-                TypeDescriptor.Refresh(this);
+                int clampedValue = Nhegaz.MathMethods.Clamp(value, 0, 200);
+                int relativePercent = Nhegaz.MathMethods.RoundToMOT(clampedValue);
+                relInnerH = relativePercent; OnRelativeChanged();
             }
         }
 
+        [Category("ControlPadding (Relative % )")]
+        [RefreshProperties(RefreshProperties.All)]
+        public int RelativePercentInnerVertical
+        {
+            get => relInnerV;
+            set
+            {
+                int clampedValue = Nhegaz.MathMethods.Clamp(value, 0, 200);
+                int relativePercent = Nhegaz.MathMethods.RoundToMOT(clampedValue);
+                relInnerV = relativePercent; OnRelativeChanged();
+            }
+        }
+
+        [Category("ControlPadding (Relative % )")]
+        [RefreshProperties(RefreshProperties.All)]
+        public int RelativePercentBorderLeft
+        {
+            get => relBorderLeft;
+            set
+            {
+                int clampedValue = Nhegaz.MathMethods.Clamp(value, 0, 200);
+                int relativePercent = Nhegaz.MathMethods.RoundToMOT(clampedValue);
+                relBorderLeft = relativePercent; OnRelativeChanged();
+            }
+        }
+
+        [Category("ControlPadding (Relative % )")]
+        [RefreshProperties(RefreshProperties.All)]
+        public int RelativePercentBorderTop
+        {
+            get => relBorderTop;
+            set
+            {
+                int clampedValue = Nhegaz.MathMethods.Clamp(value, 0, 200);
+                int relativePercent = Nhegaz.MathMethods.RoundToMOT(clampedValue);
+                relBorderTop = relativePercent; OnRelativeChanged();
+            }
+        }
+
+        [Category("ControlPadding (Relative % )")]
+        [RefreshProperties(RefreshProperties.All)]
+        public int RelativePercentBorderRight
+        {
+            get => relBorderRight;
+            set
+            {
+                int clampedValue = Nhegaz.MathMethods.Clamp(value, 0, 200);
+                int relativePercent = Nhegaz.MathMethods.RoundToMOT(clampedValue);
+                relBorderRight = relativePercent; OnRelativeChanged();
+            }
+        }
+
+        [Category("ControlPadding (Relative % )")]
+        [RefreshProperties(RefreshProperties.All)]
+        [DefaultValue(0)]
+        public int RelativePercentBorderBottom
+        {
+            get => relBorderBottom;
+            set 
+            {
+                int clampedValue = Nhegaz.MathMethods.Clamp(value, 0, 200);
+                int relativePercent = Nhegaz.MathMethods.RoundToMOT(clampedValue);
+                relBorderBottom = relativePercent; OnRelativeChanged();
+            }
+        }
+
+        
         // ============= ABS (px) editáveis condicionalmente =============
         [Category("ControlPadding (Absolute px)")]
         public int InnerHorizontal
@@ -113,9 +136,9 @@ namespace NhegazCustomControls
             get => innerHorizontal;
             set
             {
-                if (Mode == PaddingMode.RelativeToFont) return; // bloqueia edição
+                if (PaddingMode == PaddingMode.RelativeToFont) return; // bloqueia edição
                 if (innerHorizontal == value) return;
-                innerHorizontal = value; NotifyOwner();
+                innerHorizontal = value; NotifyOwner(); TypeDescriptor.Refresh(this);
             }
         }
 
@@ -125,9 +148,9 @@ namespace NhegazCustomControls
             get => innerVertical;
             set
             {
-                if (Mode == PaddingMode.RelativeToFont) return;
+                if (PaddingMode == PaddingMode.RelativeToFont) return;
                 if (innerVertical == value) return;
-                innerVertical = value; NotifyOwner();
+                innerVertical = value; NotifyOwner(); TypeDescriptor.Refresh(this);
             }
         }
 
@@ -137,9 +160,11 @@ namespace NhegazCustomControls
             get => borderLeft;
             set
             {
-                if (Mode == PaddingMode.RelativeToFont) return;
+                if (PaddingMode == PaddingMode.RelativeToFont) return;
                 if (borderLeft == value) return;
-                borderLeft = value; NotifyOwner();
+                borderLeft = value;
+
+                OnAbsoluteChanged();
             }
         }
 
@@ -149,9 +174,9 @@ namespace NhegazCustomControls
             get => borderTop;
             set
             {
-                if (Mode == PaddingMode.RelativeToFont) return;
+                if (PaddingMode == PaddingMode.RelativeToFont) return;
                 if (borderTop == value) return;
-                borderTop = value; NotifyOwner();
+                borderTop = value; NotifyOwner(); TypeDescriptor.Refresh(this);
             }
         }
 
@@ -161,86 +186,87 @@ namespace NhegazCustomControls
             get => borderRight;
             set
             {
-                if (Mode == PaddingMode.RelativeToFont) return;
+                if (PaddingMode == PaddingMode.RelativeToFont) return;
                 if (borderRight == value) return;
-                borderRight = value; NotifyOwner();
+                borderRight = value; NotifyOwner(); TypeDescriptor.Refresh(this);
             }
         }
-
+        
         [Category("ControlPadding (Absolute px)")]
         public int BorderBottom
         {
             get => borderBottom;
             set
             {
-                if (Mode == PaddingMode.RelativeToFont) return;
+                if (PaddingMode == PaddingMode.RelativeToFont) return;
                 if (borderBottom == value) return;
-                borderBottom = value; NotifyOwner();
+                borderBottom = value; NotifyOwner(); TypeDescriptor.Refresh(this);
+            }
+        }
+        private void OnRelativeChanged()
+        {
+            if (PaddingMode == PaddingMode.RelativeToFont)
+            {
+                NotifyOwner();           // efetivos mudaram
+                TypeDescriptor.Refresh(this);
+            }
+        }
+        private void OnAbsoluteChanged()
+        {
+            if (PaddingMode == PaddingMode.Absolute)
+            {
+                NotifyOwner();           // efetivos mudaram
+                TypeDescriptor.Refresh(this);
             }
         }
 
-        [Browsable(true)]
-        [ReadOnly(true)]
-        [Category("ControlPadding (Absolute px)")]
-        [Description("Soma das bordas horizontais (esquerda + direita) em pixels.")]
-        public int BorderHorizontalSum => BorderLeft + BorderRight;
+        //[Browsable(true)]
+        //[ReadOnly(true)]
+        //[Category("ControlPadding (Absolute px)")]
+        //[Description("Soma das bordas horizontais (esquerda + direita) em pixels.")]
+        //public int BorderHorizontalSum => BorderLeft + BorderRight;
 
-        [Browsable(true)]
-        [ReadOnly(true)]
-        [Category("ControlPadding (Absolute px)")]
-        [Description("Soma das bordas verticais (topo + base) em pixels.")]
-        public int BorderVerticalSum => BorderTop + BorderBottom;
+        //[Browsable(true)]
+        //[ReadOnly(true)]
+        //[Category("ControlPadding (Absolute px)")]
+        //[Description("Soma das bordas verticais (topo + base) em pixels.")]
+        //public int BorderVerticalSum => BorderTop + BorderBottom;
 
-        // Evita que o Designer serialize absolutos quando estiver relativo
-        public bool ShouldSerializeInnerHorizontal() => Mode == PaddingMode.Absolute;
-        public bool ShouldSerializeInnerVertical() => Mode == PaddingMode.Absolute;
-        public bool ShouldSerializeBorderLeft() => Mode == PaddingMode.Absolute;
-        public bool ShouldSerializeBorderTop() => Mode == PaddingMode.Absolute;
-        public bool ShouldSerializeBorderRight() => Mode == PaddingMode.Absolute;
-        public bool ShouldSerializeBorderBottom() => Mode == PaddingMode.Absolute;
 
         // ============= EFETIVOS (somente leitura) =============
         // Use estes no layout/desenho:
         [Browsable(true), ReadOnly(true), Category("ControlPadding (Effective)")]
-        public int EffectiveInnerHorizontal => (Mode == PaddingMode.RelativeToFont)
-            ? (int)Math.Round(NhegazSizeMethods.FontUnitSize(Owner.Font).Width * relInnerH)
-            : innerHorizontal;
+        public int EffectiveInnerHorizontal => (PaddingMode == PaddingMode.RelativeToFont)?
+            (Owner.FontUnitSize.Height * (int)(relInnerH / 100.0f)) : innerHorizontal;
 
         [Browsable(true), ReadOnly(true), Category("ControlPadding (Effective)")]
-        public int EffectiveInnerVertical => (Mode == PaddingMode.RelativeToFont)
-            ? (int)Math.Round(NhegazSizeMethods.FontUnitSize(Owner.Font).Height * relInnerV)
-            : innerVertical;
+        public int EffectiveInnerVertical => (PaddingMode == PaddingMode.RelativeToFont)?
+            (int)(Owner.FontUnitSize.Height * (relInnerV / 100.0f)) : innerVertical;
 
         [Browsable(true), ReadOnly(true), Category("ControlPadding (Effective)")]
-        public int EffectiveBorderLeft => (Mode == PaddingMode.RelativeToFont)
-            ? (int)Math.Round(NhegazSizeMethods.FontUnitSize(Owner.Font).Width * relBorderLeft)
-            : borderLeft;
+        public int EffectiveBorderLeft => (PaddingMode == PaddingMode.RelativeToFont)?
+            (int)(Owner.FontUnitSize.Height * (relBorderLeft / 100.0f)) : borderLeft;
 
         [Browsable(true), ReadOnly(true), Category("ControlPadding (Effective)")]
-        public int EffectiveBorderRight => (Mode == PaddingMode.RelativeToFont)
-            ? (int)Math.Round(NhegazSizeMethods.FontUnitSize(Owner.Font).Width * relBorderRight)
-            : borderRight;
+        public int EffectiveBorderRight => (PaddingMode == PaddingMode.RelativeToFont)?
+            (int)(Owner.FontUnitSize.Height * (relBorderRight / 100.0f)) : borderRight;
 
         [Browsable(true), ReadOnly(true), Category("ControlPadding (Effective)")]
-        public int EffectiveBorderTop => (Mode == PaddingMode.RelativeToFont)
-            ? (int)Math.Round(NhegazSizeMethods.FontUnitSize(Owner.Font).Height * relBorderTop)
-            : borderTop;
+        public int EffectiveBorderTop => (PaddingMode == PaddingMode.RelativeToFont)?
+            (int)(Owner.FontUnitSize.Height * (relBorderTop / 100.0f)) : borderTop;
 
         [Browsable(true), ReadOnly(true), Category("ControlPadding (Effective)")]
-        public int EffectiveBorderBottom => (Mode == PaddingMode.RelativeToFont)
-            ? (int)Math.Round(NhegazSizeMethods.FontUnitSize(Owner.Font).Height * relBorderBottom)
-            : borderBottom;
+        public int EffectiveBorderBottom => (PaddingMode == PaddingMode.RelativeToFont)?
+            (int)(Owner.FontUnitSize.Height * (relBorderBottom / 100.0f)) : borderBottom;
 
-        [Browsable(true)]
-        [ReadOnly(true)]
-        [Category("ControlPadding (Effective)")]
-        [Description("Soma efetiva das bordas horizontais (esquerda + direita) considerando o PaddingMode atual.")]
+        /// <summary>
+        /// Soma efetiva das bordas horizontais (esquerda + direita) considerando o PaddingMode atual.
+        /// </summary>
         public int EffectiveBorderHorizontalSum => EffectiveBorderLeft + EffectiveBorderRight;
 
-        [Browsable(true)]
-        [ReadOnly(true)]
-        [Category("ControlPadding (Effective)")]
-        [Description("Soma efetiva das bordas verticais (topo + base) considerando o PaddingMode atual.")]
+        /// <summary>
+        /// Soma efetiva das bordas verticais (topo + base) considerando o PaddingMode atual.
+        /// </summary>
         public int EffectiveBorderVerticalSum => EffectiveBorderTop + EffectiveBorderBottom;
 
         // ============= Utilidades/conveniências =============
@@ -255,13 +281,12 @@ namespace NhegazCustomControls
         {
             Changed?.Invoke(this, EventArgs.Empty);
             Owner?.UpdateLayout();
-            Owner?.Invalidate();
         }
 
         public override string ToString()
             => $"Abs Inner(H:{innerHorizontal},V:{innerVertical}) " +
                $"Abs Border(L:{borderLeft},T:{borderTop},R:{borderRight},B:{borderBottom}) " +
-               $"Mode:{Mode} | Rel Inner(H:{relInnerH},V:{relInnerV}) " +
+               $"PaddingMode:{PaddingMode} | Rel Inner(H:{relInnerH},V:{relInnerV}) " +
                $"Rel Border(L:{relBorderLeft},T:{relBorderTop},R:{relBorderRight},B:{relBorderBottom})";
     }
 }

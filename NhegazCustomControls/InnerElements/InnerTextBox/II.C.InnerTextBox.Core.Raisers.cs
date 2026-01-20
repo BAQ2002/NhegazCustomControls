@@ -23,15 +23,11 @@ namespace NhegazCustomControls
         /// </summary>
         public override void RaiseDoubleClick(object sender, Point clickLocation)
         {
-            base.RaiseDoubleClick(sender, clickLocation);   //Método da classe base.
+            base.RaiseDoubleClick(sender, clickLocation);      //Método da classe base.
                                                             
-            int index = GetTextIndexFromPoint //Retorna um índice a partir do ponto de MouseDown.
-            (clickLocation, RectangleCharWidth.Half);     //Usa a metade da largura dos carácteres para maior precisão.
+            int index = GetTextIndexFromPoint(clickLocation);  //Retorna um índice a partir do ponto de MouseDown.
+            if (index != -1) { SelectWordAtIndex(index); }     //Se existir texto no ponto de MouseDown
 
-            if (index != -1)                  //Se existir texto no ponto de MouseDown  ->
-            {
-                SelectWordAtIndex(index);
-            }
         }
 
         /// <summary>
@@ -44,13 +40,13 @@ namespace NhegazCustomControls
         {
             base.RaiseMouseDown(sender, p);   //Método da classe base.
 
-            int index = GetTextIndexFromPoint //Retorna um índice a partir do ponto de MouseDown.
-            (p, RectangleCharWidth.Half);     //Usa a metade da largura dos carácteres para maior precisão.
-                         
+            int index = GetTextIndexFromPoint(p); //Retorna um índice a partir do ponto de MouseDown.
+
+
             if (index != -1)                  //Se existir texto no ponto de MouseDown  ->
             { 
                 CaretIndex = index;           //Define CaretIndex = índice.
-                isMouseSelecting = true;           //Define que está sendo realizada a seleção no texto.
+                isMouseSelecting = true;      //Define que está sendo realizada a seleção no texto.
                 StartSelection(index);        //Inicia seleção de texto a partir do índice.
             }        
 
@@ -84,9 +80,8 @@ namespace NhegazCustomControls
 
             if (!isMouseSelecting) return;         //Se não estiver fazendo seleção: retorna e interrompe o restante.
 
-            int index = GetTextIndexFromPoint //Retorna um índice a partir do ponto de MouseMove.
-            (p, RectangleCharWidth.Half);     //Usa a metade da largura dos carácteres para maior precisão
-  
+            int index = GetTextIndexFromPoint(p); //Retorna um índice a partir do ponto de MouseMove.
+
             if (index == -1) return;          //Se não existe texto no ponto do mouse(índice = -1): retorna e interrompe o restante.
 
             SelectionEndIndex = index;        //Índice da seleção que acompanha o mouse.

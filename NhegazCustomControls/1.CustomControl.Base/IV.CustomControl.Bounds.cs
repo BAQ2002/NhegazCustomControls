@@ -1,60 +1,71 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nhegaz;
 
 namespace NhegazCustomControls
 {
     public abstract partial class CustomControl
     {
+
         /// <summary>Espaçamento Horizontal entre os elmementos internos.</summary>
-        public int InnerHorizontalPadding => ControlPadding.EffectiveInnerHorizontal;
+        [Browsable(false)] public int InnerHorizontalPadding => ControlPadding.EffectiveInnerHorizontal;
 
         /// <summary>Espaçamento Vertical entre os elmementos internos.</summary>
-        public int InnerVerticalPadding => ControlPadding.EffectiveInnerVertical;
+        [Browsable(false)] public int InnerVerticalPadding => ControlPadding.EffectiveInnerVertical;
 
         /// <summary>Espaçamento entre o lado esquerdo da borda e os elmementos internos.</summary>
-        public int BorderLeftPadding => ControlPadding.EffectiveBorderLeft;
+        [Browsable(false)] public int BorderLeftPadding => ControlPadding.EffectiveBorderLeft;
 
         /// <summary>Espaçamento entre o lado direito da borda e os elmementos internos.</summary>
-        public int BorderRightPadding => ControlPadding.EffectiveBorderRight;
+        [Browsable(false)] public int BorderRightPadding => ControlPadding.EffectiveBorderRight;
 
         /// <summary>Espaçamento entre o lado superior da borda e os elmementos internos.</summary>
-        public int BorderTopPadding => ControlPadding.EffectiveBorderTop;
+        [Browsable(false)] public int BorderTopPadding => ControlPadding.EffectiveBorderTop;
 
         /// <summary>Espaçamento entre o lado inferior da borda e os elmementos internos.</summary>
-        public int BorderBottomPadding => ControlPadding.EffectiveBorderBottom;
+        [Browsable(false)] public int BorderBottomPadding => ControlPadding.EffectiveBorderBottom;
 
         /// <summary> </summary>
+        [Browsable(false)]
         public int BorderHorizontalBoundsSum =>
             ControlPadding.EffectiveBorderHorizontalSum + 2 * BorderWidth;
 
         /// <summary></summary>
+        [Browsable(false)]
         public int BorderVerticalBoundsSum =>
             ControlPadding.EffectiveBorderVerticalSum + 2 * BorderWidth;
 
 
         /// <summary>Retorna a COORDENADA Y mínima de onde um InnerControl pode ser posicionado em relação ao Top.</summary>      
+        [Browsable(false)]
         public int ContentTopBound =>
             BorderWidth + ControlPadding.EffectiveBorderTop;
 
         /// <summary>Retorna a COORDENADA X mínima de onde um InnerControl pode ser posicionado em relação ao left.</summary>      
+        [Browsable(false)]
         public int ContentLeftBound =>
             BorderWidth + ControlPadding.EffectiveBorderLeft;
 
         /// <summary>>Retorna a COORDENADA X máxima de onde um InnerControl pode ser posicionado em relação ao Right.</summary>      
+        [Browsable(false)]
         public int ContentRightBound =>
             Width - (BorderWidth + ControlPadding.EffectiveBorderRight);
 
         /// <summary>Retorna a COORDENADA Y máxima de onde um InnerControl pode ser posicionado em relação ao Bottom.</summary>
+        [Browsable(false)]
         public int ContentBottomBound =>
             Height - (BorderWidth + ControlPadding.EffectiveBorderBottom);
 
         /// <summary>ERRADO Retorna o valor que a espessura e o espaçamento da borda ocupam Horizontalmente.</summary>
+        [Browsable(false)]
         public int ContentHorizontalSum =>
             ContentLeftBound + ContentRightBound;
 
         /// <summary>ERRADO Retorna o valor que a espessura e o espaçamento da borda ocupam Verticalmente.</summary>
+        [Browsable(false)]
         public int ContentVerticalSum =>
             ContentTopBound + ContentBottomBound;
 
@@ -64,7 +75,7 @@ namespace NhegazCustomControls
             int centerY = (Height - innerControlHeight) / 2;         // Centro absoluto vertical do controle
             int minY = ContentTopBound;                              // Mínimo: espessura e padding da borda superior
             int maxY = ContentBottomBound - innerControlHeight;      // Máximo: respeita espessura e padding da borda inferior
-            return NhegazLocationMethods.Clamp(centerY, minY, maxY); // CLAMP dos valores
+            return Nhegaz.MathMethods.Clamp(centerY, minY, maxY); // CLAMP dos valores
         }
         /// <summary>Retorna a COORDENADA Y centralizada em relação à altura do InnerControl </summary>
         public int RelativeCenterY(InnerControl innerControl) => RelativeCenterY(innerControl.Height);
@@ -75,7 +86,7 @@ namespace NhegazCustomControls
             int cx = (Width - innerControlWidth) / 2;                 // Centro absoluto horizontal do controle
             int minX = ContentLeftBound;                              // Mínimo: espessura e padding da borda esquerda
             int maxX = ContentRightBound - innerControlWidth; // Máximo: respeita espessura e padding da borda direita
-            return NhegazLocationMethods.Clamp(cx, minX, maxX);       // CLAMP dos valores
+            return Nhegaz.MathMethods.Clamp(cx, minX, maxX);       // CLAMP dos valores
         }
         /// <summary>Retorna a COORDENADA X centralizada em relação à largura do InnerControl </summary>
         public int RelativeCenterX(InnerControl innerControl) => RelativeCenterX(innerControl.Width);

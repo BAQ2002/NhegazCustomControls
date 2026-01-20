@@ -14,7 +14,7 @@ namespace NhegazCustomControls
         public InnerLabel selectIndex = new(); //Opção atualmente selecionada
         private InnerButton dropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.SymmetricCircle); //Icone de visual
 
-        private ComboBoxDropDown dropDownInstance = null;
+        private DropDownCBox dropDownInstance = null;
         public string SelectIndexText
         {
             get => selectIndex.Text;

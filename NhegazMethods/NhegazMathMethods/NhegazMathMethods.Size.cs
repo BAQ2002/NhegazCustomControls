@@ -30,64 +30,60 @@ namespace NhegazCustomControls
             );
             return size;
         }
-          
-        public static int TextCharWidth(string text, int index, Font font)
-        {
-            if (string.IsNullOrEmpty(text)) return 0;           //Texto nulo ou vazio.
-            if (index < 0 || index >= text.Length) return 0;     //Índice inválido.
-
-            string charOnly = text.Substring(index, 1);          //Texto do índice[index].
-            int charWidth = TextExactSize(charOnly, font).Width; //Largura do texto do índice[index].
-           
-            return charWidth;
-        }
 
         /// <summary>
-        /// Retorna a localização X de um <see cref="char"/> 
-        /// contido na <see cref="string"/> <paramref name="text"/> 
-        /// -> selecionado por um índice <see cref="int"/> 
-        /// <paramref name="index"/> em relação à localização X = 0 do texto. 
+        /// Retorna uma coordenada <see cref="Point"/> 
+        /// a partir de um índice <see cref="int"/> 
+        /// <paramref name="index"/> de uma posição existente 
+        /// na <see cref="string"/> <paramref name="text"/> -> 
+        /// <paramref name="startLocation"/>.X  
+        /// <para>
+        /// <paramref name="text"/>[0 .. (<paramref name="index"/> + 1)].Width 
+        /// - <see cref="char"/>.Width
+        /// </para>
+        /// 
         /// </summary>
+        /// <param name="startLocation"></param>
         /// <param name="text"></param>
         /// <param name="index"></param>
         /// <param name="font"></param>
         /// <returns></returns>
-        public static int TextCharLocX(string text, int index, Font font)
+        public static Point LocationByIndex(Point startLocation, string text, int index, Font font)
         {
-            if (string.IsNullOrEmpty(text)) return 0;             //0.a)Texto nulo ou vazio.
-            if (index < 0 || index > text.Length) return 0;       //0.b)Índice inválido.
+            if (string.IsNullOrEmpty(text))       return startLocation; //0.a)Se o text for nulo ou vazio.
+            if (index < 0 || index > text.Length) return startLocation; //0.b)Se o index for inválido.
 
+            int widthUpToIndex = TextExactSize                          //II.a)Largura do texto da posição
+            (text.Substring(0, index), font).Width;                     //II.b)text[0] até text[index].
 
-            int charWidth = TextCharWidth(text, index, font); //I_.a)Largura do texto do índice[index].
-            if (index == text.Length) index -= 1;
-            int IncludedWidht = TextExactSize                     //II.a)Largura do texto do ->
-            (text.Substring(0, index + 1), font).Width;           //II.b)índice[0] até o índice[index].
+            int locationX = startLocation.X + widthUpToIndex;           //III.a)Localização X.
+            int locationY = startLocation.Y;                            //III.b)Localização Y.
 
-            int charLocX = IncludedWidht - charWidth;  //Diferença entre a largura I.a) e II.b).
-
-            return charLocX;
+            return new(locationX, locationY);
         }
 
         public static Size TextCharSize(string text, int index, Font font)
         {
-            if (string.IsNullOrEmpty(text)) return Size.Empty;        //Texto nulo ou vazio.
-            if (index < 0 || index >= text.Length) return Size.Empty; //Índice inválido.
+            if (string.IsNullOrEmpty(text)) return Size.Empty;        //0.a)Se o text for nulo ou vazio.
+            if (index < 0 || index >= text.Length) return Size.Empty; //0.b)Se o index for inválido.
 
-            int charWidth  = TextCharWidth(text, index, font);        //Largura do texto do índice[index].
-            int charHeight = TextExactSize(text, font).Height;        //Altura do texto(padrão).
+            Size charSize = TextExactSize            //Largura do texto composto apenas
+            (text.Substring(index, 1), font);  //pelo caracter do índice text[index].
 
-            return new(charWidth, charHeight);
+            return charSize;
         }
 
         
 
-        public static Rectangle TextCharRect(string text, int index, Font font, int startX, int startY)
+        public static Rectangle TextCharRect(Point startLocation, string text, int index, Font font)
         {
             if (string.IsNullOrEmpty(text))        return Rectangle.Empty; //0.a)Texto nulo ou vazio.
             if (index < 0 || index >= text.Length) return Rectangle.Empty; //0.b)Índice inválido.
 
+           
+
             Size charSize      = TextCharSize(text, index, font);          //II.a)Tamanho do carácter ->   Em relação ao X = 0 do texto.
-            Point charLocation = new(TextCharLocX(text, index, font) + startX, startY);  //IV.b)Posição X do carácter -> Em relação ao X = 0 do texto.
+            Point charLocation = LocationByIndex(startLocation, text, index, font);  //IV.b)Posição X do carácter -> Em relação ao X = 0 do texto.
 
             return new(charLocation, charSize);
         }

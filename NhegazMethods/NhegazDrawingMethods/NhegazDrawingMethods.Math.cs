@@ -16,22 +16,22 @@ namespace NhegazCustomControls
     {
 
         /// <summary>
-        /// Transforma um float em .5 ou .0 mais proximo de seu valor original.
+        /// Transforma um float em .5 ou .0 mais proximo de seu value original.
         /// </summary>
-        /// <param name="valor"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        static float RoundFloat(float valor)
+        static float RoundFloat(float value)
         {
-            float parteDecimal = valor - (int)valor;
+            float parteDecimal = value - (int)value;
 
             // Verifica se a parte decimal é exatamente 0.5
             if (Math.Abs(parteDecimal - 0.5f) < 0.00001f)
             {
-                return valor; // mantém com .5
+                return value; // mantém com .5
             }
             else
             {
-                return (float)Math.Round(valor); // arredonda normalmente
+                return (float)Math.Round(value); // arredonda normalmente
             }
         }
 
@@ -41,7 +41,7 @@ namespace NhegazCustomControls
         public static List<PointF> GenerateArc(int radius)   
         {
             int arcLenght = (int)(Math.PI * radius / 2);          //Comprimento do arco "π*radius/2"
-            int segments = Math.Max(1, arcLenght);                //Maior valor entre 1 e arcLenght
+            int segments = Math.Max(1, arcLenght);                //Maior value entre 1 e arcLenght
 
             List<PointF> points = [];                             //lista que armazena os pontos do arco
 
@@ -67,7 +67,7 @@ namespace NhegazCustomControls
         public static List<PointF> GenerateInnerArc(float radius, int arcWidth)
         { 
             int arcLenght = (int)(Math.PI * (radius - (arcWidth -1)) / 2); //Ccomprimento do arco "π*radius - (arcWidth - 1) / 2"
-            int segments = Math.Max(1, arcLenght);                         //Maior valor entre 1 e arcLenght
+            int segments = Math.Max(1, arcLenght);                         //Maior value entre 1 e arcLenght
 
             List<PointF> points = [];                                      //lista que armazena os pontos do arco
 

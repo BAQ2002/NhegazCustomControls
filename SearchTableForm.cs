@@ -1,20 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static NhegazCustomControls.TestForm;
+
 namespace NhegazCustomControls
 {
-    public partial class TestForm : Form
+    public partial class SearchTableForm : Form
     {
-        public TestForm()
+        public SearchTableForm()
         {
             InitializeComponent();
         }
-        public class Carro
-        {
-            public string Marca { get; set; }
-            public string Modelo { get; set; }
-            public string Cor { get; set; }
-            public string Ano { get; set; }
-        }
 
-        private void TestForm_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
 
             OutsideClickBlur.InstallOnce();
@@ -72,11 +76,7 @@ namespace NhegazCustomControls
             };
 
             customDataGridView1.SetDataSource(CarrosList);
-        }
-
-        private void customDatePicker1_Load(object sender, EventArgs e)
-        {
-
+            customDataGridView2.SetDataSource(CarrosList);
         }
     }
 }

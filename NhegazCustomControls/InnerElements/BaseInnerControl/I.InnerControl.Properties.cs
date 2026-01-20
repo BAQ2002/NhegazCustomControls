@@ -24,13 +24,13 @@ namespace NhegazCustomControls
         public virtual Font Font { get; set; } = SystemFonts.DefaultFont;
 
         /// <summary>Define qual a cor do texto.</summary>
-        public Color ForeColor { get; set; } = SystemColors.ControlText;
+        public virtual Color ForeColor { get; set; } = SystemColors.ControlText;
 
         /// <summary>Define qual a cor do texto quando o mouse estiver por cima.</summary>
         public virtual Color HoverForeColor { get; set; } = SystemColors.Window;
 
         /// <summary>Define qual a cor padrão do fundo.</summary>
-        public Color BackgroundColor { get; set; } = SystemColors.Window;
+        public virtual Color BackgroundColor { get; set; } = SystemColors.Window;
 
         /// <summary>Define qual a cor do fundo quando o mouse estiver por cima.</summary>
         public virtual Color HoverBackgroundColor { get; set; } = SystemColors.Highlight;

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Reflection.Metadata;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
@@ -36,88 +38,42 @@ namespace NhegazCustomControls
             InvalidateParent?.Invoke();      //Atualiza o visual a partir de CustomControl.Invalidate().
             caretTimer.Start();              //Inicia novamente o timer.
         }
-
-        /// <summary>    
-        /// Retorna um índice de texto a 
-        /// partir de um <see cref="Point"/>.
-        /// <para>
-        /// Valor utilizado em <see cref="RaiseClick"/>,
-        /// <see cref="RaiseMouseDown"/> e <see cref="RaiseMouseMove"/>.
-        /// </para> 
-        /// Se não houver texto -> Índice = 0.
-        /// <para>
-        /// Se o <see cref="Point"/> Location 
-        /// estiver mais a direita do que o fim do texto ->
-        /// Retorna o índice do fim do texto. 
-        /// </para>
-        /// <para>
-        /// Se o <see cref="Point"/> Location 
-        /// pertence a algum carácter do texto ->
-        /// Retorna o índice do cáracter.
-        /// </para>
-        /// se não pertencer a nenhum -> Retorna -1.
+        /// <summary>
+        /// Retorna um indice de um texto a partir de um <see cref="Point"/> -> 
+        /// para cada caracter de <see cref="Text"/> texto há duas Hitbox's. 
         /// </summary>
-        public int OLD(Point location, RectangleCharWidth rectangleCharWidth)
-        {
-            if (Text.Length == 0){ return 0; }                          //Se não houver texto -> Índice obrigatório ser no início(= 0).
-            if (location.X >= TextRectangle.Right){return Text.Length;} //Se o ponto for depois do texto -> Índice no fim do texto.
-
-            bool useHalfWidth =                                         //Se rectangleCharWidth == RectangleCharWidth.Half = true.                                                  
-            rectangleCharWidth == RectangleCharWidth.Half;                     
-
-            int factor = useHalfWidth ? 2 : 1;                          //Define se será dividido em metades (2) ou largura inteira (1).
-            int amountOfRects = Text.Length * factor;                   //Quantidade de retângulos (1 por carácter ou 2 por carácter).
-            int charWidth = NhegazSizeMethods.FontUnitSize(Font).Width; //Largura base de um carácter.
-            int step = charWidth / factor;                              //Distância em X entre cada retângulo.
-
-            for (int i = 0; i < amountOfRects; i++)                     //Para cada retângulo calculado.
-            {
-                int x = TextRectangle.X + i * step;                     //Posição X acumulativa a partir do índice.
-                int y = TextRectangle.Y;                                //Posição Y igual Y(0) do texto.
-                int width = charWidth / factor;                         //Largura de cada retângulo (inteiro ou metade da fonte).
-                int height = Height;                                    //Altura igual do InnerTextBox.
-
-                Rectangle charRect = new(x, y, width, height);          //Instância do retângulo.
-                if (charRect.Contains(location))                        //Se o ponto do mouse pertence ao retângulo.
-                {
-                    if (useHalfWidth)                                   //Modo "meia largura" (metade esquerda/direita).
-                    { return (int)Math.Ceiling(i / 2.0); }              //Mapeia o índice do retângulo para índice de caret.              
-                    else { return i; }                                  //Modo "largura inteira", retorna o índice do carácter.
-                }
-            }
-
-            return -1;                                                  //Se não existir carácter para aquele ponto retorna -1.
-        }
-  
-        public int GetTextIndexFromPoint(Point location, RectangleCharWidth rectangleCharWidth)
+        /// <param name="location"></param>
+        /// <returns></returns>
+        public int GetTextIndexFromPoint(Point location)
         {
             int amountOfRects = Text.Length * 2;
             
 
-            for (int i = 0; i < amountOfRects; i++)   //Para cada retângulo calculado.
+            for (int i = 0; i < amountOfRects; i++)   //Para cada char em Text * 2.
             {
-                int textIndex = i / 2;
+                int charIndex = i / 2;
 
-                int width = NhegazSizeMethods.
-                TextCharWidth(Text, textIndex, Font) / 2;
+                //Representação visual das Hitbox's    
+                //-------------------------------------//
+                //  _._  _._  _._  _._  _._  _._  _._
+                // |   ||   ||   ||   ||   ||   ||   | //
+                // |_0_||_1_||_2_||_3_||_4_||_5_||_5_| //
+                // | | || | || | || | || | || | || | | //
+                // |0|1||1|2||2|3||3|4||4|5||5|6||5|6| //
+                //-------------------------------------//
 
-                int height = NhegazSizeMethods.
-                TextExactSize(Text, Font).Height;
-
-                int x = TextLocation.X 
-                      + NhegazSizeMethods.
-                        TextCharLocX(Text, textIndex, Font)
-                      + (width * (i % 2));
-                int y = TextRectangle.Y;
-
-       
-                Rectangle charRect = new( x, y, width, height);
+                Rectangle charRect = NhegazSizeMethods.
+                TextCharRect(TextLocation, Text, charIndex, Font); //Retângulo(X, Y, Width, Height)
+                charRect.Width = charRect.Width / 2;               //Width = Width / 2.
+                charRect.X    += charRect.Width * (i % 2);         //X = X + Width * (i % 2).
 
                 if (charRect.Contains(location))                        //Se o ponto do mouse pertence ao retângulo.
                 {
                    return (int)Math.Ceiling(i / 2.0);
                 }
             }
+
+
             return -1;
         }
 

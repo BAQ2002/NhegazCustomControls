@@ -8,14 +8,24 @@ namespace NhegazCustomControls
     public class CustomControlPaddingTypeConverter : ExpandableObjectConverter
     {
         private static readonly string[] AbsoluteProps =
+    {
+        nameof(CustomControlPadding.InnerHorizontal),
+        nameof(CustomControlPadding.InnerVertical),
+        nameof(CustomControlPadding.BorderLeft),
+        nameof(CustomControlPadding.BorderTop),
+        nameof(CustomControlPadding.BorderRight),
+        nameof(CustomControlPadding.BorderBottom),
+    };
+
+        private static readonly string[] RelativeProps =
         {
-            nameof(CustomControlPadding.InnerHorizontal),
-            nameof(CustomControlPadding.InnerVertical),
-            nameof(CustomControlPadding.BorderLeft),
-            nameof(CustomControlPadding.BorderTop),
-            nameof(CustomControlPadding.BorderRight),
-            nameof(CustomControlPadding.BorderBottom),
-        };
+        nameof(CustomControlPadding.RelativePercentInnerHorizontal),
+        nameof(CustomControlPadding.RelativePercentInnerVertical),
+        nameof(CustomControlPadding.RelativePercentBorderLeft),
+        nameof(CustomControlPadding.RelativePercentBorderTop),
+        nameof(CustomControlPadding.RelativePercentBorderRight),
+        nameof(CustomControlPadding.RelativePercentBorderBottom),
+    };
 
         public override bool GetPropertiesSupported(ITypeDescriptorContext context) => true;
 
@@ -25,22 +35,25 @@ namespace NhegazCustomControls
             var pdc = TypeDescriptor.GetProperties(value, attributes);
             if (value is not CustomControlPadding padding) return pdc;
 
-            bool lockAbsolutes = padding.Mode == PaddingMode.RelativeToFont;
+            bool lockAbsolutes = padding.PaddingMode == PaddingMode.RelativeToFont;
+            bool lockRelatives = padding.PaddingMode == PaddingMode.Absolute;
 
             var list = pdc.Cast<PropertyDescriptor>()
                           .Select(pd =>
                           {
                               if (AbsoluteProps.Contains(pd.Name))
-                              {
                                   return new ReadOnlySwitchingPropertyDescriptor(pd, lockAbsolutes);
-                              }
+
+                              if (RelativeProps.Contains(pd.Name))
+                                  return new ReadOnlySwitchingPropertyDescriptor(pd, lockRelatives);
+
                               return pd;
                           })
                           .ToArray();
 
             return new PropertyDescriptorCollection(list, readOnly: true);
         }
-
+  
         private sealed class ReadOnlySwitchingPropertyDescriptor : PropertyDescriptor
         {
             private readonly PropertyDescriptor inner;

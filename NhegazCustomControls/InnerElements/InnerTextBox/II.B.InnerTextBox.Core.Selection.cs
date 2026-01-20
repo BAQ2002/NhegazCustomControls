@@ -51,16 +51,19 @@ namespace NhegazCustomControls
                 return;
             }
 
-            index = NhegazMathMethods.Clamp(index, 0, Text.Length - 1); //Garante que o índice esteja dentro dos limites válidos.
+            index = Nhegaz.MathMethods.Clamp(index, 0, Text.Length - 1); //Garante que o índice esteja dentro dos limites válidos.
+
+            int end = index;
+            while (end < Text.Length && IsWordChar(Text[end]))
+            { end++; SelectionEndIndex = end; }
 
             int start = index;
-            while (start > 0 && IsWordChar(Text[start])) 
+            while (start >= 0 && IsWordChar(Text[start])) 
             { SelectionStartIndex = start; start--; }
-       
 
-            int end = index + 1;
-            while (end < Text.Length && IsWordChar(Text[end]))
-            { SelectionEndIndex = end; end++; } 
+            
+
+            
 
             RestartCaretBlink();
             InvalidateParent?.Invoke();

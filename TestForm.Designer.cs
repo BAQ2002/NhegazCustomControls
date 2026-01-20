@@ -28,52 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            customDatePicker1 = new CustomDatePicker();
             customDatePicker2 = new CustomDatePicker();
-            dateTimePicker1 = new DateTimePicker();
             customDataGridView1 = new CustomDataGridView();
             customTextBox1 = new CustomTextBox();
-            customDatePicker3 = new CustomDatePicker();
+            customDatePicker1 = new CustomDatePicker();
             SuspendLayout();
-            // 
-            // customDatePicker1
-            // 
-            customDatePicker1.BackColor = Color.Transparent;
-            customDatePicker1.BackgroundColor = SystemColors.Window;
-            customDatePicker1.BorderColor = SystemColors.WindowFrame;
-            customDatePicker1.BorderRadius = 3;
-            customDatePicker1.BorderWidth = 1;
-            customDatePicker1.ControlPadding.Mode = PaddingMode.RelativeToFont;
-            customDatePicker1.ControlPadding.RelativePercentBorderBottom = 0.6F;
-            customDatePicker1.ControlPadding.RelativePercentBorderLeft = 0.6F;
-            customDatePicker1.ControlPadding.RelativePercentBorderRight = 0.6F;
-            customDatePicker1.ControlPadding.RelativePercentBorderTop = 0.6F;
-            customDatePicker1.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
-            customDatePicker1.ControlPadding.RelativePercentInnerVertical = 0.6F;
-            customDatePicker1.Date = new DateOnly(2025, 10, 6);
-            customDatePicker1.Day = 6;
-            customDatePicker1.DropDownFeatures.HeaderBackgroundColor = SystemColors.GradientActiveCaption;
-            customDatePicker1.DropDownFeatures.HeaderBorderColor = SystemColors.WindowFrame;
-            customDatePicker1.DropDownFeatures.HeaderBorderRadius = 4;
-            customDatePicker1.DropDownFeatures.HeaderBorderWidth = 1;
-            customDatePicker1.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
-            customDatePicker1.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
-            customDatePicker1.DropDownFeatures.HeaderHoverForeColor = SystemColors.Window;
-            customDatePicker1.DropDownFeatures.HeaderOnFocusBorderColor = SystemColors.Highlight;
-            customDatePicker1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            customDatePicker1.HoverBackgroundColor = SystemColors.Highlight;
-            customDatePicker1.HoverForeColor = SystemColors.Window;
-            customDatePicker1.Location = new Point(315, 107);
-            customDatePicker1.MinimumSize = new Size(136, 46);
-            customDatePicker1.Month = 10;
-            customDatePicker1.Name = "customDatePicker1";
-            customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
-            customDatePicker1.OnFocusBorderExtraWidth = 1;
-            customDatePicker1.SecondaryBackgroundColor = SystemColors.ActiveCaption;
-            customDatePicker1.SecondaryForeColor = SystemColors.GrayText;
-            customDatePicker1.Size = new Size(136, 46);
-            customDatePicker1.TabIndex = 0;
-            customDatePicker1.Year = 2025;
             // 
             // customDatePicker2
             // 
@@ -83,13 +42,18 @@
             customDatePicker2.BorderColor = SystemColors.WindowFrame;
             customDatePicker2.BorderRadius = 6;
             customDatePicker2.BorderWidth = 1;
-            customDatePicker2.ControlPadding.Mode = PaddingMode.RelativeToFont;
-            customDatePicker2.ControlPadding.RelativePercentBorderBottom = 0.2F;
-            customDatePicker2.ControlPadding.RelativePercentBorderLeft = 0.6F;
-            customDatePicker2.ControlPadding.RelativePercentBorderRight = 0.6F;
-            customDatePicker2.ControlPadding.RelativePercentBorderTop = 0.2F;
-            customDatePicker2.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
-            customDatePicker2.ControlPadding.RelativePercentInnerVertical = 0.6F;
+            customDatePicker2.ControlPadding.BorderBottom = 0;
+            customDatePicker2.ControlPadding.BorderLeft = 0;
+            customDatePicker2.ControlPadding.BorderRight = 0;
+            customDatePicker2.ControlPadding.BorderTop = 0;
+            customDatePicker2.ControlPadding.InnerHorizontal = 1;
+            customDatePicker2.ControlPadding.InnerVertical = 1;
+            customDatePicker2.ControlPadding.PaddingMode = PaddingMode.RelativeToFont;
+            customDatePicker2.ControlPadding.RelativePercentBorderLeft = 0;
+            customDatePicker2.ControlPadding.RelativePercentBorderRight = 0;
+            customDatePicker2.ControlPadding.RelativePercentBorderTop = 0;
+            customDatePicker2.ControlPadding.RelativePercentInnerHorizontal = 0;
+            customDatePicker2.ControlPadding.RelativePercentInnerVertical = 0;
             customDatePicker2.Date = new DateOnly(2025, 10, 8);
             customDatePicker2.Day = 8;
             customDatePicker2.DropDownFeatures.HeaderBackgroundColor = SystemColors.ControlLight;
@@ -103,8 +67,8 @@
             customDatePicker2.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
-            customDatePicker2.Location = new Point(556, 211);
-            customDatePicker2.MinimumSize = new Size(136, 30);
+            customDatePicker2.Location = new Point(-320, 22);
+            customDatePicker2.MinimumSize = new Size(126, 22);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";
             customDatePicker2.OnFocusBorderColor = SystemColors.Highlight;
@@ -115,16 +79,6 @@
             customDatePicker2.TabIndex = 2;
             customDatePicker2.Year = 2025;
             // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.CalendarFont = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePicker1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(713, 107);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(134, 33);
-            dateTimePicker1.TabIndex = 3;
-            // 
             // customDataGridView1
             // 
             customDataGridView1.BackColor = Color.Transparent;
@@ -133,13 +87,18 @@
             customDataGridView1.BorderRadius = 8;
             customDataGridView1.BorderWidth = 1;
             customDataGridView1.ColumnWidthMode = ColumnWidthMode.HeaderWidth;
-            customDataGridView1.ControlPadding.Mode = PaddingMode.RelativeToFont;
-            customDataGridView1.ControlPadding.RelativePercentBorderBottom = 0F;
-            customDataGridView1.ControlPadding.RelativePercentBorderLeft = 0.2F;
-            customDataGridView1.ControlPadding.RelativePercentBorderRight = 1F;
-            customDataGridView1.ControlPadding.RelativePercentBorderTop = 0F;
-            customDataGridView1.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
-            customDataGridView1.ControlPadding.RelativePercentInnerVertical = 0.6F;
+            customDataGridView1.ControlPadding.BorderBottom = 0;
+            customDataGridView1.ControlPadding.BorderLeft = 0;
+            customDataGridView1.ControlPadding.BorderRight = 0;
+            customDataGridView1.ControlPadding.BorderTop = 0;
+            customDataGridView1.ControlPadding.InnerHorizontal = 1;
+            customDataGridView1.ControlPadding.InnerVertical = 1;
+            customDataGridView1.ControlPadding.PaddingMode = PaddingMode.RelativeToFont;
+            customDataGridView1.ControlPadding.RelativePercentBorderLeft = 0;
+            customDataGridView1.ControlPadding.RelativePercentBorderRight = 0;
+            customDataGridView1.ControlPadding.RelativePercentBorderTop = 0;
+            customDataGridView1.ControlPadding.RelativePercentInnerHorizontal = 0;
+            customDataGridView1.ControlPadding.RelativePercentInnerVertical = 0;
             customDataGridView1.DifferentColorsBetweenRows = true;
             customDataGridView1.FixedCharCount = 10;
             customDataGridView1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -160,13 +119,13 @@
             customDataGridView1.LinesBetweenColumns = true;
             customDataGridView1.LinesBetweenRows = true;
             customDataGridView1.LinesWidth = 1;
-            customDataGridView1.Location = new Point(45, 270);
+            customDataGridView1.Location = new Point(12, 225);
             customDataGridView1.Name = "customDataGridView1";
             customDataGridView1.OnFocusBorderColor = SystemColors.Highlight;
             customDataGridView1.OnFocusBorderExtraWidth = 1;
             customDataGridView1.SecondaryBackgroundColor = SystemColors.ActiveCaption;
             customDataGridView1.SecondaryForeColor = SystemColors.ControlText;
-            customDataGridView1.Size = new Size(439, 305);
+            customDataGridView1.Size = new Size(556, 305);
             customDataGridView1.TabIndex = 4;
             // 
             // customTextBox1
@@ -176,19 +135,24 @@
             customTextBox1.BorderColor = SystemColors.WindowFrame;
             customTextBox1.BorderRadius = 5;
             customTextBox1.BorderWidth = 1;
-            customTextBox1.ControlPadding.Mode = PaddingMode.RelativeToFont;
-            customTextBox1.ControlPadding.RelativePercentBorderBottom = 0.5F;
-            customTextBox1.ControlPadding.RelativePercentBorderLeft = 0.5F;
-            customTextBox1.ControlPadding.RelativePercentBorderRight = 0.5F;
-            customTextBox1.ControlPadding.RelativePercentBorderTop = 0.5F;
-            customTextBox1.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
-            customTextBox1.ControlPadding.RelativePercentInnerVertical = 0.6F;
-            customTextBox1.Font = new Font("Arial Unicode MS", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            customTextBox1.ControlPadding.BorderBottom = 0;
+            customTextBox1.ControlPadding.BorderLeft = 0;
+            customTextBox1.ControlPadding.BorderRight = 0;
+            customTextBox1.ControlPadding.BorderTop = 0;
+            customTextBox1.ControlPadding.InnerHorizontal = 1;
+            customTextBox1.ControlPadding.InnerVertical = 1;
+            customTextBox1.ControlPadding.PaddingMode = PaddingMode.Absolute;
+            customTextBox1.ControlPadding.RelativePercentBorderLeft = 0;
+            customTextBox1.ControlPadding.RelativePercentBorderRight = 0;
+            customTextBox1.ControlPadding.RelativePercentBorderTop = 0;
+            customTextBox1.ControlPadding.RelativePercentInnerHorizontal = 0;
+            customTextBox1.ControlPadding.RelativePercentInnerVertical = 0;
+            customTextBox1.Font = new Font("Arial Unicode MS", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customTextBox1.HoverBackgroundColor = SystemColors.Highlight;
             customTextBox1.HoverForeColor = SystemColors.Window;
-            customTextBox1.Location = new Point(55, 70);
+            customTextBox1.Location = new Point(12, 160);
             customTextBox1.MaxLength = 0;
-            customTextBox1.MinimumSize = new Size(241, 42);
+            customTextBox1.MinimumSize = new Size(241, 27);
             customTextBox1.Name = "customTextBox1";
             customTextBox1.OnFocusBorderColor = SystemColors.Highlight;
             customTextBox1.OnFocusBorderExtraWidth = 1;
@@ -196,76 +160,81 @@
             customTextBox1.SecondaryForeColor = SystemColors.ControlText;
             customTextBox1.SelectionBackgroundColor = SystemColors.Highlight;
             customTextBox1.SelectionForeColor = SystemColors.Window;
-            customTextBox1.Size = new Size(241, 42);
+            customTextBox1.Size = new Size(241, 51);
             customTextBox1.TabIndex = 5;
             customTextBox1.TextCharFilter = TextCharFilter.None;
             customTextBox1.TextFormatFilter = TextFormatFilter.None;
-            customTextBox1.UseEllipsis = false; //customTextBox1.InnerTextBox.KeyDown keyDown = null;
-            customTextBox1.TextFormatFilter = TextFormatFilter.None;
+            customTextBox1.UseEllipsis = false;
             // 
-            // customDatePicker3
+            // customDatePicker1
             // 
-            customDatePicker3.BackColor = Color.Transparent;
-            customDatePicker3.BackgroundColor = SystemColors.Window;
-            customDatePicker3.BorderColor = SystemColors.WindowFrame;
-            customDatePicker3.BorderRadius = 5;
-            customDatePicker3.BorderWidth = 1;
-            customDatePicker3.ControlPadding.Mode = PaddingMode.RelativeToFont;
-            customDatePicker3.ControlPadding.RelativePercentBorderBottom = 0F;
-            customDatePicker3.ControlPadding.RelativePercentBorderLeft = 0F;
-            customDatePicker3.ControlPadding.RelativePercentBorderRight = 0F;
-            customDatePicker3.ControlPadding.RelativePercentBorderTop = 0F;
-            customDatePicker3.ControlPadding.RelativePercentInnerHorizontal = 0.6F;
-            customDatePicker3.ControlPadding.RelativePercentInnerVertical = 0.6F;
-            customDatePicker3.Date = new DateOnly(2025, 12, 29);
-            customDatePicker3.Day = 29;
-            customDatePicker3.DropDownFeatures.HeaderBackgroundColor = SystemColors.GrayText;
-            customDatePicker3.DropDownFeatures.HeaderBorderColor = SystemColors.WindowFrame;
-            customDatePicker3.DropDownFeatures.HeaderBorderRadius = 4;
-            customDatePicker3.DropDownFeatures.HeaderBorderWidth = 1;
-            customDatePicker3.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
-            customDatePicker3.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
-            customDatePicker3.DropDownFeatures.HeaderHoverForeColor = SystemColors.Window;
-            customDatePicker3.DropDownFeatures.HeaderOnFocusBorderColor = SystemColors.Highlight;
-            customDatePicker3.HoverBackgroundColor = SystemColors.Highlight;
-            customDatePicker3.HoverForeColor = SystemColors.Window;
-            customDatePicker3.Location = new Point(647, 327);
-            customDatePicker3.MinimumSize = new Size(96, 17);
-            customDatePicker3.Month = 12;
-            customDatePicker3.Name = "customDatePicker3";
-            customDatePicker3.OnFocusBorderColor = SystemColors.Highlight;
-            customDatePicker3.OnFocusBorderExtraWidth = 1;
-            customDatePicker3.SecondaryBackgroundColor = SystemColors.ControlLightLight;
-            customDatePicker3.SecondaryForeColor = SystemColors.ControlText;
-            customDatePicker3.Size = new Size(104, 17);
-            customDatePicker3.TabIndex = 6;
-            customDatePicker3.Year = 2025;
+            customDatePicker1.BackColor = Color.Transparent;
+            customDatePicker1.BackgroundColor = SystemColors.Window;
+            customDatePicker1.BorderColor = SystemColors.WindowFrame;
+            customDatePicker1.BorderRadius = 12;
+            customDatePicker1.BorderWidth = 1;
+            customDatePicker1.ControlPadding.BorderBottom = 0;
+            customDatePicker1.ControlPadding.BorderLeft = 0;
+            customDatePicker1.ControlPadding.BorderRight = 0;
+            customDatePicker1.ControlPadding.BorderTop = 0;
+            customDatePicker1.ControlPadding.InnerHorizontal = 1;
+            customDatePicker1.ControlPadding.InnerVertical = 1;
+            customDatePicker1.ControlPadding.PaddingMode = PaddingMode.RelativeToFont;
+            customDatePicker1.ControlPadding.RelativePercentBorderBottom = 30;
+            customDatePicker1.ControlPadding.RelativePercentBorderLeft = 30;
+            customDatePicker1.ControlPadding.RelativePercentBorderRight = 30;
+            customDatePicker1.ControlPadding.RelativePercentBorderTop = 30;
+            customDatePicker1.ControlPadding.RelativePercentInnerHorizontal = 30;
+            customDatePicker1.ControlPadding.RelativePercentInnerVertical = 30;
+            customDatePicker1.Date = new DateOnly(2026, 1, 19);
+            customDatePicker1.Day = 19;
+            customDatePicker1.DropDownFeatures.HeaderBackgroundColor = SystemColors.GrayText;
+            customDatePicker1.DropDownFeatures.HeaderBorderColor = SystemColors.WindowFrame;
+            customDatePicker1.DropDownFeatures.HeaderBorderRadius = 4;
+            customDatePicker1.DropDownFeatures.HeaderBorderWidth = 1;
+            customDatePicker1.DropDownFeatures.HeaderForeColor = SystemColors.ControlText;
+            customDatePicker1.DropDownFeatures.HeaderHoverBackgroundColor = SystemColors.Highlight;
+            customDatePicker1.DropDownFeatures.HeaderHoverForeColor = SystemColors.Window;
+            customDatePicker1.DropDownFeatures.HeaderOnFocusBorderColor = SystemColors.Highlight;
+            customDatePicker1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            customDatePicker1.ForeColor = SystemColors.ControlText;
+            customDatePicker1.HoverBackgroundColor = SystemColors.Highlight;
+            customDatePicker1.HoverForeColor = SystemColors.Window;
+            customDatePicker1.Location = new Point(414, 160);
+            customDatePicker1.MinimumSize = new Size(154, 35);
+            customDatePicker1.Month = 1;
+            customDatePicker1.Name = "customDatePicker1";
+            customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
+            customDatePicker1.OnFocusBorderExtraWidth = 1;
+            customDatePicker1.SecondaryBackgroundColor = SystemColors.ControlLightLight;
+            customDatePicker1.SecondaryForeColor = SystemColors.ControlText;
+            customDatePicker1.Size = new Size(154, 35);
+            customDatePicker1.TabIndex = 6;
+            customDatePicker1.Year = 2026;
             // 
             // TestForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1019, 609);
-            Controls.Add(customDatePicker3);
+            ClientSize = new Size(580, 542);
+            Controls.Add(customDatePicker1);
             Controls.Add(customTextBox1);
             Controls.Add(customDataGridView1);
-            Controls.Add(dateTimePicker1);
             Controls.Add(customDatePicker2);
-            Controls.Add(customDatePicker1);
+            Font = new Font("Arial Rounded MT Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Margin = new Padding(4);
             Name = "TestForm";
+            Padding = new Padding(10, 0, 0, 0);
             Text = "Form1";
             Load += TestForm_Load;
             ResumeLayout(false);
         }
 
         #endregion
-
-        private CustomDatePicker customDatePicker1;
         private CustomDatePicker customDatePicker2;
-        private DateTimePicker dateTimePicker1;
         private CustomDataGridView customDataGridView1;
         private CustomTextBox customTextBox1;
-        private CustomDatePicker customDatePicker3;
+        private CustomDatePicker customDatePicker1;
     }
 }

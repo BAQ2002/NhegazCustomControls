@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NhegazCustomControls
 {
-    public partial class ComboBoxDropDown
+    public partial class DropDownCBox
     {
     }
 }

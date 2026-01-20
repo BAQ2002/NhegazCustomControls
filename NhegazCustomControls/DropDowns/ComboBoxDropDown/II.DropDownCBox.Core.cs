@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace NhegazCustomControls
 {
-    public partial class ComboBoxDropDown : CustomControl, IHasVector
+    public partial class DropDownCBox : CustomControl, IHasVector
     {
         private CustomComboBox ParentControl;
         VectorFeature IHasVector.Vector => OptionsLabels;
         public VectorFeature OptionsLabels { get; private set; }
         private int NumberOfColumns;
-        public ComboBoxDropDown(CustomComboBox parent) : base(parent)
+        public DropDownCBox(CustomComboBox parent) : base(parent)
         {
             ParentControl = parent;
 

@@ -20,12 +20,6 @@ namespace NhegazCustomControls
         /// <summary>Espessura adicional para as bordas quando o Controle esta em foco.</summary>
         private int onFocusBorderExtraWidth = 1;
 
-        /// <summary>Indica se a borda deve expandir quando o Controle esta em foco.</summary>
-        private bool inflateBorderOnFocus = false;
-
-        /// <summary></summary>
-        private bool layoutPending = false;
-
         /// <summary>Indica se o Controle possui visualmente uma borda.</summary>
         protected bool HasBorder => borderWidth >= 1;
 
@@ -34,7 +28,7 @@ namespace NhegazCustomControls
         /// utilizado em <see cref="DrawBackground"/> baseado em
         /// <para>(BorderWidth = 0 : BackgroundOffset = 0); </para>
         /// <para>(BorderWidth = 1 : BackgroundOffset = 1); </para>
-        /// <para>(BorderWidth > 1 : BackgroundOffset = BorderWidth-1); </para>
+        /// <para>(BorderWidth > 1 : BackgroundOffset = BorderWidth - 1); </para>
         /// </summary>
         protected int BackgroundOffset=>
             BorderWidth <= 0 ? 0 :

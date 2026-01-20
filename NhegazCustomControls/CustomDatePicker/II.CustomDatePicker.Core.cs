@@ -75,6 +75,7 @@ namespace NhegazCustomControls
             yearDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownYear));
 
             UpdateLayout();
+            Size = MinimumSize;
             AdjustHoverColors();
         }
         protected override void AdjustHoverColors()
@@ -153,7 +154,7 @@ namespace NhegazCustomControls
 
             dropDownInstance.Location = new Point(formLocation.X, formLocation.Y + Height + 1);
 
-            dropDownInstance.ControlPadding.Mode = PaddingMode.Absolute;
+            dropDownInstance.ControlPadding.PaddingMode = PaddingMode.Absolute;
             dropDownInstance.ControlPadding.BorderLeft = ControlPadding.EffectiveBorderLeft;
             dropDownInstance.ControlPadding.BorderTop = ControlPadding.EffectiveBorderTop;
             dropDownInstance.ControlPadding.BorderRight = ControlPadding.EffectiveBorderRight;

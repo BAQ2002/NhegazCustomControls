@@ -13,23 +13,8 @@ namespace NhegazCustomControls
         {
             if (!HasSelection) return;
 
-            int start = Math.Min(SelectionStartIndex, SelectionEndIndex);
-            int end = Math.Max(SelectionStartIndex, SelectionEndIndex);
-
-            int charWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
-
-            int x1 = TextLocation.X + start * charWidth;
-            int x2 = TextLocation.X + end * charWidth;
-
-            Rectangle rect = new Rectangle(
-                x1,
-                TextLocation.Y,
-                x2 - x1,
-                TextSize.Height
-            );
-
             using var brush = new SolidBrush(SelectionBackgroundColor);
-            e.Graphics.FillRectangle(brush, rect);
+            e.Graphics.FillRectangle(brush, SelectionRectangle);
         }
 
         public void DrawText(PaintEventArgs e)
@@ -37,24 +22,20 @@ namespace NhegazCustomControls
             if (string.IsNullOrEmpty(Text))
                 return;
 
-            int charWidth = NhegazSizeMethods.FontUnitSize(Font).Width;
-
-            int start = HasSelection ? Math.Min(SelectionStartIndex, SelectionEndIndex) : -1;
-            int end = HasSelection ? Math.Max(SelectionStartIndex, SelectionEndIndex) : -1;
+            int min = HasSelection ? SelectionMinIndex : -1;
+            int max = HasSelection ? SelectionMaxIndex : -1;
 
             // Definição das três partes
-            string left = (HasSelection && start > 0) ? Text.Substring(0, start) : (!HasSelection ? Text : "");
-            string middle = (HasSelection) ? Text.Substring(start, end - start) : "";
-            string right = (HasSelection && end < Text.Length) ? Text.Substring(end, Text.Length - end) : "";
+            string left = (HasSelection && min > 0) ? Text.Substring(0, min) : (!HasSelection ? Text : "");
+            string right = (HasSelection && max < Text.Length) ? Text.Substring(max, Text.Length - max) : "";
 
+            string cu = (HasSelection && SelectionMinIndex > 0) ? Text.Substring(0, SelectionMinIndex) : Text;
             // Flags originais
             var flags = UseEllipsis ?
                 TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.NoPadding | TextFormatFlags.SingleLine :
                 TextFormatFlags.NoPadding | TextFormatFlags.SingleLine | TextFormatFlags.NoClipping;
 
-            int x = TextLocation.X;
-            int y = TextLocation.Y;
-
+            
             //Left (antes da seleção)
             if (left.Length > 0)
             {
@@ -62,35 +43,37 @@ namespace NhegazCustomControls
                     e.Graphics,
                     left,
                     Font,
-                    new Point(x, y),
+                    TextLocation,
                     ForeColor,
                     flags
                 );
-                x += left.Length * charWidth;
             }
+            
 
             //Middle (texto selecionado → SelectionForeColor)
-            if (middle.Length > 0)
+            if (SelectionText.Length > 0)
             {
                 TextRenderer.DrawText(
                     e.Graphics,
-                    middle,
+                    SelectionText,
                     Font,
-                    new Point(x, y),
+                    SelectionLocation,
                     SelectionForeColor,
                     flags
                 );
-                x += middle.Length * charWidth;
             }
+
 
             //Right (após a seleção)
             if (right.Length > 0)
             {
+                Point rightLocation = NhegazSizeMethods.LocationByIndex(TextLocation, Text, SelectionMaxIndex, Font);
+
                 TextRenderer.DrawText(
                     e.Graphics,
                     right,
                     Font,
-                    new Point(x, y),
+                    rightLocation,
                     ForeColor,
                     flags
                 );

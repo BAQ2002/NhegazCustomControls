@@ -78,7 +78,7 @@ namespace NhegazCustomControls
             int left  = rect.Left;  int top    = rect.Top;
             int right = rect.Right; int bottom = rect.Bottom;
 
-            // cornerRadius = Math.Min(cornerRadius, Math.Min(width, height) / 2);
+            // cornerRadius = MathMethods.Min(cornerRadius, MathMethods.Min(width, height) / 2);
 
             GraphicsPath FullPath = new();
             FullPath.StartFigure();

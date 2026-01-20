@@ -36,14 +36,16 @@ namespace NhegazCustomControls
         VectorFeature Vector { get; }     
     }
     public abstract partial class CustomControl : UserControl
-    {              
-         
+    {
+
         public CustomControl()
-        {  
+        {
             SetStyle(ControlStyles.Selectable, true); TabStop = true; //Torna o Controle selecionável.
             DoubleBuffered = true; BackColor = Color.Transparent;     //Ajuste visual necessário.
+            //Font = new Font("Segoe UI", 12f, FontStyle.Regular);
             InnerControls = new InnerControlsCollection(this);        //Coleção de InnerControlsCollection.
             ControlPadding = new CustomControlPadding(this);          //Propriedades de Padding.
+
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace NhegazCustomControls
             ForeColor = parentControl.ForeColor;
             Font = parentControl.Font;
 
-            ControlPadding.Mode = parentControl.ControlPadding.Mode;
+            ControlPadding.PaddingMode = parentControl.ControlPadding.PaddingMode;
             // Se quiser copiar percentuais:
             ControlPadding.RelativePercentInnerHorizontal = parentControl.ControlPadding.RelativePercentInnerHorizontal;
             ControlPadding.RelativePercentInnerVertical = parentControl.ControlPadding.RelativePercentInnerVertical;

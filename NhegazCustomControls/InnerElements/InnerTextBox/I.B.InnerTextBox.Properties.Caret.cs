@@ -46,7 +46,7 @@ namespace NhegazCustomControls
             get => caretIndex;
             set
             {
-                int limitedValue = NhegazMathMethods.Clamp(value, 0, Text.Length); //Valor limitado entre 0 e Text.Length.
+                int limitedValue = Nhegaz.MathMethods.Clamp(value, 0, Text.Length); //Valor limitado entre 0 e Text.Length.
                 if (caretIndex != limitedValue)                                    //Se o valor atual for diferente do novo.
                 { caretIndex = limitedValue; RestartCaretBlink(); }                //Atualiza o valor e reinicia o Blink.
             }
@@ -61,13 +61,10 @@ namespace NhegazCustomControls
         {
             get
             {
-                int caretX = TextLocation.X                                          //Localização X(0) do Texto.
-                           + NhegazSizeMethods.TextCharLocX(Text, CaretIndex, Font); //Incremento de deslocamento por tamanho dos caracteres.
-                if (Text.Length > 0 && CaretIndex == Text.Length )                   //Se o CaretIndex estiver na posição após o último carácter Escrito:
-                    caretX -= CaretSize.Width;                                       //Subtrai a largura do caret para caber na "caixa" do texto.
-                                                                                      
-                int caretY = TextLocation.Y;                                         //Localização Y(0) do Texto.
-                return new(caretX, caretY);
+                Point caretLocation = NhegazSizeMethods.
+                LocationByIndex(TextLocation, Text, CaretIndex, Font);          //Incremento de deslocamento por tamanho dos caracteres.
+                //if (caretLocation.X + CaretSize.Width >= Width) caretLocation -= CaretSize.Width
+                return caretLocation;
             }
         }
 
