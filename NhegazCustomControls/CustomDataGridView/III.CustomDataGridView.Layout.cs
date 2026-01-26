@@ -17,8 +17,9 @@ namespace NhegazCustomControls
         /// </summary>
         public override void UpdateLayout()
         {
-            if (DataIsSourced == false) return; //Se ainda não houver dados vinculados -> não há Layout para atualizar.
 
+            if (DataIsSourced == false) return; //Se ainda não houver dados vinculados -> não há Layout para atualizar.
+            verticalScrollBar.UpdateViewRatio(BackgroundRectangle, DataLabels.GetItemsFullRect());
             base.UpdateLayout();                //Chama a lógica padrão de Layout definida em CustomControl.
         }
 
@@ -109,13 +110,10 @@ namespace NhegazCustomControls
             verticalScrollBar.Maximum = contentHeight;            //Conteúdo total para rolagem.
             verticalScrollBar.ViewportSize = viewportHeight;           //Tamanho da área visível.
 
-            int scrollWidth = 12;                                      //Espessura fixa da barra de rolagem.
-
-            verticalScrollBar.Visible = contentHeight > viewportHeight; //Só exibe se houver necessidade de rolagem.
 
             if (verticalScrollBar.Visible)
             {
-                verticalScrollBar.SetSize(scrollWidth, viewportHeight); //Define o tamanho da barra de rolagem.
+                verticalScrollBar.SetSize(15, Height - Header.Height); //Define o tamanho da barra de rolagem.
             }
 
         }
@@ -148,16 +146,7 @@ namespace NhegazCustomControls
                 HeaderLabels.SetItemLocation(col, headerItemX, BorderWidth);               //Define a posição do cabeçalho da coluna.
                 headerItemX += HeaderLabels.GetItem(col).Width + lineBetweenCol;           //Avança X somando largura da coluna e linha entre colunas.
             }
-
-            // --- Posição da barra de rolagem vertical ---
-            int scrollWidth = 12;                                        //Mesma espessura definida em SetInnerSizes.
-            int yScrollStart = Header.Bottom;                            //Início logo abaixo do Header.
-
-            
-            int scrollX = Width - BorderWidth - scrollWidth;         //Encostado na borda direita interna.
-            verticalScrollBar.SetLocation(RelativeRightX(verticalScrollBar), RelativeTopY());    //Define a posição da barra de rolagem.
-            
-
+          
             int yOffset = (verticalScrollBar.Visible)                    //Deslocamento vertical conforme o Value do scroll.
                         ? verticalScrollBar.Value
                         : 0;
@@ -166,7 +155,7 @@ namespace NhegazCustomControls
             for (int row = 0; row < rows; row++)
             {
                 int x = BorderWidth;
-                int y = Header.Bottom + row * (itemHeight + lineBetweenRow) - yOffset;
+                int y = Header.Bottom + row * (itemHeight + lineBetweenRow); //- yOffset;
 
                 for (int col = 0; col < cols; col++)
                 {
@@ -175,6 +164,9 @@ namespace NhegazCustomControls
                     x += lineBetweenCol + HeaderLabels.GetItem(col).Width;
                 }
             }
+
+            verticalScrollBar.SetLocation(Width -verticalScrollBar.Width, RelativeTopY() + Header.Height); //Define a posição da barra de rolagem.
+
         }
 
         /// <summary>

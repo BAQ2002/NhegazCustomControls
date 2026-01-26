@@ -49,10 +49,13 @@ namespace NhegazCustomControls
             NhegazDrawingMethods.DrawBorderPath(e, borderRect, BorderRadius, borderWidth, borderColor);
         }
 
+        protected virtual void DrawLines(PaintEventArgs e) { }
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);                             //Invoca o evento base de Windows.Forms.Control.
-            DrawBackground(e); DrawInnerControls(e);     //Desenha o Background; Desenha os InnerControlsCollection.
+            base.OnPaint(e); DrawBackground(e); //Invoca o evento base de Windows.Forms.Control. //Desenha o Background;
+            DrawLines(e); DrawInnerControls(e); //Desenha os InnerControlsCollection.
+
             (this as IHasHeader)?.Header.OnPaint(e);     //Se tiver Header: Desenha Header.
             if(HasBorder == true)DrawBorder(e);          //Se tiver Border: Desenha Border.
         }

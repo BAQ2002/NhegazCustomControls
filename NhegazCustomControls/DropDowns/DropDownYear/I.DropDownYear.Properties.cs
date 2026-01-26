@@ -37,8 +37,8 @@ namespace NhegazCustomControls
         public MatrixFeature YearItems { get; private set; }
 
         private InnerLabel DecadeLabel = new();
-        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle);
-        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);  
+        private InnerButton BackwardIcon = new(ButtonIcon.LeftArrow, BackGroundShape.FitRectangle);
+        private InnerButton ForwardIcon = new(ButtonIcon.RightArrow, BackGroundShape.FitRectangle);  
   
         public override Font Font
         {

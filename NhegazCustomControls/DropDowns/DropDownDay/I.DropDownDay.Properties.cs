@@ -40,8 +40,8 @@ namespace NhegazCustomControls
         public VectorFeature WeekDays { get; private set; }
 
         private InnerLabel MonthLabel = new();
-        private InnerButton BackwardIcon = new(ButtonIcon.Backward, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
-        private InnerButton ForwardIcon = new(ButtonIcon.Forward, BackGroundShape.FitRectangle);
+        private InnerButton BackwardIcon = new(ButtonIcon.LeftArrow, BackGroundShape.FitRectangle); //Label&&Button para passar para a década anteriror
+        private InnerButton ForwardIcon = new(ButtonIcon.RightArrow, BackGroundShape.FitRectangle);
         public DayOfWeek StartOfWeek { get; set; } = DayOfWeek.Sunday; //Início da semana configurável; padrão Brasil: Domingo
 
         private string[] MonthTexts =  {"null", "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",

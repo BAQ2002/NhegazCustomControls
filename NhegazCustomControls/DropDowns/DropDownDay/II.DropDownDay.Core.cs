@@ -119,7 +119,7 @@ namespace NhegazCustomControls
         }
 
         /// <summary>
-        /// Método que é invocado no Click/DoubleClick de Backward/Forward.
+        /// Método que é invocado no Click/DoubleClick de LeftArrow/RightArrow.
         /// Invoke => UpdateDayLabels; UpdateLayout.
         /// </summary>
         /// <param name="offset"></param>

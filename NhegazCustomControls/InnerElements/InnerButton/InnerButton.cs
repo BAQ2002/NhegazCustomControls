@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing.Drawing2D;
 
 
 namespace NhegazCustomControls
@@ -13,10 +7,12 @@ namespace NhegazCustomControls
     public class InnerButton : InnerControl
     {
         /// <summary></summary>
-        public float IconSizePercent { get; set; } = 0.4f;
+        public float IconSizePercent { get; set; } = 1f;
 
         /// <summary></summary>
-        public int IconSize { get; set; } = 10;
+        public Size IconSize { get; set; } = new(10, 10);
+
+        public Point IconLocation => new(RelativeCenterX(IconSize.Width), RelativeCenterY(IconSize.Height));
 
         /// <summary></summary>
         private IconSizeMode iconSizeMode = IconSizeMode.RelativeToFont;
@@ -31,14 +27,16 @@ namespace NhegazCustomControls
                 AdjustIconSize();
             }
         }
-
+        protected override void UpdateLayout() 
+        {
+            base.UpdateLayout(); AdjustIconSize();
+        }
         public ButtonIcon ButtonIcon { get; set; } = ButtonIcon.None;
 
         public InnerButton(ButtonIcon? icon = null, BackGroundShape? backGroundShape = null, IconSizeMode? iconSizeMode = null)
         {
             if (icon.HasValue)
-                ButtonIcon = icon.Value;
-            
+                ButtonIcon = icon.Value;            
 
             if (backGroundShape.HasValue)
                 BackGroundShape = backGroundShape.Value;
@@ -51,8 +49,8 @@ namespace NhegazCustomControls
         {
             if (IconSizeMode == IconSizeMode.RelativeToFont)
             {
-                int fontHeight = NhegazSizeMethods.FontUnitSize(Font).Height;
-                IconSize = (int)(fontHeight * IconSizePercent);
+                Size fontSize = NhegazSizeMethods.FontUnitSize(Font);
+                IconSize = new((int)(fontSize.Width * IconSizePercent), (int)(fontSize.Width * IconSizePercent));
             }
         }
         //protected override void UpdateLayout()
@@ -64,29 +62,35 @@ namespace NhegazCustomControls
         {
             return ButtonIcon switch
             {
-                ButtonIcon.DropDown => NhegazDrawingMethods.DropDownIconPath(this, IconSize),
-                ButtonIcon.Forward => NhegazDrawingMethods.ForwardIconPath(this, IconSize),
-                ButtonIcon.Backward => NhegazDrawingMethods.BackwardIconPath(this, IconSize),
-                ButtonIcon.Add => NhegazDrawingMethods.AddIconPath(this, IconSize),
-                ButtonIcon.Delete => NhegazDrawingMethods.AddIconPath(this, IconSize),
+                ButtonIcon.UpArrow => NhegazDrawingMethods.UpArrowGPath(IconSize, IconLocation.X, IconLocation.Y),
+                ButtonIcon.DownArrow => NhegazDrawingMethods.DownArrowGPath(IconSize, IconLocation.X, IconLocation.Y),
+                ButtonIcon.RightArrow => NhegazDrawingMethods.RightArrowGPath(IconSize, IconLocation.X, IconLocation.Y),
+                ButtonIcon.LeftArrow => NhegazDrawingMethods.LeftArrowGPath(IconSize, IconLocation.X, IconLocation.Y),
+                ButtonIcon.Add => NhegazDrawingMethods.AddIconPath(IconSize, IconLocation.X, IconLocation.Y),
+                ButtonIcon.Delete => NhegazDrawingMethods.AddIconPath(IconSize, IconLocation.X, IconLocation.Y),
                 _ => null
             };
         }
-        
-        public override void OnPaint(PaintEventArgs e)
+        public void DrawIcon(PaintEventArgs e)
         {
-            base.OnPaint(e);
-
             Color iconColor = IsHovering ? HoverForeColor : ForeColor;
 
             using var iconPath = GetIconPath();
             if (iconPath == null) return;
 
             using (SolidBrush brush = new SolidBrush(iconColor))
+            {
                 e.Graphics.FillPath(brush, iconPath);
 
-            using (Pen pen = new Pen(iconColor, 1f))
-                e.Graphics.DrawPath(pen, iconPath);
+                using (Pen pen = new Pen(iconColor, 1f))
+                {e.Graphics.DrawPath(pen, iconPath);}
+            }
+
+        }
+
+        public override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e); DrawIcon(e);
         }
     }
 }

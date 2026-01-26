@@ -6,10 +6,13 @@ namespace NhegazCustomControls
 
     public partial class InnerScrollBar
     {
-     
+        protected override void UpdateLayout() 
+        { 
+            base.UpdateLayout();
+        }
         private void MathThumbSize()
         {
-            int relative = Size.Height / parentFullContentHeight; 
+           // int relative = Size.Height / parentFullContentHeight; 
         }
 
         /// <summary>

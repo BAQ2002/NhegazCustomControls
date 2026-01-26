@@ -35,14 +35,17 @@ namespace NhegazCustomControls
              
         protected override void SetInnerSizes()
         {
+
+            int iconSize = NhegazSizeMethods.FontUnitSize(Font).Height;
+
             dayTextBox.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
-            dayDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
+            dayDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font).Height, NhegazSizeMethods.TextExactSize("00", Font).Height);
 
             monthTextBox.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
-            monthDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
+            monthDropDownIcon.SetSize(new(iconSize, iconSize));
 
             yearTextBox.SetSize(NhegazSizeMethods.TextExactSize("0000", Font));
-            yearDropDownIcon.SetSize(NhegazSizeMethods.TextExactSize("00", Font));
+            yearDropDownIcon.SetSize(new(iconSize, iconSize));
         }
 
         protected override void SetInnerLocations()

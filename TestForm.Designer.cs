@@ -68,14 +68,14 @@
             customDatePicker2.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker2.HoverForeColor = SystemColors.Window;
             customDatePicker2.Location = new Point(-320, 22);
-            customDatePicker2.MinimumSize = new Size(126, 22);
+            customDatePicker2.MinimumSize = new Size(138, 22);
             customDatePicker2.Month = 10;
             customDatePicker2.Name = "customDatePicker2";
             customDatePicker2.OnFocusBorderColor = SystemColors.Highlight;
             customDatePicker2.OnFocusBorderExtraWidth = 1;
             customDatePicker2.SecondaryBackgroundColor = SystemColors.ControlLightLight;
             customDatePicker2.SecondaryForeColor = SystemColors.ControlText;
-            customDatePicker2.Size = new Size(136, 30);
+            customDatePicker2.Size = new Size(138, 30);
             customDatePicker2.TabIndex = 2;
             customDatePicker2.Year = 2025;
             // 
@@ -116,8 +116,8 @@
             customDataGridView1.Header.Size = new Size(8, 24);
             customDataGridView1.HoverBackgroundColor = SystemColors.Highlight;
             customDataGridView1.HoverForeColor = SystemColors.Window;
-            customDataGridView1.LinesBetweenColumns = true;
-            customDataGridView1.LinesBetweenRows = true;
+            customDataGridView1.LinesBetweenColumns = false;
+            customDataGridView1.LinesBetweenRows = false;
             customDataGridView1.LinesWidth = 1;
             customDataGridView1.Location = new Point(12, 225);
             customDataGridView1.Name = "customDataGridView1";
@@ -201,14 +201,14 @@
             customDatePicker1.HoverBackgroundColor = SystemColors.Highlight;
             customDatePicker1.HoverForeColor = SystemColors.Window;
             customDatePicker1.Location = new Point(414, 160);
-            customDatePicker1.MinimumSize = new Size(154, 35);
+            customDatePicker1.MinimumSize = new Size(163, 35);
             customDatePicker1.Month = 1;
             customDatePicker1.Name = "customDatePicker1";
             customDatePicker1.OnFocusBorderColor = SystemColors.Highlight;
             customDatePicker1.OnFocusBorderExtraWidth = 1;
             customDatePicker1.SecondaryBackgroundColor = SystemColors.ControlLightLight;
             customDatePicker1.SecondaryForeColor = SystemColors.ControlText;
-            customDatePicker1.Size = new Size(154, 35);
+            customDatePicker1.Size = new Size(163, 35);
             customDatePicker1.TabIndex = 6;
             customDatePicker1.Year = 2026;
             // 

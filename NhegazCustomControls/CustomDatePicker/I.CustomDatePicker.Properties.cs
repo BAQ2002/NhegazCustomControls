@@ -13,9 +13,9 @@ namespace NhegazCustomControls
         public InnerTextBox monthTextBox = new InnerTextBox();
         public InnerTextBox yearTextBox = new InnerTextBox();
 
-        public InnerButton dayDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
-        public InnerButton monthDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
-        public InnerButton yearDropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.RoundedRectangle);
+        public InnerButton dayDropDownIcon = new(ButtonIcon.DownArrow, BackGroundShape.RoundedRectangle);
+        public InnerButton monthDropDownIcon = new(ButtonIcon.DownArrow, BackGroundShape.RoundedRectangle);
+        public InnerButton yearDropDownIcon = new(ButtonIcon.DownArrow, BackGroundShape.RoundedRectangle);
 
         private InnerLabel daySlashMonth = new InnerLabel();
         private InnerLabel monthSlashYear = new InnerLabel();

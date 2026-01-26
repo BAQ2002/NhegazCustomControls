@@ -8,10 +8,8 @@ namespace NhegazCustomControls
 {
     public partial class CustomDataGridView
     {
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void DrawLines(PaintEventArgs e)
         {
-            base.OnPaint(e);
-
             int rows = DataLabels.GetRowsLenght;
             int cols = DataLabels.GetColsLenght;
             if (rows <= 0 || cols <= 0) return;
@@ -37,6 +35,7 @@ namespace NhegazCustomControls
                     e.Graphics.DrawLine(pen, new Point(BorderWidth, y), new Point(Right, y));
                 }
             }
-        }
+
+        }   
     }
 }

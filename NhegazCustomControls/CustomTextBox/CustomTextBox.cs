@@ -6,7 +6,7 @@ namespace NhegazCustomControls
 {
     /// <summary>
     /// CustomControl básico que implementa apenas um InnerTextBox funcional.
-    /// A intenção é: "1 controle = 1 campo de texto", sem Header/DropDown/Matrix.
+    /// A intenção é: "1 controle = 1 campo de texto", sem Header/DownArrow/Matrix.
     /// </summary>
     [DefaultEvent(nameof(TextChanged))]
     public class CustomTextBox : CustomControl

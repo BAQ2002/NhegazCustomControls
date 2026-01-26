@@ -12,7 +12,7 @@ namespace NhegazCustomControls
         private StringCollection itemList = new(); //Opções da combo Box     
 
         public InnerLabel selectIndex = new(); //Opção atualmente selecionada
-        private InnerButton dropDownIcon = new(ButtonIcon.DropDown, BackGroundShape.SymmetricCircle); //Icone de visual
+        private InnerButton dropDownIcon = new(ButtonIcon.DownArrow, BackGroundShape.SymmetricCircle); //Icone de visual
 
         private DropDownCBox dropDownInstance = null;
         public string SelectIndexText

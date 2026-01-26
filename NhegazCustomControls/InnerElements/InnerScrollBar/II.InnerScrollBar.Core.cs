@@ -22,36 +22,7 @@ namespace NhegazCustomControls
     /// </summary>
     public partial class InnerScrollBar : InnerControl
     {
-        private int minimum = 0;                       //Valor mínimo do range.
-        private int maximum = 0;                       //Valor máximo do range.
-        private int value = 0;                       //Valor atual da barra.
-        private int viewportSize = 0;                       //Tamanho da área visível (viewport).
-        private int parentFullContentHeight = 0;
-
-        private int ThumbOffsetX = 0;
-
-        private int ThumbOffsetY = 0;
-
-        private int thumbHeight = 0;
-        public Rectangle parentContentView = Rectangle.Empty; //Tamanho da área visível do CustomControl.
-        public Rectangle ParentFullContent = Rectangle.Empty; //Tamanho de todo o conteúdo do CustomControl.
-
-        /// <summary>
-        /// Proporção entre a largura Completa do Conteúdo do CustomControl
-        /// e a largura do área visível do CustomControl.
-        /// </summary>
-        public float HorizontalRatio => ParentFullContent.Height / parentContentView.Height;
-
-        /// <summary>
-        /// Proporção entre a Altura Completa do Conteúdo do CustomControl
-        /// e a Altura do área visível do CustomControl.
-        /// </summary>
-        public float VerticalRatio => parentContentView.Height / ParentFullContent.Height;
-
-        private bool isDragging = false;                   //Indica se o thumb está sendo arrastado.
-        private int dragOffset = 0;                       //Offset entre o ponto clicado e o início do thumb.
-
-        private Rectangle thumbBounds = Rectangle.Empty;         //Retângulo atual do thumb na trilha.
+        
 
         /// <summary>
         /// Evento disparado sempre que o <see cref="Value"/> é alterado.
@@ -68,17 +39,11 @@ namespace NhegazCustomControls
             ParentFullContent = parentFullContentRect;
         }
 
-        /// <summary>
-        /// Orientação da barra de rolagem ->
-        /// Vertical ou Horizontal.
-        /// </summary>
-        public ScrollBarOrientation Orientation { get; set; } = ScrollBarOrientation.Vertical;
-
-        /// <summary>Cor do "Thumb" - retângulo que se move com o deslizar.</summary>
-        public Color ThumbColor { get; set; } = SystemColors.Highlight;
+        
+        
 
         /// <summary>Define qual a cor do texto.</summary>
-        public override Color BackgroundColor { get; set; } = SystemColors.Highlight;
+        public override Color BackgroundColor { get; set; } = SystemColors.ControlText;
 
         /// <summary>
         /// Valor mínimo permitido para o <see cref="Value"/>.
@@ -167,39 +132,18 @@ namespace NhegazCustomControls
         /// ou realiza page up/down quando clica na trilha.
         /// </summary>
         /// <param name="sender">Origem do evento de mouse.</param>
-        /// <param name="p">Posição do mouse relativa ao controle pai.</param>
-        public override void RaiseMouseDown(object sender, Point p)
+        /// <param name="mousePoint">Posição do mouse relativa ao controle pai.</param>
+        public override void RaiseMouseDown(object sender, Point mousePoint)
         {
-            base.RaiseMouseDown(sender, p);
+            base.RaiseMouseDown(sender, mousePoint);
 
-            if (!Visible) return;                                              //Se não está visível -> não interage.
-            if (!HitBox(p)) return;                                            //Se o clique não está no bounds -> retorna.
+            if (!Visible || !HitBox(mousePoint)) return; //Se não está visível ou se o clique não está no bounds -> retorna
 
-            if (thumbBounds.Contains(p))                                       //Se clicou no thumb -> inicia arraste.
-            {
-                isDragging = true;                                             //Marca estado de arraste.
+            if (thumbBounds.Contains(mousePoint)) { isDragging = true; }
 
-                dragOffset = (Orientation == ScrollBarOrientation.Vertical)    //Offset do ponto clicado dentro do thumb.
-                           ? p.Y - thumbBounds.Y
-                           : p.X - thumbBounds.X;
+            
 
-                RaiseGotFocus(this);                                           //Foco no scroll para consistência de interação.
-                return;
-            }
 
-            // Click na trilha -> page up/down
-            if (Orientation == ScrollBarOrientation.Vertical)                  //Se vertical -> decide pelo eixo Y.
-            {
-                if (p.Y < thumbBounds.Y) Value -= LargeChange;                 //Se acima do thumb -> sobe uma página.
-                else Value += LargeChange;                 //Se abaixo do thumb -> desce uma página.
-            }
-            else
-            {
-                if (p.X < thumbBounds.X) Value -= LargeChange;                 //Se à esquerda do thumb -> volta uma página.
-                else Value += LargeChange;                 //Se à direita do thumb -> avança uma página.
-            }
-
-            RaiseGotFocus(this);                                               //Foco no scroll após interação.
         }
 
         /// <summary>
@@ -208,40 +152,17 @@ namespace NhegazCustomControls
         /// do mouse em um novo <see cref="Value"/>.
         /// </summary>
         /// <param name="sender">Origem do evento de mouse.</param>
-        /// <param name="p">Posição atual do mouse relativa ao controle pai.</param>
-        public override void RaiseMouseMove(object sender, Point p)
+        /// <param name="mousePoint">Posição atual do mouse relativa ao controle pai.</param>
+        public override void RaiseMouseMove(object sender, Point mousePoint)
         {
-            base.RaiseMouseMove(sender, p);
+            base.RaiseMouseMove(sender, mousePoint);
 
             if (!Visible) return;                                              //Se não está visível -> não interage.
             if (!isDragging) return;                                           //Se não está arrastando -> retorna.
 
-            int trackStart;
-            int trackLength;
-            int thumbLength;
-            int pos;
+            Point offset = ThumbMouseOffset(mousePoint);
+            ThumbLocation = new(mousePoint.X - offset.X, mousePoint.Y - offset.Y);
 
-
-
-
-            GetTrackInfo(out trackStart, out trackLength, out thumbLength);    //Obtém métricas da trilha e do thumb.
-
-            pos = (Orientation == ScrollBarOrientation.Vertical)               //Posição alvo do thumb dentro da trilha.
-                ? p.Y - dragOffset
-                : p.X - dragOffset;
-
-            int minPos = trackStart;                                           //Posição mínima do thumb.
-            int maxPos = trackStart + trackLength - thumbLength;               //Posição máxima do thumb.
-
-            if (pos < minPos) pos = minPos;                                    //Clamp inferior.
-            if (pos > maxPos) pos = maxPos;                                    //Clamp superior.
-
-            // Mapeia pos -> Value
-            int range = Math.Max(1, (Maximum - Minimum - ViewportSize));      //Range de valores efetivo do scroll.
-            int pixels = Math.Max(1, (trackLength - thumbLength));             //Range de pixels efetivo para deslocamento.
-
-            int v = Minimum + (int)Math.Round((pos - trackStart) * (range / (double)pixels)); //Converte posição para valor.
-            Value = v;                                                         //Aplica via propriedade (já faz clamp/evento/invalidate).
         }
 
         /// <summary>

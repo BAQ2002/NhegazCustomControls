@@ -79,9 +79,10 @@ namespace NhegazCustomControls
     public enum ButtonIcon
     {
         None,
-        DropDown,
-        Forward,
-        Backward,
+        UpArrow,
+        DownArrow,
+        RightArrow,
+        LeftArrow,
         Add,
         Edit,
         Delete

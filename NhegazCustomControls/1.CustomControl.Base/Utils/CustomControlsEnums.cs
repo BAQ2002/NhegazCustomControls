@@ -17,6 +17,7 @@ namespace NhegazCustomControls
         Absolute,
         RelativeToFont
     }
+
     public enum ColumnWidthMode
     {
         HeaderWidth,

@@ -17,8 +17,8 @@ namespace NhegazCustomControls
 
             if (SizeBasedOnText) //Se SizeBasedOnText for verdadeiro -> define o tamanho exatamente igual o texto.
             {
-                Size = NhegazSizeMethods.TextExactSize(
-                    string.IsNullOrEmpty(Text) ? " " : Text, Font);
+                Size = NhegazSizeMethods.TextExactSize
+                    (string.IsNullOrEmpty(Text) ? " " : Text, Font);
             }
 
             TextFeatures.AdjustLocation();

@@ -61,8 +61,12 @@ namespace NhegazCustomControls
 
             InnerControls.Add(dayDropDownIcon);
             dayDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownDay));
-            dayDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownDay));
-
+            dayDropDownIcon.Click += (s, e) => 
+            {
+                OnClick(e, typeof(DropDownDay));
+                MessageBox.Show("Location: " + dayDropDownIcon.Location.ToString()
+                               + "Size: " + dayDropDownIcon.Size.ToString());
+            };
             InnerControls.Add(monthDropDownIcon);
             monthDropDownIcon.DoubleClick += (s, e) => OnClick(e, typeof(DropDownMonth));
             monthDropDownIcon.Click += (s, e) => OnClick(e, typeof(DropDownMonth));
@@ -118,19 +122,19 @@ namespace NhegazCustomControls
         protected void OnClick(EventArgs e, Type dropDownType)
         {
             base.OnClick(e);
-            if (dropDownInstance == null)                          //Se não existir DropDown ativo.
+            if (dropDownInstance == null)                          //Se não existir DownArrow ativo.
             {
                 OpenDropDown((CustomControl)                       //Ativa um novo.
                     Activator.CreateInstance(dropDownType, this));
             }
-            else if (dropDownInstance.GetType() != dropDownType)   //Se o DropDown ativo não for do mesmo tipo do novo acionado.
+            else if (dropDownInstance.GetType() != dropDownType)   //Se o DownArrow ativo não for do mesmo tipo do novo acionado.
             {
                 CloseDropDownInstance();                           //Fecha o atual.
                 OpenDropDown((CustomControl)                       //Ativa um novo.
                     Activator.CreateInstance(dropDownType, this)); 
 
             }
-            else { CloseDropDownInstance(); }                      //Se existir um DropDown ativo porém do mesmo tipo do novo acionado: echa o atual.
+            else { CloseDropDownInstance(); }                      //Se existir um DownArrow ativo porém do mesmo tipo do novo acionado: echa o atual.
 
         }
 

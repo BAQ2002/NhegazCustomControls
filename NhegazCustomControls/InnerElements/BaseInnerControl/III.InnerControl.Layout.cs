@@ -29,6 +29,8 @@ namespace NhegazCustomControls
 
             int reference = Math.Max(Width, Height); Size = new Size(reference, reference);
         }
+
+
         public virtual void SetLocation(int x, int y)
         {
             Location = new Point(x, y);
